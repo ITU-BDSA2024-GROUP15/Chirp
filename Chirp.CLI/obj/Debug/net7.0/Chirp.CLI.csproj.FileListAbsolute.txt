@@ -1,0 +1,14 @@
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.exe
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.deps.json
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.dll
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.pdb
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.dll
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.pdb
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
+\\wsl.localhost\Ubuntu\home\pows\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
