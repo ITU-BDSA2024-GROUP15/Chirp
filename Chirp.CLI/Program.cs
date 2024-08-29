@@ -12,6 +12,7 @@ if (args[0] == "read" && args.Length == 1)
 {
     string[] messages = args;
     cheep(messages);
+    //e
 }
 
 
