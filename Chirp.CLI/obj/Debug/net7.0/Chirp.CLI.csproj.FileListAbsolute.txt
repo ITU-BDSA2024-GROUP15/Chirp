@@ -1,0 +1,14 @@
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.exe
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.deps.json
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.runtimeconfig.json
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.dll
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\bin\Debug\net7.0\Chirp.CLI.pdb
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfoInputs.cache
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.AssemblyInfo.cs
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.csproj.CoreCompileInputs.cache
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.dll
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\refint\Chirp.CLI.dll
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.pdb
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\Chirp.CLI.genruntimeconfig.cache
+C:\ITU\3. Semester\BDSA\Chirp\Chirp.CLI\obj\Debug\net7.0\ref\Chirp.CLI.dll
