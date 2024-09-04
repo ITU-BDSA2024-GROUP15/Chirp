@@ -16,7 +16,6 @@ if (args[0] == "read" && args.Length == 1)
 }
 
 
-
 static void read()
 {
     try
