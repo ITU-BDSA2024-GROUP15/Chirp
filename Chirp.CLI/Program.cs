@@ -53,7 +53,7 @@ static void cheep(string[] message)
     using (var writer = new StreamWriter("chirp_cli_db.csv"))
     using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
     {
-        //TODO it deletes the current data in the csv file
+        //TODO it deletes the current data in the csv file 
         
         //csv.NextRecord(); 
         csv.WriteRecords(cheeps);
