@@ -21,7 +21,7 @@ static void read()
 {
     try
     {
-        using StreamReader reader = new StreamReader("C://ITU//3. Semester//BDSA//Chirp//Chirp.CLI//chirp_cli_db.csv");
+        using StreamReader reader = new StreamReader("chirp_cli_db.csv");
         string line;
         reader.ReadLine();
         while ((line = reader.ReadLine()) != null)
@@ -66,7 +66,7 @@ static void cheep(string[] message)
     string userName = Environment.UserName;
     long dateTime = DateTimeOffset.Now.ToUnixTimeSeconds();
 
-    string path = "C://ITU//3. Semester//BDSA//Chirp//Chirp.CLI//chirp_cli_db.csv";
+    string path = "chirp_cli_db.csv";
     using (StreamWriter sw = File.AppendText(path))
     {
         sw.WriteLine(userName + ",\"" + newMessage + "\"," + dateTime);
