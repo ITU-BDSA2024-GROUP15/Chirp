@@ -27,9 +27,7 @@ static void read()
         var cheeps = csv.GetRecords<Cheep>(); //We use the way we setup the Cheep class to "map" to how we stored the information in the csv file (it has a header - Author,Message,Timestamp)
         foreach (var cheep in cheeps)
         {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dateTime = dateTime.AddSeconds(cheep.Timestamp).ToLocalTime();
-            Console.WriteLine(cheep.Author + " @ " + dateTime + ": " + cheep.Message);
+            Console.WriteLine(cheep.Author + " @ " + parseDataTime(cheep.Timestamp) + ": " + cheep.Message);
         }
         
     }
@@ -95,3 +93,9 @@ static string combineMessage(string[] message)
     return newMessage;
 }
 
+static DateTime parseDataTime(long timestamp)
+{
+    DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+    dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
+    return dateTime;
+}
