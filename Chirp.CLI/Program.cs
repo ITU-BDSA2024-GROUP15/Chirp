@@ -5,6 +5,7 @@ using System;
 using System.Net.Sockets;
 using Chirp.CLI;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 
 if (args[0] == "read" && args.Length == 1)
@@ -47,10 +48,15 @@ static void cheep(string[] message)
     //Store it in a record ready to write to csv file by using CsvHelper
     var cheeps = new List<Cheep>();
     cheeps.Add(newCheep);
+
+    var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+    {
+        HasHeaderRecord = false,
+    };
     
     using (var stream = File.Open("chirp_cli_db.csv", FileMode.Append))
     using (var writer = new StreamWriter(stream))
-    using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+    using (var csv = new CsvWriter(writer, config))
     {
         csv.WriteRecords(cheeps);
     }
