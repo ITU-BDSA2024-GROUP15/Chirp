@@ -48,31 +48,13 @@ static void cheep(string[] message)
     var cheeps = new List<Cheep>();
     cheeps.Add(newCheep);
     
-    using (var writer = new StreamWriter("chirp_cli_db.csv"))
+    using (var stream = File.Open("chirp_cli_db.csv", FileMode.Append))
+    using (var writer = new StreamWriter(stream))
     using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
     {
-        //TODO it deletes the current data in the csv file 
-        
-        //csv.NextRecord(); 
         csv.WriteRecords(cheeps);
     }
     
-    
-    
-    /*
-    Console.WriteLine(message.Length);
-
-    
-    
-    string userName = Environment.UserName;
-    long dateTime = DateTimeOffset.Now.ToUnixTimeSeconds();
-
-    string path = "chirp_cli_db.csv";
-    using (StreamWriter sw = File.AppendText(path))
-    {
-        sw.WriteLine(userName + ",\"" + newMessage + "\"," + dateTime);
-    }
-    */
 }
 
 
