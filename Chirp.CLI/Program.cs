@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using System;
-using System.Net.Sockets;
-using CsvHelper;
-using CsvHelper.Configuration;
-using SimpleDB;
+﻿using SimpleDB;
+
+namespace Chirp.CLI;
+
+//TODO Add documentation
 
 class Program {
     
@@ -64,5 +61,3 @@ class Program {
         return dateTime;
     }
 }
-
-

@@ -4,6 +4,8 @@ using CsvHelper.Configuration;
 
 namespace SimpleDB;
 
+//TODO Add documentation
+
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     public IEnumerable<T> Read(int? limit = null)
@@ -35,6 +37,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         var records = new List<T>();
         records.Add(record);
 
+        //Makes sure we do not add a header each time we write to the csv file
         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             HasHeaderRecord = false,
@@ -48,31 +51,6 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         }
     }
     
-    
-    
-    static string combineMessage(string[] message)
-    {
-        string newMessage = "";
-        for (int i = 1; i < message.Length; i++)
-        {
-            if (i == message.Length - 1)
-            {
-                newMessage += message[i];
-            }
-            else
-            {
-                newMessage += message[i] + " ";
-            }
-        }
-        return newMessage;
-    }
-
-    static DateTime parseDataTime(long timestamp)
-    {
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
-        return dateTime;
-    }
     
     
 }
