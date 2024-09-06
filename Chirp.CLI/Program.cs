@@ -12,19 +12,15 @@ class Program {
     {
         if (args[0] == "read")
         {
-            if (args[1] != null)
+            if (args.Length > 1)
             {
-                var records = database.Read(int.Parse(args[1])).ToList();
-                
-                foreach (var record in records)
-                {
-                    Console.WriteLine(record.Author + " @ " + parseDataTime(record.Timestamp) + ": " + record.Message);
-                }
+                UserInterface.PrintCheeps(database.Read(int.Parse(args[1])).ToList());
             }
             else
             {
-                Console.WriteLine("Specify how many cheeps you wanna read");
+                UserInterface.PrintCheeps(database.Read(null).ToList());
             }
+            
            
         } else if (args[0] == "cheep")
         {
@@ -54,10 +50,5 @@ class Program {
         return newMessage;
     }
 
-    static DateTime parseDataTime(long timestamp)
-    {
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
-        return dateTime;
-    }
+    
 }
