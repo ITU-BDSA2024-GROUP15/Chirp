@@ -3,70 +3,43 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System;
 using System.Net.Sockets;
-using Chirp.CLI;
 using CsvHelper;
 using CsvHelper.Configuration;
+using SimpleDB;
 
 class Program {
+    
+    static IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
 
     public static void Main(String[] args)
     {
-        if (args[0] == "read" && args.Length == 1)
+        if (args[0] == "read")
         {
-            read();
+            if (args[1] != null)
+            {
+                var records = database.Read(int.Parse(args[1])).ToList();
+                
+                foreach (var record in records)
+                {
+                    Console.WriteLine(record.Author + " @ " + parseDataTime(record.Timestamp) + ": " + record.Message);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Specify how many cheeps you wanna read");
+            }
+           
         } else if (args[0] == "cheep")
         {
-            string[] messages = args;
-            cheep(messages);
-            //e
-        }
-    }
-
-    static void read()
-    {
-        
-        using (var reader = new StreamReader("chirp_cli_db.csv"))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-        {
-            var cheeps = csv.GetRecords<Cheep>(); //We use the way we setup the Cheep class to "map" to how we stored the information in the csv file (it has a header - Author,Message,Timestamp)
-            foreach (var cheep in cheeps)
-            {
-                Console.WriteLine(cheep.Author + " @ " + parseDataTime(cheep.Timestamp) + ": " + cheep.Message);
-            }
+            //string[] messages = args;
+            var messages = combineMessage(args);
+            database.Store((new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds())));
+            
+            
             
         }
-
     }
-
-    static void cheep(string[] message)
-    {
-        
-        string text = combineMessage(message);
-        string userName = Environment.UserName;
-        long dateTime = DateTimeOffset.Now.ToUnixTimeSeconds();
-
-        //Create the new cheep
-        Cheep newCheep = new Cheep(userName, text, dateTime);
-        
-        //Store it in a record ready to write to csv file by using CsvHelper
-        var cheeps = new List<Cheep>();
-        cheeps.Add(newCheep);
-
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            HasHeaderRecord = false,
-        };
-        
-        using (var stream = File.Open("chirp_cli_db.csv", FileMode.Append))
-        using (var writer = new StreamWriter(stream))
-        using (var csv = new CsvWriter(writer, config))
-        {
-            csv.WriteRecords(cheeps);
-        }
-        
-    }
-
-
+    
     static string combineMessage(string[] message)
     {
         string newMessage = "";
