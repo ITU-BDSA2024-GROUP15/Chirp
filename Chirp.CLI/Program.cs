@@ -1,4 +1,5 @@
-﻿using SimpleDB;
+﻿using DocoptNet;
+using SimpleDB;
 
 namespace Chirp.CLI;
 
@@ -10,26 +11,37 @@ class Program {
 
     public static void Main(String[] args)
     {
-        if (args[0] == "read")
+        const string usage = @"Chirp CLI version.
+
+Usage:
+  chirp read <limit>
+  chirp cheep <message>
+  chirp (-h | --help)
+  chirp --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+";
+        
+        var arguments = new Docopt().Apply(usage, args, version: "1.0", exit: true)!;
+        
+        if (arguments["read"].IsTrue) 
         {
-            if (args.Length > 1)
+            try // try catch replaces the previous if else statement to support being able to see all cheeps if limit is empty. (will also print everything if the user gives a limit that is not a number)
             {
-                UserInterface.PrintCheeps(database.Read(int.Parse(args[1])).ToList());
+                var limit = int.Parse(arguments["<limit>"].ToString());
+                UserInterface.PrintCheeps(database.Read(limit));
             }
-            else
+            catch (Exception e)
             {
-                UserInterface.PrintCheeps(database.Read(null).ToList());
+                UserInterface.PrintCheeps(database.Read(null));
             }
-            
-           
-        } else if (args[0] == "cheep")
+        } else if (arguments["cheep"].IsTrue)
         {
             //string[] messages = args;
-            var messages = combineMessage(args);
-            database.Store((new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds())));
-            
-            
-            
+            var messages = arguments["<message>"].ToString();
+            database.Store(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
         }
     }
     
