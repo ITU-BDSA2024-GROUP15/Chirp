@@ -10,7 +10,7 @@ public interface IDatabaseRepository<T>
     /// Method for reading from the database
     /// </summary>
     /// <param name="limit">The amount wanted to be returned</param>
-    /// <returns></returns>
+    /// <returns>returns an iterable collection of records</returns>
     public IEnumerable<T> Read(int? limit = null);
     
     /// <summary>
