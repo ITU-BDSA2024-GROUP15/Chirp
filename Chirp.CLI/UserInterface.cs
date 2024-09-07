@@ -25,7 +25,7 @@ public static class UserInterface
     /// This method converts unix time into the AM/PM format
     /// </summary>
     /// <param name="timestamp">the unix timestamp</param>
-    /// <returns></returns>
+    /// <returns>The converted time from the unix timestamp</returns>
     static DateTime parseDataTime(long timestamp)
     {
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
