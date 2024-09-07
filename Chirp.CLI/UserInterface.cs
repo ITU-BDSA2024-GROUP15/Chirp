@@ -24,7 +24,7 @@ public static class UserInterface
     /// <summary>
     /// This method converts unix time into the AM/PM format
     /// </summary>
-    /// <param name="timestamp"></param>
+    /// <param name="timestamp">the unix timestamp</param>
     /// <returns></returns>
     static DateTime parseDataTime(long timestamp)
     {
