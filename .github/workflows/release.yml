@@ -30,4 +30,5 @@ jobs:
       with:
           files: |
             README.md
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       
