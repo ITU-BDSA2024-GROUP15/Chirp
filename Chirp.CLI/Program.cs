@@ -1,4 +1,5 @@
-﻿using SimpleDB;
+﻿using DocoptNet;
+using SimpleDB;
 
 namespace Chirp.CLI;
 
@@ -15,50 +16,39 @@ class Program {
     /// <param name="args">The arguments that needs to be executed</param>
     public static void Main(String[] args)
     {
-        if (args[0] == "read")
+        const string usage = @"Chirp CLI version.
+
+Usage:
+  chirp read --all 
+  chirp read <limit>
+  chirp cheep <message>
+  chirp (-h | --help)
+  chirp --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+";
+        
+        var arguments = new Docopt().Apply(usage, args, version: "1.0", exit: true)!;
+        
+        if (arguments["read"].IsTrue) 
         {
-            if (args.Length > 1)
+            if (arguments["--all"].IsTrue)
             {
-                UserInterface.PrintCheeps(database.Read(int.Parse(args[1])).ToList());
+                UserInterface.PrintCheeps(database.Read(null));
             }
             else
             {
-                UserInterface.PrintCheeps(database.Read(null).ToList());
+                var limit = int.Parse(arguments["<limit>"].ToString());
+                UserInterface.PrintCheeps(database.Read(limit));
             }
-            
-           
-        } else if (args[0] == "cheep")
+        } else if (arguments["cheep"].IsTrue)
         {
             //string[] messages = args;
-            var messages = combineMessage(args);
-            database.Store((new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds())));
-            
-            
-            
+            var messages = arguments["<message>"].ToString();
+            database.Store(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
         }
     }
-    
-    /// <summary>
-    /// Method for creating a message for a record from an array of strings
-    /// </summary>
-    /// <param name="message">The text needed to be combined</param>
-    /// <returns>The message as a single string</returns>
-    static string combineMessage(string[] message)
-    {
-        string newMessage = "";
-        for (int i = 1; i < message.Length; i++)
-        {
-            if (i == message.Length - 1)
-            {
-                newMessage += message[i];
-            }
-            else
-            {
-                newMessage += message[i] + " ";
-            }
-        }
-        return newMessage;
-    }
-
     
 }
