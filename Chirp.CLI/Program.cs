@@ -14,6 +14,7 @@ class Program {
         const string usage = @"Chirp CLI version.
 
 Usage:
+  chirp read --all 
   chirp read <limit>
   chirp cheep <message>
   chirp (-h | --help)
@@ -28,14 +29,14 @@ Options:
         
         if (arguments["read"].IsTrue) 
         {
-            try // try catch replaces the previous if else statement to support being able to see all cheeps if limit is empty. (will also print everything if the user gives a limit that is not a number)
+            if (arguments["--all"].IsTrue)
+            {
+                UserInterface.PrintCheeps(database.Read(null));
+            }
+            else
             {
                 var limit = int.Parse(arguments["<limit>"].ToString());
                 UserInterface.PrintCheeps(database.Read(limit));
-            }
-            catch (Exception e)
-            {
-                UserInterface.PrintCheeps(database.Read(null));
             }
         } else if (arguments["cheep"].IsTrue)
         {
