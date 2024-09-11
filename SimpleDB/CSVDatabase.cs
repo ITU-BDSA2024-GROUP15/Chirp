@@ -4,7 +4,7 @@ using CsvHelper.Configuration;
 
 namespace SimpleDB;
 
-//TODO Add documentation
+//TODO Add documentation 
 /// <summary>
 /// Class <c>CSVDatabase</c> allows for reading from and writing to a CSV-file
 /// </summary>
