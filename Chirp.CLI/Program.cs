@@ -46,22 +46,4 @@ Options:
         }
     }
     
-    static string combineMessage(string[] message)
-    {
-        string newMessage = "";
-        for (int i = 1; i < message.Length; i++)
-        {
-            if (i == message.Length - 1)
-            {
-                newMessage += message[i];
-            }
-            else
-            {
-                newMessage += message[i] + " ";
-            }
-        }
-        return newMessage;
-    }
-
-    
 }
