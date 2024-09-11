@@ -26,14 +26,10 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Checkout
-      uses: actions/checkout@v4
-      if: success()
     - name: Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
           files: |
-            Release.txt
-            LICENSE
+            ../../README.md
       
