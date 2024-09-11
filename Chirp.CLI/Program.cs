@@ -5,7 +5,7 @@ namespace Chirp.CLI;
 
 //TODO Add documentation
 /// <summary>
-/// Class <c>Program</c> runs the program
+/// Class <c>Program</c> runs the program 
 /// </summary>
 class Program {
     
