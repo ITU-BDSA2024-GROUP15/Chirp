@@ -1,14 +1,16 @@
 #Credit to: Patrik Svensson
 #https://github.com/patriksvensson/dotnet-release-artifacts/blob/master/.github/workflows/ci.yaml
 
-name: Publish
+name: Publish executables Chirp
 
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ["release"]
+    types:
+      - completed
 
 jobs:
-  release:
+  continue:
     name: Release
     strategy:
       matrix:
