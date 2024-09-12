@@ -9,7 +9,7 @@ namespace Chirp.CLI;
 /// </summary>
 class Program {
     
-    static IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(); 
+    static IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance(); 
     /// <summary> 
     /// Method for running and executing the program
     /// </summary>
@@ -18,17 +18,17 @@ class Program {
     {
         const string usage = @"Chirp CLI version.
 
-Usage:
-  chirp read --all 
-  chirp read <limit>
-  chirp cheep <message>
-  chirp (-h | --help)
-  chirp --version
+        Usage:
+            chirp read --all 
+            chirp read <limit>
+            chirp cheep <message>
+            chirp (-h | --help)
+            chirp --version
 
-Options:
-  -h --help     Show this screen.
-  --version     Show version.
-";
+        Options:
+            -h --help     Show this screen.
+            --version     Show version.
+        ";
         
         var arguments = new Docopt().Apply(usage, args, version: "1.0", exit: true)!;
         
