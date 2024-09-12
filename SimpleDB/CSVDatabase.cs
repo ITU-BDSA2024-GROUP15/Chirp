@@ -7,6 +7,7 @@ namespace SimpleDB;
 //TODO Add documentation 
 /// <summary>
 /// Class <c>CSVDatabase</c> allows for reading from and writing to a CSV-file
+/// Uses the singleton pattern
 /// </summary>
 /// <typeparam name="T">The record that needs to be handled by the database</typeparam>
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
