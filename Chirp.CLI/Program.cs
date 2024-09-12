@@ -9,7 +9,7 @@ namespace Chirp.CLI;
 /// </summary>
 class Program {
     
-    static IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();   
+    static IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();  
     /// <summary> 
     /// Method for running and executing the program
     /// </summary>
