@@ -11,6 +11,24 @@ namespace SimpleDB;
 /// <typeparam name="T">The record that needs to be handled by the database</typeparam>
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+
+    private static CSVDatabase<T> instance = null;
+
+    private CSVDatabase()
+    {
+        
+    }
+    
+    public static CSVDatabase<T> GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new CSVDatabase<T>();
+        }
+
+        return instance;
+    }
+    
     /// <summary>
     /// Method for reading a given amount of records and returns a list of records from a CSV-file, matching the specified amount.
     /// If no amount is specified, returns all the records in the CSV-file
