@@ -5,7 +5,7 @@ name: Publish executables Chirp
 
 on:
   workflow_run:
-    workflows: ["release"]
+    workflows: ["Build, Test and Release"]
     types:
       - completed
 
