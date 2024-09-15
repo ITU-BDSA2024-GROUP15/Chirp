@@ -15,8 +15,9 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     private static CSVDatabase<T> instance = null;
 
+    string PATH = "../SimpleDB/chirp_cli_db.csv";
     private CSVDatabase()
-    {
+    { 
         
     }
     
@@ -38,7 +39,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     /// <returns>A list of records</returns>
     public IEnumerable<T> Read(int? limit = null)
     {
-        using (var reader = new StreamReader("../SimpleDB/chirp_cli_db.csv"))
+        using (var reader = new StreamReader(PATH))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
             IEnumerable<T> records;
@@ -77,7 +78,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             HasHeaderRecord = false,
         };
         
-        using (var stream = File.Open("../SimpleDB/chirp_cli_db.csv", FileMode.Append))
+        using (var stream = File.Open(PATH, FileMode.Append))
         using (var writer = new StreamWriter(stream))
         using (var csv = new CsvWriter(writer, config))
         {

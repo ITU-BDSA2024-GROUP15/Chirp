@@ -32,6 +32,8 @@ class Program {
         
         var arguments = new Docopt().Apply(usage, args, version: "1.0", exit: true)!;
         
+        Console.WriteLine(Environment.CurrentDirectory);
+        
         if (arguments["read"].IsTrue) 
         {
             if (arguments["--all"].IsTrue)
