@@ -4,10 +4,38 @@ using CsvHelper.Configuration;
 
 namespace SimpleDB;
 
-//TODO Add documentation
-
+//TODO Add documentation 
+/// <summary>
+/// Class <c>CSVDatabase</c> allows for reading from and writing to a CSV-file
+/// Uses the singleton pattern
+/// </summary>
+/// <typeparam name="T">The record that needs to be handled by the database</typeparam>
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+
+    private static CSVDatabase<T> instance = null;
+
+    private CSVDatabase()
+    {
+        
+    }
+    
+    public static CSVDatabase<T> GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new CSVDatabase<T>();
+        }
+
+        return instance;
+    }
+    
+    /// <summary>
+    /// Method for reading a given amount of records and returns a list of records from a CSV-file, matching the specified amount.
+    /// If no amount is specified, returns all the records in the CSV-file
+    /// </summary>
+    /// <param name="limit">The amount of records needed to be returned</param>
+    /// <returns>A list of records</returns>
     public IEnumerable<T> Read(int? limit = null)
     {
         using (var reader = new StreamReader("../SimpleDB/chirp_cli_db.csv"))
@@ -28,7 +56,12 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         }
         
     }
-
+    
+    
+    /// <summary>
+    /// Method for writing a record into a CSV-file.
+    /// </summary>
+    /// <param name="record">The record needing to be stored</param>
     public void Store(T record)
     {
         
