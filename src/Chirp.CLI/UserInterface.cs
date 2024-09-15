@@ -15,7 +15,7 @@ public static class UserInterface
     }
     
     
-    static DateTime parseDataTime(long timestamp)
+    public static DateTime parseDateTime(long timestamp)
     {
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
