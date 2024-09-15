@@ -3,11 +3,12 @@ using SimpleDB;
 public class UnitTests
 {
     [Fact]
-    public void testReadAllCheeps()
+    public void testReadAllCheeps() 
     {
-        public IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
-        
-        
+        // TODO: Find a way to test ReadAll functionality
+        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance();
+        //ass database.Read(null);
+
     }
     
     [Fact]
@@ -18,9 +19,14 @@ public class UnitTests
         //Assert.Single(database.Read(1)); 
     }
     
+    
     [Fact]
     public void testStoreCheep()
     {
-        
+        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance();
+        var before = database.Read(null).Count();
+        database.Store(new Cheep("User", "message", 1725744116));
+        var after = database.Read(null).Count();
+        Assert.Equal(before + 1, after);
     }
 }
