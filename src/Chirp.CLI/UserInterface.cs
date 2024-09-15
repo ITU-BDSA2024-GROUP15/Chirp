@@ -10,7 +10,7 @@ public static class UserInterface
     {
         foreach (var cheep in cheeps)
         {
-            Console.WriteLine(cheep.Author + " @ " + parseDataTime(cheep.Timestamp) + ": " + cheep.Message);
+            Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
         }
     }
     
