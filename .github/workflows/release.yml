@@ -80,6 +80,6 @@ jobs:
           files: |
             Linux-release.tar.gz
             MacOS-release.tar.gz
-            Windows-release.tar.gz
+            Windows-release.zip
             
           repo-token: ${{ secrets.GITHUB_TOKEN }}
