@@ -15,7 +15,8 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     private static CSVDatabase<T> instance = null;
 
-    string PATH = "../SimpleDB/chirp_cli_db.csv";
+    
+    string PATH = GetPathToRoot() + "/data/chirp_cli_db.csv";
     private CSVDatabase()
     { 
         
@@ -58,7 +59,6 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         
     }
     
-    
     /// <summary>
     /// Method for writing a record into a CSV-file.
     /// </summary>
@@ -84,6 +84,23 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         {
             csv.WriteRecords(records);
         }
+    }
+
+    private static string GetPathToRoot()
+    {
+        string absolutePath = Environment.CurrentDirectory;
+        string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
+        string pathtoRoot = "";
+        for (int i = 0; i < splitPath.Length - 1; i++)
+        {
+            pathtoRoot += splitPath[i] + Path.DirectorySeparatorChar;
+            if (splitPath[i].Equals("Chirp"))
+            {  
+                break;
+            }
+        }
+        return pathtoRoot;
+        
     }
     
     
