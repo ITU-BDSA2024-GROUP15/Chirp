@@ -16,7 +16,7 @@ class Program {
     /// <param name="args">The arguments that needs to be executed</param>
     public static void Main(String[] args)
     {
-        const string usage = @"Chirp CLI version. 
+        const string usage = @"Chirp CLI version.
 
         Usage:
             chirp read --all 
