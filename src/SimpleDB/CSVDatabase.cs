@@ -40,19 +40,24 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     /// <returns>A list of records</returns>
     public IEnumerable<T> Read(int? limit = null)
     {
+        
         using (var reader = new StreamReader(PATH))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
             IEnumerable<T> records;
+            Console.WriteLine(limit);
             if (limit != null)
             {
                 records = csv.GetRecords<T>().ToList().Take((int) limit); //We use the way we setup the Cheep class to "map" to how we stored the information in the csv file (it has a header - Author,Message,Timestamp)
-
-            }
-            else
+            } else if (limit < 0)
+            {
+                Console.WriteLine("HEJJJ");
+                records = csv.GetRecords<T>().ToList().TakeLast(-1 * ((int) limit));
+            } else
             {
                 records = csv.GetRecords<T>().ToList();
             }
+                
             return records;
             //test
         }

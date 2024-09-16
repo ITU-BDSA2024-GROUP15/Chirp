@@ -9,7 +9,8 @@ namespace Chirp.CLI;
 /// </summary>
 class Program {
     
-    static IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance(); 
+    static IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance();
+
     /// <summary> 
     /// Method for running and executing the program
     /// </summary>
@@ -21,6 +22,7 @@ class Program {
         Usage:
             chirp read --all 
             chirp read <limit>
+            chirp readLatest <limit>
             chirp cheep <message>
             chirp (-h | --help)
             chirp --version
@@ -29,12 +31,10 @@ class Program {
             -h --help     Show this screen.
             --version     Show version.
         ";
-        
+
         var arguments = new Docopt().Apply(usage, args, version: "1.0", exit: true)!;
-        
-        Console.WriteLine(Environment.CurrentDirectory);
-        
-        if (arguments["read"].IsTrue) 
+
+        if (arguments["read"].IsTrue)
         {
             if (arguments["--all"].IsTrue)
             {
@@ -45,7 +45,12 @@ class Program {
                 var limit = int.Parse(arguments["<limit>"].ToString());
                 UserInterface.PrintCheeps(database.Read(limit));
             }
-        } else if (arguments["cheep"].IsTrue)
+        } else if (arguments["readLatest"].IsTrue){
+            Console.WriteLine("HEJ");
+            var limit = -1 * int.Parse(arguments["<limit>"].ToString());
+            UserInterface.PrintCheeps(database.Read(limit));
+
+        }else if (arguments["cheep"].IsTrue)
         {
             //string[] messages = args;
             var messages = arguments["<message>"].ToString();
