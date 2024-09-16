@@ -70,7 +70,7 @@ jobs:
           # Build everything
           dotnet publish Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime win-x64 -c Release -o "Windows-release"
           
-          tar czvf "Windows-release.tar.gz" "Windows-release"
+          7z a -tzip "Windows-release.zip" "./Windows-release/*"
 
           rm -r Windows-release
 
