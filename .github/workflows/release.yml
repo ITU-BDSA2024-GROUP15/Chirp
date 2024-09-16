@@ -73,7 +73,6 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
           files: |
-            README.md
             Linux-release.tar.gz
             MacOS-release.tar.gz
             Windows-release.tar.gz
