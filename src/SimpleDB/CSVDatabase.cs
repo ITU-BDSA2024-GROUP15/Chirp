@@ -45,15 +45,13 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
             IEnumerable<T> records;
-            Console.WriteLine(limit);
-            if (limit != null)
+            if (limit > 0)
             {
                 records = csv.GetRecords<T>().ToList().Take((int) limit); //We use the way we setup the Cheep class to "map" to how we stored the information in the csv file (it has a header - Author,Message,Timestamp)
             } else if (limit < 0)
             {
-                Console.WriteLine("HEJJJ");
                 records = csv.GetRecords<T>().ToList().TakeLast(-1 * ((int) limit));
-            } else
+            } else 
             {
                 records = csv.GetRecords<T>().ToList();
             }

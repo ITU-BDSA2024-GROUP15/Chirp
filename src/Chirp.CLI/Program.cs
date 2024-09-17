@@ -46,7 +46,6 @@ class Program {
                 UserInterface.PrintCheeps(database.Read(limit));
             }
         } else if (arguments["readLatest"].IsTrue){
-            Console.WriteLine("HEJ");
             var limit = -1 * int.Parse(arguments["<limit>"].ToString());
             UserInterface.PrintCheeps(database.Read(limit));
 
