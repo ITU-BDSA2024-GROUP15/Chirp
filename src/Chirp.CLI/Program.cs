@@ -21,6 +21,7 @@ class Program {
         Usage:
             chirp read --all 
             chirp read <limit>
+            chirp readLatest <limit>
             chirp cheep <message>
             chirp (-h | --help)
             chirp --version
@@ -43,7 +44,11 @@ class Program {
                 var limit = int.Parse(arguments["<limit>"].ToString());
                 UserInterface.PrintCheeps(database.Read(limit));
             }
-        } else if (arguments["cheep"].IsTrue)
+        } else if (arguments["readLatest"].IsTrue){
+            var limit = -1 * int.Parse(arguments["<limit>"].ToString());
+            UserInterface.PrintCheeps(database.Read(limit));
+
+        }else if (arguments["cheep"].IsTrue)
         {
             //string[] messages = args;
             var messages = arguments["<message>"].ToString();

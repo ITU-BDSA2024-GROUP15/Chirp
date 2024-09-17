@@ -15,8 +15,10 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     private static CSVDatabase<T> instance = null;
 
+    
+    string PATH = GetPathToRoot() + "/data/chirp_cli_db.csv";
     private CSVDatabase()
-    {
+    { 
         
     }
     
@@ -38,25 +40,27 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     /// <returns>A list of records</returns>
     public IEnumerable<T> Read(int? limit = null)
     {
-        using (var reader = new StreamReader("../SimpleDB/chirp_cli_db.csv"))
+        
+        using (var reader = new StreamReader(PATH))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
             IEnumerable<T> records;
-            if (limit != null)
+            if (limit > 0)
             {
                 records = csv.GetRecords<T>().ToList().Take((int) limit); //We use the way we setup the Cheep class to "map" to how we stored the information in the csv file (it has a header - Author,Message,Timestamp)
-
-            }
-            else
+            } else if (limit < 0)
+            {
+                records = csv.GetRecords<T>().ToList().TakeLast(-1 * ((int) limit));
+            } else 
             {
                 records = csv.GetRecords<T>().ToList();
             }
+                
             return records;
             //test
         }
         
     }
-    
     
     /// <summary>
     /// Method for writing a record into a CSV-file.
@@ -77,12 +81,29 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
             HasHeaderRecord = false,
         };
         
-        using (var stream = File.Open("../SimpleDB/chirp_cli_db.csv", FileMode.Append))
+        using (var stream = File.Open(PATH, FileMode.Append))
         using (var writer = new StreamWriter(stream))
         using (var csv = new CsvWriter(writer, config))
         {
             csv.WriteRecords(records);
         }
+    }
+
+    private static string GetPathToRoot()
+    {
+        string absolutePath = Environment.CurrentDirectory;
+        string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
+        string pathtoRoot = "";
+        for (int i = 0; i < splitPath.Length - 1; i++)
+        {
+            pathtoRoot += splitPath[i] + Path.DirectorySeparatorChar;
+            if (splitPath[i].Equals("Chirp"))
+            {  
+                break;
+            }
+        }
+        return pathtoRoot;
+        
     }
     
     

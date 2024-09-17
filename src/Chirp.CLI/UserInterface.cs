@@ -16,7 +16,7 @@ public static class UserInterface
     {
         foreach (var cheep in cheeps)
         {
-            Console.WriteLine(cheep.Author + " @ " + parseDataTime(cheep.Timestamp) + ": " + cheep.Message);
+            Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
         }
     }
     
@@ -26,7 +26,7 @@ public static class UserInterface
     /// </summary>
     /// <param name="timestamp">the unix timestamp</param>
     /// <returns>The converted time from the unix timestamp</returns>
-    static DateTime parseDataTime(long timestamp)
+    public static DateTime parseDateTime(long timestamp)
     {
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
