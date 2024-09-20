@@ -53,6 +53,8 @@ class Program {
             //string[] messages = args;
             var messages = arguments["<message>"].ToString();
             //database.Store(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
+            
+            //Send cheep via userinterface
             UserInterface.SendCheep(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
         }
     }

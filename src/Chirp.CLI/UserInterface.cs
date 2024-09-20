@@ -31,13 +31,13 @@ public static class UserInterface
         var url = "http://localhost:5217/cheep";
         
         //Make JSON object
-        var json = JsonSerializer.Serialize(cheep);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        var cheepAsJSON = JsonSerializer.Serialize(cheep);
+        var encodedContent = new StringContent(cheepAsJSON, Encoding.UTF8, "application/json");
         Console.WriteLine("Trying to send cheep");
         
         //Send cheep (JSON)
-        var respone = await client.PostAsync(url, content);
-        Console.WriteLine("aaa");
+        var respone = await client.PostAsync(url, encodedContent);
+        Console.WriteLine(respone + "aaa");
     }
     
     
