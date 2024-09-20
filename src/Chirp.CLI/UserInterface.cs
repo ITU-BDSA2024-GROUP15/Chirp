@@ -14,10 +14,23 @@ public static class UserInterface
     /// Method for printing cheeps in the form: Author - TimeStamp - Message
     /// </summary>
     /// <param name="cheeps">the collection of cheeps to be printed</param>
-    public static void PrintCheeps(IEnumerable<Cheep> cheeps)
+    public static async Task PrintCheeps(int? limit = null)
     {
+        HttpClient client = new HttpClient();
+        var url = "http://localhost:5217/cheeps";
+        var response = await client.GetAsync(url);
+        
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+        var cheeps = JsonSerializer.Deserialize<List<Cheep>>(jsonResponse, options);
+        
+       
         foreach (var cheep in cheeps)
         {
+         
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
         }
     }
