@@ -97,7 +97,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         for (int i = 0; i < splitPath.Length - 1; i++)
         {
             pathtoRoot += splitPath[i] + Path.DirectorySeparatorChar;
-            if (splitPath[i].Equals("Chirp"))
+            if (splitPath[i].ToLowerInvariant().Equals("chirp"))
             {  
                 break;
             }
