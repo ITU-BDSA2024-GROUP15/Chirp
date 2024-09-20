@@ -39,16 +39,18 @@ public static class UserInterface
     public static async Task SendCheep(Cheep cheep)
     {
         HttpClient client = new HttpClient();
+        
+        //URL to server
         var url = "http://localhost:5217/cheep";
-        var json = JsonSerializer.Serialize(cheep);
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        
+        //Make JSON object (Co-authored-by: Bing copilot)
+        var cheepAsJSON = JsonSerializer.Serialize(cheep);
+        var encodedContent = new StringContent(cheepAsJSON, Encoding.UTF8, "application/json");
         Console.WriteLine("Trying to send cheep");
-        var respone = await client.PostAsync(url, content);
-        Console.WriteLine("aaa");
         
-        //var responseString = await respone.Content.ReadAsStringAsync();
-        
-        //Console.WriteLine(responseString);
+        //Send cheep (JSON)
+        var respone = await client.PostAsync(url, encodedContent);
+        Console.WriteLine(respone + "aaa");
     }
     
     

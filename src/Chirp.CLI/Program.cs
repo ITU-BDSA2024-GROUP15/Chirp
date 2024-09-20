@@ -14,12 +14,12 @@ class Program {
     /// Method for running and executing the program
     /// </summary>
     /// <param name="args">The arguments that needs to be executed</param>
-    public static void Main(String[] args)
+    public static async Task Main(String[] args)
     {
         const string usage = @"Chirp CLI version. 
 
         Usage:
-            chirp read --all 
+            chirp read --l 
             chirp read <limit>
             chirp readLatest <limit>
             chirp cheep <message>
@@ -53,8 +53,11 @@ class Program {
             //string[] messages = args;
             var messages = arguments["<message>"].ToString();
             //database.Store(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
-            UserInterface.SendCheep(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
+            
+            //Send cheep via userinterface
+            await UserInterface.SendCheep(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
         }
     }
+
     
 }
