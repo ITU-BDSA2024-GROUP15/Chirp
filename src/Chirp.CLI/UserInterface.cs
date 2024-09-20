@@ -30,7 +30,7 @@ public static class UserInterface
         //URL to server
         var url = "http://localhost:5217/cheep";
         
-        //Make JSON object
+        //Make JSON object (Co-authored-by: Bing copilot)
         var cheepAsJSON = JsonSerializer.Serialize(cheep);
         var encodedContent = new StringContent(cheepAsJSON, Encoding.UTF8, "application/json");
         Console.WriteLine("Trying to send cheep");
