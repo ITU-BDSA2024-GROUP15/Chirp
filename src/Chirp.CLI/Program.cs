@@ -37,16 +37,16 @@ class Program {
         {
             if (arguments["--all"].IsTrue)
             {
-                UserInterface.PrintCheeps(database.Read(null));
+                UserInterface.PrintCheeps(null);
             }
             else
             {
                 var limit = int.Parse(arguments["<limit>"].ToString());
-                UserInterface.PrintCheeps(database.Read(limit));
+                UserInterface.PrintCheeps(limit);
             }
         } else if (arguments["readLatest"].IsTrue){
             var limit = -1 * int.Parse(arguments["<limit>"].ToString());
-            UserInterface.PrintCheeps(database.Read(limit));
+            UserInterface.PrintCheeps(limit);
 
         }else if (arguments["cheep"].IsTrue)
         {
