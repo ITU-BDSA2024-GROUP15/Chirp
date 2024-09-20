@@ -14,6 +14,7 @@ app.MapGet("/cheeps", (int? limit) =>
 //Add a cheep to the database
 app.MapPost("/cheep", (Cheep cheep) =>
 {
+    Console.WriteLine("Storing cheep");
     database.Store(cheep); 
 });
 

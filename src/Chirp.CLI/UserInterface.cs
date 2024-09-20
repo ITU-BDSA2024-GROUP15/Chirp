@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using SimpleDB;
 
 namespace Chirp.CLI;
@@ -18,6 +20,22 @@ public static class UserInterface
         {
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
         }
+    }
+
+
+    public static async Task SendCheep(Cheep cheep)
+    {
+        HttpClient client = new HttpClient();
+        var url = "http://localhost:5217/cheep";
+        var json = JsonSerializer.Serialize(cheep);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        Console.WriteLine("Trying to send cheep");
+        var respone = await client.PostAsync(url, content);
+        Console.WriteLine("aaa");
+        
+        //var responseString = await respone.Content.ReadAsStringAsync();
+        
+        //Console.WriteLine(responseString);
     }
     
     
