@@ -37,16 +37,16 @@ class Program {
         {
             if (arguments["--all"].IsTrue)
             {
-                UserInterface.PrintCheeps(null);
+               await UserInterface.PrintCheeps(null);
             }
             else
             {
                 var limit = int.Parse(arguments["<limit>"].ToString());
-                UserInterface.PrintCheeps(limit);
+               await UserInterface.PrintCheeps(limit);
             }
         } else if (arguments["readLatest"].IsTrue){
             var limit = -1 * int.Parse(arguments["<limit>"].ToString());
-            UserInterface.PrintCheeps(limit);
+            await UserInterface.PrintCheeps(limit);
 
         }else if (arguments["cheep"].IsTrue)
         {
