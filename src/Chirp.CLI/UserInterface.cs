@@ -26,12 +26,16 @@ public static class UserInterface
             PropertyNameCaseInsensitive = true
         };
         var cheeps = JsonSerializer.Deserialize<List<Cheep>>(jsonResponse, options);
-        
-       
+
+        int count = 0;
         foreach (var cheep in cheeps)
         {
-         
+            if (count == limit)
+            {
+                break;
+            }
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
+            count++;
         }
     }
 

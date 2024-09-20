@@ -19,7 +19,7 @@ class Program {
         const string usage = @"Chirp CLI version. 
 
         Usage:
-            chirp read --l 
+            chirp read --all 
             chirp read <limit>
             chirp readLatest <limit>
             chirp cheep <message>
