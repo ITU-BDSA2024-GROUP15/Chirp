@@ -26,14 +26,8 @@ public static class UserInterface
     /// </summary>
     /// <param name="timestamp">the unix timestamp</param>
     /// <returns>The converted time from the unix timestamp</returns>
-    public static DateTime parseDateTime(long timestamp)
+    public static string parseDateTime(long timestamp)
     {
-        /*
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc); 
-        dateTime = dateTime.AddSeconds(timestamp).ToLocalTime();
-        return dateTime;
-        */
-        
         //Convert unix timestamp to datetime (Datetimeoffset)
         DateTimeOffset dateTime = DateTimeOffset.FromUnixTimeSeconds(timestamp);
         
@@ -42,7 +36,10 @@ public static class UserInterface
         
         //Converts the timestamp to danish timezone
         DateTime timeStamp = TimeZoneInfo.ConvertTime(dateTime, danishTimeZone).DateTime;
-        return timeStamp;
+        
+        //Formatting timstamp/date
+        string timeStampFormatted = timeStamp.ToString("dd-MM-yyyy HH:mm:ss");
+        return timeStampFormatted;
         
         
     }

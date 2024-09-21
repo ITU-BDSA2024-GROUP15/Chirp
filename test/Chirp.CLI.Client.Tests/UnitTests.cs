@@ -19,7 +19,7 @@ public class UnitTests
     [Fact]
     public void TestParseDateTime()
     {
-        Assert.Equal("07-09-2024 23:21:56", UserInterface.parseDateTime(1725744116).ToString());
+        Assert.Equal("07-09-2024 23:21:56", UserInterface.parseDateTime(1725744116));
     }
     
 }
