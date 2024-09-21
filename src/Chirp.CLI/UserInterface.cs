@@ -39,7 +39,10 @@ public static class UserInterface
         }
     }
 
-
+    /// <summary>
+    /// Method for sending a cheep via httpclient
+    /// </summary>
+    /// <param name="cheep">the cheep to be send</param>
     public static async Task SendCheep(Cheep cheep)
     {
         HttpClient client = new HttpClient();
@@ -52,9 +55,12 @@ public static class UserInterface
         var encodedContent = new StringContent(cheepAsJSON, Encoding.UTF8, "application/json");
         Console.WriteLine("Trying to send cheep");
         
-        //Send cheep (JSON)
+        //Send cheep and wait for response
         var respone = await client.PostAsync(url, encodedContent);
-        Console.WriteLine(respone + "aaa");
+        if (respone.IsSuccessStatusCode)
+        {
+            Console.WriteLine("Cheep has been sent");
+        }
     }
     
     

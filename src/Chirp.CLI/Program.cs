@@ -50,12 +50,11 @@ class Program {
 
         }else if (arguments["cheep"].IsTrue)
         {
-            //string[] messages = args;
             var messages = arguments["<message>"].ToString();
-            //database.Store(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
             
             //Send cheep via userinterface
-            await UserInterface.SendCheep(new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds()));
+            Cheep newCheep = new Cheep(Environment.UserName, messages, DateTimeOffset.Now.ToUnixTimeSeconds());
+            await UserInterface.SendCheep(newCheep);
         }
     }
 
