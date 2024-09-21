@@ -9,7 +9,6 @@ namespace Chirp.CLI;
 /// </summary>
 class Program {
     
-    static IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance();  
     /// <summary> 
     /// Method for running and executing the program
     /// </summary>
