@@ -14,7 +14,7 @@ public static class UserInterface
     /// Method for printing cheeps in the form: Author - TimeStamp - Message
     /// </summary>
     /// <param name="cheeps">the collection of cheeps to be printed</param>
-    public static async Task PrintCheeps(int? limit = null)
+    public static async Task<int> PrintCheeps(int? limit = null)
     {
         HttpClient client = new HttpClient();
         var url = "http://localhost:5217/cheeps";
@@ -37,7 +37,12 @@ public static class UserInterface
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
             count++;
         }
+        
+        return count;
     }
+
+    
+    
 
     /// <summary>
     /// Method for sending a cheep via httpclient
@@ -61,6 +66,7 @@ public static class UserInterface
         {
             Console.WriteLine("Cheep has been sent");
         }
+        
     }
     
     

@@ -13,23 +13,22 @@ public class UnitTests
     }
     
     [Fact]
-    public void testReadLimitCheeps()
+    public async Task testReadLimitCheeps() //Should these be moved to UserInterface test?
     {
-        // TODO: Fix reference
-        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance();
-        //Assert.Single(database.Read(1)); 
+        var cheepsPrinted = await UserInterface.PrintCheeps(1);
+        Assert.True(cheepsPrinted == 1);
+
     }
     
     
     [Fact]
-    public void testStoreCheep()
+    public async Task testSendCheep()
     {
-        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.GetInstance();
-        //var before = UserInterface.PrintCheeps(null).ToString().Length;
-        var before = database.Read(null).Count();
-        database.Store(new Cheep("User", "message", 1725744116));
-        var after = database.Read(null).Count();
-        //var after = UserInterface.PrintCheeps(null).ToString().Length;
-        //Assert.Equal(before + 1, after);
+        var before = await UserInterface.PrintCheeps();
+        await UserInterface.SendCheep(new Cheep("TestSendCheep", "testing...", 1725744116));
+        var after = await UserInterface.PrintCheeps();
+        
+        Assert.Equal(before + 1, after);
     }
+    
 }
