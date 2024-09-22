@@ -20,7 +20,7 @@ public static class UserInterface
         var url = "http://localhost:5217/cheeps";
         var response = await client.GetAsync(url);
         
-        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var jsonResponse = await response.Content.ReadAsStringAsync(); 
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
