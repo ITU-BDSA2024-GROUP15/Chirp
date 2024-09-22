@@ -16,7 +16,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     private static CSVDatabase<T> instance = null;
 
     
-    string PATH = GetPathToRoot() + "/data/chirp_cli_db.csv";
+    string PATH = GetPathToRoot() + "src/CSVDBService/data/chirp_cli_db.csv";
     private CSVDatabase()
     { 
         
