@@ -14,9 +14,12 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
 
     private static CSVDatabase<T> instance = null;
-
     
-    string PATH = GetPathToRoot() + "src/CSVDBService/data/chirp_cli_db.csv";
+    
+    //string PATH = GetPathToRoot() + "src/CSVDBService/data/chirp_cli_db.csv";
+    //private string PATH = "data/chirp_cli_db.csv";
+    private string PATH = Path.Combine(Directory.GetCurrentDirectory(), "data", "chirp_cli_db.csv");
+
     private CSVDatabase()
     { 
         
@@ -44,6 +47,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         using (var reader = new StreamReader(PATH))
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
+            Console.WriteLine(PATH);
             IEnumerable<T> records;
             if (limit > 0)
             {

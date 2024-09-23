@@ -17,7 +17,7 @@ public static class UserInterface
     public static async Task<int> PrintCheeps(int? limit = null)
     {
         HttpClient client = new HttpClient();
-        var url = "http://localhost:5217/cheeps";
+        var url = "https://bdsagroup155chirpremotedb.azurewebsites.net/cheeps";
         var response = await client.GetAsync(url);
         
         var jsonResponse = await response.Content.ReadAsStringAsync(); 
@@ -53,7 +53,7 @@ public static class UserInterface
         HttpClient client = new HttpClient();
         
         //URL to server
-        var url = "http://localhost:5217/cheep";
+        var url = "https://bdsagroup155chirpremotedb.azurewebsites.net/cheep";
         
         //Make JSON object (Co-authored-by: Bing copilot)
         var cheepAsJSON = JsonSerializer.Serialize(cheep);

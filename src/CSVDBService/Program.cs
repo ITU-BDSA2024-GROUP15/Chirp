@@ -18,6 +18,8 @@ app.MapPost("/cheep", (Cheep cheep) =>
     database.Store(cheep); 
 });
 
+app.MapGet("/", () => "Hello");
+
 app.Run();
 
 public record Cheep(string Author, string Message, long Timestamp);
