@@ -8,7 +8,7 @@ namespace Chirp.CLI;
 /// <summary>
 /// Class <c>UserInterface</c> manages what needs to be shown to the user 
 /// </summary>
-public static class UserInterface
+public static class UserInterface 
 {
     /// <summary>
     /// Method for printing cheeps in the form: Author - TimeStamp - Message
