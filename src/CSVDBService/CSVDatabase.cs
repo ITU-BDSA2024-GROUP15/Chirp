@@ -18,7 +18,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     
     //string PATH = GetPathToRoot() + "src/CSVDBService/data/chirp_cli_db.csv";
     //private string PATH = "data/chirp_cli_db.csv";
-    private string PATH = Path.Combine(Directory.GetCurrentDirectory(), "data", "chirp_cli_db.csv");
+    private string PATH = Path.Combine(Directory.GetCurrentDirectory(), "data", "chirp_cli_db.csv"); 
 
     private CSVDatabase()
     { 
