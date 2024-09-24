@@ -41,7 +41,7 @@ jobs:
           # Build everything
           dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime linux-x64 -c Release -o "Linux-release" -p:PublishSingleFile=true
           
-          7z a -tzip "Chirp-Linux-release.tar.gz" "Linux-release"
+          7z a -tzip "Chirp-Linux-release.zip" "Linux-release"
 
           rm -r Linux-release
 
@@ -78,8 +78,8 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
           files: |
-            Linux-release.tar.gz
-            MacOS-release.tar.gz
-            Windows-release.zip
+           Chirp-Linux-release.zip
+           Chirp-MacOS-release.zip
+           Chirp-Windows-release.zip
             
           repo-token: ${{ secrets.GITHUB_TOKEN }}
