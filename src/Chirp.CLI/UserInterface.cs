@@ -18,6 +18,11 @@ public static class UserInterface
     {
         HttpClient client = new HttpClient();
         var url = "https://bdsagroup155chirpremotedb.azurewebsites.net/cheeps";
+        if ( limit.HasValue )
+        {
+            url += $"?limit={limit.Value}";
+        }
+        
         var response = await client.GetAsync(url);
         
         var jsonResponse = await response.Content.ReadAsStringAsync(); 
@@ -26,19 +31,14 @@ public static class UserInterface
             PropertyNameCaseInsensitive = true
         };
         var cheeps = JsonSerializer.Deserialize<List<Cheep>>(jsonResponse, options);
-
-        int count = 0;
+        
         foreach (var cheep in cheeps)
         {
-            if (count == limit)
-            {
-                break;
-            }
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
-            count++;
+            
         }
-        
-        return count;
+
+        return cheeps.Count;
     }
 
     
