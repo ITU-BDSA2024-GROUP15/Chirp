@@ -6,7 +6,7 @@ namespace Chirp.CLI;
 
 //TODO Add documentation
 /// <summary>
-/// Class <c>UserInterface</c> manages what needs to be shown to the user 
+/// Class <c>UserInterface</c> manages what needs to be shown to the user
 /// </summary>
 public static class UserInterface 
 {
