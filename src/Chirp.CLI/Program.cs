@@ -12,7 +12,7 @@ class Program {
     /// <summary> 
     /// Method for running and executing the program
     /// </summary>
-    /// <param name="args">The arguments that needs to be executed</param>  
+    /// <param name="args">The arguments that needs to be executed</param> 
     public static async Task Main(String[] args)
     {
         const string usage = @"Chirp CLI version. 
