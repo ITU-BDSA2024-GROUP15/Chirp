@@ -17,7 +17,7 @@ public static class UserInterface
     public static async Task<int> PrintCheeps(int? limit = null)
     {
         HttpClient client = new HttpClient();
-        var url = "https://bdsagroup155chirpremotedb.azurewebsites.net/cheeps";
+        var url = "https://bdsagroup015chirpremotedb-fxevcsaweqfxdxgz.northeurope-01.azurewebsites.net/cheeps";
         if ( limit.HasValue )
         {
             url += $"?limit={limit.Value}";
@@ -45,15 +45,15 @@ public static class UserInterface
     
 
     /// <summary>
-    /// Method for sending a cheep via httpclient
+    /// Method for sending a cheep via httpclient 
     /// </summary>
-    /// <param name="cheep">the cheep to be send</param>
+    /// <param name="cheep">the cheep to be send</param> 
     public static async Task SendCheep(Cheep cheep)
     {
         HttpClient client = new HttpClient();
         
         //URL to server
-        var url = "https://bdsagroup155chirpremotedb.azurewebsites.net/cheep";
+        var url = "https://bdsagroup015chirpremotedb-fxevcsaweqfxdxgz.northeurope-01.azurewebsites.net/cheep";
         
         //Make JSON object (Co-authored-by: Bing copilot)
         var cheepAsJSON = JsonSerializer.Serialize(cheep);
