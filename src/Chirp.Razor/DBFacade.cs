@@ -4,15 +4,24 @@ namespace Chirp.Razor;
 
 public class DBFacade<T>
 {
+    private string path;
+    public DBFacade(string path)
+    {
+        this.path = path;
+        if (path == null )
+        {
+            this.path = GetPathToDB();
+        }
+    }
+    
     public List<Cheep> read(string query)
     {
-        //string sqlDBFilePath = "./data/chirp.db";
-        //string PATH = Path.Combine(Directory.GetCurrentDirectory(), "data", "chirp.db"); 
-        string PATH = GetPathToDB();
+        
+        //string PATH = GetPathToDB();
         List<Cheep> records = new List<Cheep>();
         
 
-        using ( var connection = new SqliteConnection($"Data Source={PATH}") )
+        using ( var connection = new SqliteConnection($"Data Source={path}") )
         {
             try
             {
