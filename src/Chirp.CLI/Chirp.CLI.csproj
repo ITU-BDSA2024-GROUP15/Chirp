@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chirp.Razor\Chirp.Razor.csproj" />
     <ProjectReference Include="..\CSVDBService\CSVDBService.csproj" />
   </ItemGroup>
 

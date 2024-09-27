@@ -16,29 +16,47 @@ public static class UserInterface
     /// <param name="cheeps">the collection of cheeps to be printed</param>
     public static async Task<int> PrintCheeps(int? limit = null)
     {
+        
+        var aaa = new Chirp.Razor.DBFacade<Cheep>();
+        var a =  aaa.read(@"Select U.username, M.text, M.pub_date from message M join user U on M.author_id = U.user_id");
+               
+        Console.WriteLine(a.Count());
+        
+        foreach (var cheep in a)
+        {
+            Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
+            
+        }
+
+        return 0;
+
+
+
+        /*
         HttpClient client = new HttpClient();
         var url = "https://bdsagroup015chirpremotedb-fxevcsaweqfxdxgz.northeurope-01.azurewebsites.net/cheeps";
         if ( limit.HasValue )
         {
             url += $"?limit={limit.Value}";
         }
-        
+
         var response = await client.GetAsync(url);
-        
-        var jsonResponse = await response.Content.ReadAsStringAsync(); 
+
+        var jsonResponse = await response.Content.ReadAsStringAsync();
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
         var cheeps = JsonSerializer.Deserialize<List<Cheep>>(jsonResponse, options);
-        
+
         foreach (var cheep in cheeps)
         {
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
-            
+
         }
 
         return cheeps.Count;
+        */
     }
 
     
