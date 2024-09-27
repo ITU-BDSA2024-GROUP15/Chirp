@@ -8,21 +8,19 @@ namespace Chirp.CLI;
 /// <summary>
 /// Class <c>UserInterface</c> manages what needs to be shown to the user
 /// </summary>
-public static class UserInterface 
+public class UserInterface 
 {
     /// <summary>
     /// Method for printing cheeps in the form: Author - TimeStamp - Message
     /// </summary>
     /// <param name="cheeps">the collection of cheeps to be printed</param>
-    public static async Task<int> PrintCheeps(int? limit = null)
+    public async Task<int> PrintCheeps(int? limit = null)
     {
         
-        var aaa = new Chirp.Razor.DBFacade<Cheep>();
-        var a =  aaa.read(@"Select U.username, M.text, M.pub_date from message M join user U on M.author_id = U.user_id");
-               
-        Console.WriteLine(a.Count());
+        var cheepService = new CheepService(); //SINGLETON????
+        var cheeps = cheepService.GetCheeps();
         
-        foreach (var cheep in a)
+        foreach (var cheep in cheeps)
         {
             Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " + cheep.Message);
             
@@ -59,8 +57,24 @@ public static class UserInterface
         */
     }
 
-    
-    
+
+    public async Task<int> PrintCheeps(string author)
+    {
+
+        var cheepService = new CheepService(); //SINGLETON????
+        var cheeps = cheepService.GetCheepsFromAuthor(author);
+
+        foreach ( var cheep in cheeps )
+        {
+            Console.WriteLine(cheep.Author + " @ " + parseDateTime(cheep.Timestamp) + ": " +
+                              cheep.Message);
+
+        }
+
+        return 0;
+
+    }
+
 
     /// <summary>
     /// Method for sending a cheep via httpclient
