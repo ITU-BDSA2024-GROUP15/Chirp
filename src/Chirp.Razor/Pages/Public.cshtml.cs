@@ -13,9 +13,16 @@ public class PublicModel : PageModel
         _service = service;
     }
 
-    public ActionResult OnGet()
+    /* public ActionResult OnGet()
     {
         Cheeps = _service.GetCheeps();
         return Page();
+    } */
+    
+    public ActionResult OnGet([FromQuery] int page)
+    {
+        Console.WriteLine($"page: {page}");
+      Cheeps = _service.GetCheeps(page);
+      return Page();
     }
 }
