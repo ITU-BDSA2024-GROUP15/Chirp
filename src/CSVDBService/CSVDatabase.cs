@@ -57,7 +57,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
                 records = csv.GetRecords<T>().ToList().TakeLast(-1 * ((int) limit));
             } else 
             {
-                records = csv.GetRecords<T>().ToList();
+                records = csv.GetRecords<T>();
             }
                 
             return records;

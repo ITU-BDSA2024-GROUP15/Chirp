@@ -63,6 +63,4 @@ class Program {
             userInterface.PrintCheeps(author);
         }
     }
-
-    
 }

@@ -12,10 +12,15 @@ public class UserTimelineModel : PageModel
     {
         _service = service;
     }
-
-    public ActionResult OnGet(string author)
+    
+    
+    public ActionResult OnGet([FromQuery] int page, string author)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author);
+        Cheeps = _service.GetCheepsFromAuthor(author, page);
+        foreach ( var cheep in Cheeps)
+        {
+            Console.WriteLine(cheep);
+        }
         return Page();
     }
 }
