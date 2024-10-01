@@ -10,6 +10,7 @@ public class UnitTests
     public void TestGetCheeps()
     {
         ICheepService service = new CheepService();
+        service.ChangeDB(new DBFacade<Cheep>("test"));
         List<Cheep> Cheeps = service.GetCheeps(0);
         
         Assert.True(Cheeps.Count == 32);
