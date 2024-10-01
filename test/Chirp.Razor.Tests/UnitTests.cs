@@ -6,11 +6,63 @@ namespace Chirp.Razor.Tests;
 public class UnitTests
 {
     [Fact]
-    public void testsomething()
+    public void TestGetCheeps()
+    {
+        ICheepService service = new CheepService();
+        List<Cheep> Cheeps = service.GetCheeps(0);
+        
+        Assert.True(Cheeps.Count == 32);
+    }
+
+    
+    
+
+    [Fact]
+    public void TestGetCheepsPage2()
     {
         
     }
     
+    [Fact]
+    public void TestGetCheepsLastPage() 
+    {
+        
+    }
+    
+    [Fact]
+    public void TestGetCheepsBeyondLimit() 
+    {
+        
+    }
+    
+    
+    [Fact]
+    public void TestGetCheepsFromAuthor() 
+    {
+        
+    }
+    
+    [Fact]
+    public void TestGetCheepsFromAuthorPage2()
+    {
+        
+    }    
+    
+    [Fact]
+    public void TestGetCheepsFromAuthorLastPage()
+    {
+        
+    }
+    
+    [Fact]
+    public void TestGetCheepsFromAuthorBeyondLimit()
+    {
+        
+    }    
+
+
+
+    //DBFacade
     [Fact]
     public void TestParseDateTime()
     {
