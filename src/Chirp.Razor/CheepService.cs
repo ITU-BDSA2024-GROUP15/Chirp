@@ -20,7 +20,7 @@ public class CheepService : ICheepService
            }
            
            var facade = new DBFacade<Cheep>(null); //TODO ASK TA ABOUT ENVIRONMENT AND DEPENDENCY INJECTION
-           return facade.read($"Select U.username, M.text, M.pub_date from message M join user U on M.author_id = U.user_id WHERE M.message_id BETWEEN \"{limit}\" -1 * 32 AND \"{limit}\" * 32 ORDER BY M.pub_date DESC");
+           return facade.read($"Select U.username, M.text, M.pub_date from message M join user U on M.author_id = U.user_id WHERE M.message_id BETWEEN (\"{limit}\" -1) * 32 AND \"{limit}\" * 32 ORDER BY M.pub_date DESC");
        }
 
     public List<Cheep> GetCheepsFromAuthor(string author, int limit)
