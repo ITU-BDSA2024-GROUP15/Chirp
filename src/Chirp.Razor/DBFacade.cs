@@ -72,7 +72,6 @@ public class DBFacade<T>
                 break;
             }
         }
-        pathToChirp += "/src/Chirp.Razor/data/chirp.db";
         return pathToChirp;
         
     }
