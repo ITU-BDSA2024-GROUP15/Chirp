@@ -28,7 +28,7 @@ public class CheepService : ICheepService
            }
            
            
-           return facade.read($"Select U.username, M.text, M.pub_date from message M join user U on M.author_id = U.user_id WHERE M.message_id BETWEEN (\"{limit}\" -1) * 31 AND \"{limit}\" * 31 ORDER BY M.pub_date DESC");
+           return facade.read($"SELECT * FROM(Select U.username, M.text, M.pub_date, ROW_NUMBER() OVER (ORDER BY M.pub_date DESC) AS RowNum from message M join user U on M.author_id = U.user_id) WHERE RowNum BETWEEN 1 +((\"{limit}\" - 1) * 32) AND \"{limit}\" * 32");
        }
 
     public List<Cheep> GetCheepsFromAuthor(string author, int limit)
@@ -37,8 +37,8 @@ public class CheepService : ICheepService
         {
             limit = 1;
         }
-        // filter by the provided author nam
-        return facade.read($"SELECT * FROM (SELECT U.username, M.text, M.pub_date, RANK() OVER (ORDER BY M.pub_date) AS ranked FROM message M JOIN user U ON m.author_id = U.user_id WHERE U.username = \"{author}\" ORDER BY M.pub_date DESC)WHERE ranked BETWEEN (\"{limit}\" -1) *31 AND \"{limit}\" * 31"); 
+        // filter by the provided author name
+        return facade.read($"SELECT * FROM (SELECT U.username, M.text, M.pub_date, ROW_NUMBER() OVER (ORDER BY M.pub_date DESC) AS RowNum FROM message M JOIN user U ON m.author_id = U.user_id WHERE U.username = \"{author}\")WHERE RowNum BETWEEN 1 + ((\"{limit}\" - 1) * 32) AND \"{limit}\" * 32"); 
     }
     
 
