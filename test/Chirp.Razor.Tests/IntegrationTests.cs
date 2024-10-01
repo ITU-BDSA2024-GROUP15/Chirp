@@ -1,4 +1,4 @@
-﻿namespace Chirp.CLI.Client.Tests;
+﻿namespace Chirp.Razor.Tests;
 
 public class IntegrationTests
 {
