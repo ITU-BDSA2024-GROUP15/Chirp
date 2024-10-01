@@ -12,6 +12,11 @@ public class DBFacade<T>
         {
             this.path = GetPathToDB();
         }
+
+        if ( path == "test" )
+        {
+            this.path = GetPathToTestDB();
+        }
     }
     
     public List<Cheep> read(string query)
@@ -54,24 +59,39 @@ public class DBFacade<T>
         
     }
     
-    private static string GetPathToDB()
+    private static string GetPathToChirp()
     {
         string absolutePath = Environment.CurrentDirectory;
         string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
-        string pathToDB = "";
+        string pathToChirp = "";
         for (int i = 0; i < splitPath.Length - 1; i++)
         {
-            pathToDB += splitPath[i] + Path.DirectorySeparatorChar;
+            pathToChirp += splitPath[i] + Path.DirectorySeparatorChar;
             if (splitPath[i].ToLowerInvariant().Equals("chirp"))
             {  
                 break;
             }
         }
+        pathToChirp += "/src/Chirp.Razor/data/chirp.db";
+        return pathToChirp;
+        
+    }
+
+    private static string GetPathToDB()
+    {
+        var pathToDB = GetPathToChirp();
         pathToDB += "/src/Chirp.Razor/data/chirp.db";
         return pathToDB;
         
     }
     
+    private static string GetPathToTestDB()
+    {
+        var pathToDB = GetPathToChirp();
+        pathToDB += "/test/data/test.db";
+        return pathToDB;
+        
+    }
     /// <summary>
     /// This method converts unix time into the AM/PM format
     /// </summary>
