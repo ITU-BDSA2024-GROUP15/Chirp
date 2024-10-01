@@ -6,11 +6,19 @@ public interface ICheepService
 {
     public List<Cheep> GetCheeps(int limit);
     public List<Cheep> GetCheepsFromAuthor(string author, int limit);
+
+    public void ChangeDB(DBFacade<Cheep> facade);
 }
 
 public class CheepService : ICheepService
 {
     private DBFacade<Cheep> facade;
+
+
+    public CheepService()
+    {
+        this.facade = new DBFacade<Cheep>(null);
+    }
     
     public List<Cheep> GetCheeps(int limit) //TODO ASK TA IF THIS IS ILLEGAL
        {
