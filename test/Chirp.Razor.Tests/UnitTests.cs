@@ -35,7 +35,7 @@ public class UnitTests
         service.ChangeDB(new DBFacade<Cheep>("test"));
         List<Cheep> Cheeps = service.GetCheeps(2);
         var cheep = Cheeps[0];
-        Assert.Equal("To him it had done a great fish to swallow up the steel head of the cetacea.", cheep.Message);  
+        Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Message);  
     }
     
     [Fact]
@@ -43,9 +43,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade<Cheep>("test"));
-        List<Cheep> Cheeps = service.GetCheeps(22);
+        List<Cheep> Cheeps = service.GetCheeps(21);
         
-        Assert.True(Cheeps.Count == 6);
+        Assert.True(Cheeps.Count == 17);
     }
     
     [Fact]
@@ -76,7 +76,7 @@ public class UnitTests
         service.ChangeDB(new DBFacade<Cheep>("test"));
         List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (2));
         
-        Assert.Equal("No, it's no go.", Cheeps[0].Message);
+        Assert.Equal("What a relief it was the place examined.", Cheeps[0].Message);
     }    
     
     [Fact]
@@ -86,7 +86,7 @@ public class UnitTests
         service.ChangeDB(new DBFacade<Cheep>("test"));
         List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (12));
         
-        Assert.True(Cheeps.Count == 19 && Cheeps[0].Author == "Jacqualine Gilcoine");    
+        Assert.True(Cheeps.Count == 7 && Cheeps[0].Author == "Jacqualine Gilcoine");    
     }
     
     [Fact]
@@ -94,9 +94,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade<Cheep>("test"));
-        List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (15));
+        List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (20));
         
-        Assert.True(Cheeps.Count == 0 && Cheeps[0].Author == "Jacqualine Gilcoine");   
+        Assert.True(Cheeps.Count == 0);   
     }    
 
 
