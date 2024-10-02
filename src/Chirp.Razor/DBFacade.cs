@@ -4,7 +4,7 @@ using Microsoft.Extensions.FileProviders;
 
 namespace Chirp.Razor;
 
-public class DBFacade<T>
+public class DBFacade
 {
     private string path;
     public DBFacade(string path)

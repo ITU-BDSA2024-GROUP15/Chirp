@@ -7,17 +7,17 @@ public interface ICheepService
     public List<Cheep> GetCheeps(int limit);
     public List<Cheep> GetCheepsFromAuthor(string author, int limit);
 
-    public void ChangeDB(DBFacade<Cheep> facade);
+    public void ChangeDB(DBFacade facade);
 }
 
 public class CheepService : ICheepService
 {
-    private DBFacade<Cheep> facade;
+    private DBFacade facade;
 
 
     public CheepService()
     {
-        this.facade = new DBFacade<Cheep>(null);
+        this.facade = new DBFacade(null);
     }
     
     public List<Cheep> GetCheeps(int limit) //TODO ASK TA IF THIS IS ILLEGAL
@@ -42,7 +42,7 @@ public class CheepService : ICheepService
     }
     
 
-    public void ChangeDB(DBFacade<Cheep> facade)
+    public void ChangeDB(DBFacade facade)
     {
         this.facade = facade;
     }
