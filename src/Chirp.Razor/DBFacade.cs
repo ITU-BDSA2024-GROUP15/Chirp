@@ -10,7 +10,12 @@ public class DBFacade<T>
         this.path = path;
         if (path == null )
         {
-            this.path = GetPathToDB();
+            this.path = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.GetTempPath() + "Chirp.db";
+
+            if ( !File.Exists(path) )
+            {
+                createDB();
+            }
         }
 
         if ( path == "test" )
@@ -59,38 +64,7 @@ public class DBFacade<T>
         
     }
     
-    private static string GetPathToChirp()
-    {
-        string absolutePath = Environment.CurrentDirectory;
-        string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
-        string pathToChirp = "";
-        for (int i = 0; i < splitPath.Length - 1; i++)
-        {
-            pathToChirp += splitPath[i] + Path.DirectorySeparatorChar;
-            if (splitPath[i].ToLowerInvariant().Equals("chirp"))
-            {  
-                break;
-            }
-        }
-        return pathToChirp;
-        
-    }
-
-    private static string GetPathToDB()
-    {
-        var pathToDB = GetPathToChirp();
-        pathToDB += "/src/Chirp.Razor/data/chirp.db";
-        return pathToDB;
-        
-    }
     
-    private static string GetPathToTestDB()
-    {
-        var pathToDB = GetPathToChirp();
-        pathToDB += "/test/data/test.db";
-        return pathToDB;
-        
-    }
     /// <summary>
     /// This method converts unix time into the AM/PM format
     /// </summary>
