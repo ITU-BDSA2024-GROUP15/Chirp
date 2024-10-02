@@ -40,6 +40,27 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Contains($"{author}'s Timeline", content);
     }
     
+    [Theory]
+    [InlineData("Helge", "Hello, BDSA students!")]
+    [InlineData("Adrian","Hej, velkommen til kurset." )]
+    public async void PrivateTimelineShowsContent(string author, string message)
+    {
+        var response = await _client.GetAsync($"/{author}");
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        
+        Assert.Contains(message, content);
+    }
+
+    [Fact]
+    public async void PublicTimelineShowsContent()
+    {
+        var response = await _client.GetAsync("/");
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        
+        Assert.Contains("Starbuck now is what we hear the worst", content);
+    }
     
     
 }
