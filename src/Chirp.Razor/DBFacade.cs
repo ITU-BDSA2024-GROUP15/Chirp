@@ -121,7 +121,7 @@ public class DBFacade<T>
     private static string GetPathToTestDB()
     {
         var pathToDB = GetPathToChirp();
-        pathToDB += "/test/data/test.db";
+        pathToDB += "./test/data/test.db";
         return pathToDB;
         
     }
