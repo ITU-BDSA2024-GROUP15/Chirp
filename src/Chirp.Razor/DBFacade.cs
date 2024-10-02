@@ -22,7 +22,7 @@ public class DBFacade<T>
 
         if ( path == "test" )
         {
-            //this.path = GetPathToTestDB();
+            this.path = GetPathToTestDB();
         }
     }
     
