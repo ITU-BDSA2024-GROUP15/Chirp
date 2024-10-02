@@ -115,7 +115,23 @@ public class DBFacade<T>
         //Formatting timestamp/date
         string timeStampFormatted = timeStamp.ToString("HH:mm:ss dd-MM-yyyy");
         return timeStampFormatted;
-        
+    }
+    
+    
+    private static string GetPathToChirp()
+    {
+        string absolutePath = Environment.CurrentDirectory;
+        string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
+        string pathToChirp = "";
+        for (int i = 0; i < splitPath.Length - 1; i++)
+        {
+            pathToChirp += splitPath[i] + Path.DirectorySeparatorChar;
+            if (splitPath[i].ToLowerInvariant().Equals("chirp"))
+            {  
+                break;
+            }
+        }
+        return pathToChirp;
         
     }
     
