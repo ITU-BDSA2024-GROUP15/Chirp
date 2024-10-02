@@ -2,10 +2,10 @@
 
 namespace Chirp.Razor.Datamodel;
 
-public class CheepDBContext : DbContext
+public class CheepDBContext : DbContext //Used to give context to db
 {
     DbSet<Author> Authors { get; set; }
-    private DbSet<Cheep> Cheeps { get; set; }
+    DbSet<Cheep> Cheeps { get; set; }
 
 
     //Constructor
