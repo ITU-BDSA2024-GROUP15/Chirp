@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
-      <EmbeddedResource Include="data/chirp.db" />
+      <EmbeddedResource Include="data/**/*" />
       <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
   </ItemGroup>
 

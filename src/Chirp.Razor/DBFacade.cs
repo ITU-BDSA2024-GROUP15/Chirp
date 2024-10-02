@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.Reflection;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.FileProviders;
 
 namespace Chirp.Razor;
 
@@ -10,7 +12,12 @@ public class DBFacade<T>
         this.path = path;
         if (path == null )
         {
-            this.path = GetPathToDB();
+            this.path = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.GetTempPath() + "Chirp.db";
+
+            if ( !File.Exists(path) )
+            {
+                createDB();
+            }
         }
 
         if ( path == "test" )
@@ -58,39 +65,37 @@ public class DBFacade<T>
         }
         
     }
-    
-    private static string GetPathToChirp()
-    {
-        string absolutePath = Environment.CurrentDirectory;
-        string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
-        string pathToChirp = "";
-        for (int i = 0; i < splitPath.Length - 1; i++)
-        {
-            pathToChirp += splitPath[i] + Path.DirectorySeparatorChar;
-            if (splitPath[i].ToLowerInvariant().Equals("chirp"))
-            {  
-                break;
-            }
-        }
-        return pathToChirp;
-        
-    }
 
-    private static string GetPathToDB()
+
+    private void createDB()
     {
-        var pathToDB = GetPathToChirp();
-        pathToDB += "/src/Chirp.Razor/data/chirp.db";
-        return pathToDB;
+        var embeddedProviderSchema = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+        using var readerSchema = embeddedProviderSchema.GetFileInfo("/data/schema.sql").CreateReadStream();
+        using var srSchema = new StreamReader(readerSchema);
+
+        var querySchema = srSchema.ReadToEnd();
         
+        var embeddedProviderDump = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+        using var readerDump = embeddedProviderDump.GetFileInfo("/data/dump.sql").CreateReadStream();
+        using var srDump = new StreamReader(readerDump);
+        
+        var queryDump = srDump.ReadToEnd();
+
+        
+        using var connection = new SqliteConnection($"Data Source={path}");
+        
+        connection.Open();
+        var command = connection.CreateCommand();
+        command.CommandText = querySchema; //We execute schema
+        command.ExecuteNonQuery();
+
+        command.CommandText = queryDump; //We execute dump
+        command.ExecuteNonQuery();
+        
+        connection.Close();
     }
     
-    private static string GetPathToTestDB()
-    {
-        var pathToDB = GetPathToChirp();
-        pathToDB += "/test/data/test.db";
-        return pathToDB;
-        
-    }
+    
     /// <summary>
     /// This method converts unix time into the AM/PM format
     /// </summary>
@@ -110,7 +115,31 @@ public class DBFacade<T>
         //Formatting timestamp/date
         string timeStampFormatted = timeStamp.ToString("HH:mm:ss dd-MM-yyyy");
         return timeStampFormatted;
+    }
+    
+    
+    private static string GetPathToTestDB()
+    {
+        var pathToDB = GetPathToChirp();
+        pathToDB += "/test/data/test.db";
+        return pathToDB;
         
+    }
+    
+    private static string GetPathToChirp()
+    {
+        string absolutePath = Environment.CurrentDirectory;
+        string[] splitPath = absolutePath.Split(Path.DirectorySeparatorChar);
+        string pathToChirp = "";
+        for (int i = 0; i < splitPath.Length - 1; i++)
+        {
+            pathToChirp += splitPath[i] + Path.DirectorySeparatorChar;
+            if (splitPath[i].ToLowerInvariant().Equals("chirp"))
+            {  
+                break;
+            }
+        }
+        return pathToChirp;
         
     }
     
