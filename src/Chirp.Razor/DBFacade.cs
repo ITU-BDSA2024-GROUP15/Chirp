@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.Reflection;
+using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.FileProviders;
 
 namespace Chirp.Razor;
 
@@ -20,7 +22,7 @@ public class DBFacade<T>
 
         if ( path == "test" )
         {
-            this.path = GetPathToTestDB();
+            //this.path = GetPathToTestDB();
         }
     }
     
@@ -62,6 +64,35 @@ public class DBFacade<T>
 
         }
         
+    }
+
+
+    private void createDB()
+    {
+        var embeddedProviderSchema = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+        using var readerSchema = embeddedProviderSchema.GetFileInfo("/data/schema.sql").CreateReadStream();
+        using var srSchema = new StreamReader(readerSchema);
+
+        var querySchema = srSchema.ReadToEnd();
+        
+        var embeddedProviderDump = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+        using var readerDump = embeddedProviderDump.GetFileInfo("/data/dump.sql").CreateReadStream();
+        using var srDump = new StreamReader(readerDump);
+        
+        var queryDump = srDump.ReadToEnd();
+
+        
+        using var connection = new SqliteConnection($"Data Source={path}");
+        
+        connection.Open();
+        var command = connection.CreateCommand();
+        command.CommandText = querySchema; //We execute schema
+        command.ExecuteNonQuery();
+
+        command.CommandText = queryDump; //We execute dump
+        command.ExecuteNonQuery();
+        
+        connection.Close();
     }
     
     
