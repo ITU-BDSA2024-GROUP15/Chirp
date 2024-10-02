@@ -1,6 +1,12 @@
 using Chirp.Razor;
+using Chirp.Razor.Datamodel;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); //Takes default connection from appsettings.json to use for db
+builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
