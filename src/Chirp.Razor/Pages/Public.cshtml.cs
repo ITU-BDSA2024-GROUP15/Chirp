@@ -13,14 +13,12 @@ public class PublicModel : PageModel
         _service = service;
     }
     
-    public ActionResult OnGet([FromQuery] int page)
+    public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         Console.WriteLine($"page: {page}");
-     
-      Func<Task> _ = async () =>
-      {
-          Cheeps = await _service.GetCheeps(page);
-      };
-      return Page();
+        
+        Cheeps = await _service.GetCheeps(page);
+      
+        return Page();
     }
 }

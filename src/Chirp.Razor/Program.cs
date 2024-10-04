@@ -9,10 +9,18 @@ string? connectionString = builder.Configuration.GetConnectionString("DefaultCon
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<ICheepService, CheepService>();
+
 
 var app = builder.Build();
+
+using ( var serviceScope = app.Services.CreateScope() )
+{
+    var context = serviceScope.ServiceProvider.GetRequiredService<CheepDBContext>();
+    DbInitializer.SeedDatabase(context);
+}
+//DbInitializer.SeedDatabase( app.Services.GetService<CheepDBContext>() );
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

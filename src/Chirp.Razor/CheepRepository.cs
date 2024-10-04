@@ -22,7 +22,7 @@ public class CheepRepository : ICheepRepository
         var query = (from cheep in _context.Cheeps
                 orderby cheep.Timestamp descending
                 select cheep)
-            //.Include(c => c.Author)
+            .Include(c => c.Author)
             .Skip(page * 32).Take(32);
         var result = await query.ToListAsync();
         return result;
@@ -35,7 +35,7 @@ public class CheepRepository : ICheepRepository
                 where cheep.Author.Name == author
                 orderby cheep.Timestamp descending
                 select cheep)
-            //.Include(c => c.Author)
+            .Include(c => c.Author)
             .Skip(page * 32).Take(32);
         var result = await query.ToListAsync();
         return result;

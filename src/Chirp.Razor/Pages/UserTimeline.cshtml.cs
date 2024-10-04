@@ -14,12 +14,10 @@ public class UserTimelineModel : PageModel
     }
     
     
-    public ActionResult OnGet([FromQuery] int page, string author)
+    public async Task<ActionResult> OnGet([FromQuery] int page, string author)
     {
-        Func<Task> _ = async () =>
-        {
-            Cheeps = await _service.GetCheepsFromAuthor(page, author);
-        };
+        Cheeps = await _service.GetCheepsFromAuthor(page, author);
+        
         return Page();
     }
 }
