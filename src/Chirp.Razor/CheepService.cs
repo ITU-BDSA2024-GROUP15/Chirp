@@ -4,47 +4,56 @@ using Chirp.Razor;
 
 public interface ICheepService
 {
-    public List<Cheep> GetCheeps(int limit);
-    public List<Cheep> GetCheepsFromAuthor(string author, int limit);
-
-    public void ChangeDB(DBFacade facade);
+    public Task<List<CheepDTO>> GetCheeps(int limit);
+    public Task<List<CheepDTO>> GetCheepsFromAuthor(int page, string author);
 }
 
 public class CheepService : ICheepService
 {
-    private DBFacade facade;
+    private ICheepRepository repository;
 
 
-    public CheepService()
+    public CheepService(ICheepRepository repository)
     {
-        this.facade = new DBFacade(null);
+        this.repository = repository;
     }
     
-    public List<Cheep> GetCheeps(int limit) //TODO ASK TA IF THIS IS ILLEGAL
+    public async Task<List<CheepDTO>> GetCheeps(int page) //TODO ASK TA IF THIS IS ILLEGAL
        {
-           if ( limit == 0 )
+           if ( page == 0 )
            {
-               limit = 1;
+               page = 1;
            }
-           
-           
-           return facade.read($"SELECT * FROM(Select U.username, M.text, M.pub_date, ROW_NUMBER() OVER (ORDER BY M.pub_date DESC) AS RowNum from message M join user U on M.author_id = U.user_id) WHERE RowNum BETWEEN 1 +((\"{limit}\" - 1) * 32) AND \"{limit}\" * 32");
+           var queryresult = await repository.GetCheeps(page);
+           var result = new List<CheepDTO>();
+           foreach (var cheep in queryresult)
+           {    
+               var dto = new CheepDTO();
+               dto.author = cheep.Author.Name;
+               dto.message = cheep.Text;
+               dto.timestamp = cheep.Timestamp;
+               result.Add(dto);
+           }
+           return result;
        }
 
-    public List<Cheep> GetCheepsFromAuthor(string author, int limit)
+    public async Task<List<CheepDTO>> GetCheepsFromAuthor(int page, string author)
     {
-        if ( limit == 0 )
+        if ( page == 0 )
         {
-            limit = 1;
+            page = 1;
         }
-        // filter by the provided author name
-        return facade.read($"SELECT * FROM (SELECT U.username, M.text, M.pub_date, ROW_NUMBER() OVER (ORDER BY M.pub_date DESC) AS RowNum FROM message M JOIN user U ON m.author_id = U.user_id WHERE U.username = \"{author}\")WHERE RowNum BETWEEN 1 + ((\"{limit}\" - 1) * 32) AND \"{limit}\" * 32"); 
-    }
-    
-
-    public void ChangeDB(DBFacade facade)
-    {
-        this.facade = facade;
+        var queryresult = await repository.GetCheepsFromAuthor(page, author);
+        var result = new List<CheepDTO>();
+        foreach (var cheep in queryresult)
+        {    
+            var dto = new CheepDTO();
+            dto.author = cheep.Author.Name;
+            dto.message = cheep.Text;
+            dto.timestamp = cheep.Timestamp;
+            result.Add(dto);
+        }
+        return result;
     }
  
 }

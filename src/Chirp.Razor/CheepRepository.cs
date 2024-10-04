@@ -8,31 +8,36 @@ public class CheepRepository : ICheepRepository
 
     //This should handle data logic for cheep
     
-    private readonly DBFacade dbFacade;
+    private readonly CheepDBContext _context;
 
 
-    public CheepRepository(DBFacade dbFacade)
+    public CheepRepository(CheepDBContext _context)
     {
-        this.dbFacade = dbFacade;
+        this._context = _context;
     }
     
     
-    public Task<List<Cheep>> GetCheeps()
+    public async Task<List<Cheep>> GetCheeps(int page)
     {
-        return null;
-    }
-
-
-    public async Task<List<Cheep>> GetCheepsFromAuthor(string author)
-    {
-        
-        var query = from cheep in CheepDBContext.Cheeps
-            where cheep.Author.Name == author
-            select cheep;
-        // Execute the query and store the results
+        var query = (from cheep in _context.Cheeps
+                orderby cheep.Timestamp descending
+                select cheep)
+            //.Include(c => c.Author)
+            .Skip(page * 32).Take(32);
         var result = await query.ToListAsync();
-        return(result);
-        
-        return null;
+        return result;
+    }
+
+
+    public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string author)
+    {
+        var query = (from cheep in _context.Cheeps
+                where cheep.Author.Name == author
+                orderby cheep.Timestamp descending
+                select cheep)
+            //.Include(c => c.Author)
+            .Skip(page * 32).Take(32);
+        var result = await query.ToListAsync();
+        return result;
     }
 }
