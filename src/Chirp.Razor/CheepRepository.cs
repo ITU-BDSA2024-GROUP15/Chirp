@@ -1,4 +1,7 @@
-﻿namespace Chirp.Razor;
+﻿using Chirp.Razor.Datamodel;
+using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Razor;
 
 public class CheepRepository : ICheepRepository
 {
@@ -20,8 +23,16 @@ public class CheepRepository : ICheepRepository
     }
 
 
-    public Task<List<Cheep>> GetCheepsFromAuthor(string author)
+    public async Task<List<Cheep>> GetCheepsFromAuthor(string author)
     {
+        
+        var query = from cheep in CheepDBContext.Cheeps
+            where cheep.Author.Name == author
+            select cheep;
+        // Execute the query and store the results
+        var result = await query.ToListAsync();
+        return(result);
+        
         return null;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Chirp.Razor;
+﻿using Chirp.Razor.Datamodel;
+
+namespace Chirp.Razor;
 
 public interface ICheepRepository
 {
