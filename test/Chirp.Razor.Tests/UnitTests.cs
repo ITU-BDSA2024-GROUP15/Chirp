@@ -1,5 +1,7 @@
 using Xunit;
 using Chirp.Razor;
+using Chirp.Razor.Datamodel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
 
@@ -9,8 +11,13 @@ public class UnitTests
     [Fact]
     public void TestGetCheepsAmount()
     {
-        ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade("test"));
+        
+        
+        var builder = new DbContextOptionsBuilder<DbContext>();
+        builder.UseSqlite("pathtodb");
+        CheepRepository repository = new CheepRepository();
+        ICheepService service = new CheepService(repository);
+        
         List<Cheep> Cheeps = service.GetCheeps(0);
         
         Assert.True(Cheeps.Count == 32);
