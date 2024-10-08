@@ -10,7 +10,7 @@ public class UnitTests
     public void TestGetCheepsAmount()
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheeps(0);
         
         Assert.True(Cheeps.Count == 32);
@@ -22,7 +22,7 @@ public class UnitTests
     public void TestGetCheepsPage1()
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheeps(1);
         var cheep = Cheeps[0];
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Message);    
@@ -32,7 +32,7 @@ public class UnitTests
     public void TestGetCheepsPage2()
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheeps(2);
         var cheep = Cheeps[0];
         Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Message);  
@@ -42,7 +42,7 @@ public class UnitTests
     public void TestGetCheepsLastPage() 
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheeps(21);
         
         Assert.True(Cheeps.Count == 17);
@@ -52,7 +52,7 @@ public class UnitTests
     public void TestGetCheepsBeyondLimit() 
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheeps(32);
         
         Assert.True(Cheeps.Count == 0);    
@@ -63,7 +63,7 @@ public class UnitTests
     public void TestGetCheepsFromAuthor() 
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (0));
         //we know Jacqualine isn't the first author on the public timeline.
         Assert.True(Cheeps[0].Author == "Jacqualine Gilcoine" && Cheeps.Count == 32);
@@ -73,7 +73,7 @@ public class UnitTests
     public void TestGetCheepsFromAuthorPage2()
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (2));
         
         Assert.Equal("What a relief it was the place examined.", Cheeps[0].Message);
@@ -83,7 +83,7 @@ public class UnitTests
     public void TestGetCheepsFromAuthorLastPage()
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (12));
         
         Assert.True(Cheeps.Count == 7 && Cheeps[0].Author == "Jacqualine Gilcoine");    
@@ -93,7 +93,7 @@ public class UnitTests
     public void TestGetCheepsFromAuthorBeyondLimit()
     {
         ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade<Cheep>("test"));
+        service.ChangeDB(new DBFacade("test"));
         List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (20));
         
         Assert.True(Cheeps.Count == 0);   
@@ -105,6 +105,6 @@ public class UnitTests
     [Fact]
     public void TestParseDateTime()
     {
-        Assert.Equal("23:21:56 07-09-2024", DBFacade<Cheep>.parseDateTime(1725744116));
+        Assert.Equal("23:21:56 07-09-2024", DBFacade.parseDateTime(1725744116));
     }
 }
