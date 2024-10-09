@@ -23,8 +23,7 @@ public class CheepRepository : ICheepRepository
                 orderby cheep.Timestamp descending
                 select cheep)
             .Include(c => c.Author)
-            .Skip(page - 1 * 32).Take(32);
-        Console.WriteLine(query.Count());
+            .Skip((page -1) * 32).Take(32);
         var result = await query.ToListAsync();
         return result;
     }
@@ -37,9 +36,10 @@ public class CheepRepository : ICheepRepository
                 orderby cheep.Timestamp descending
                 select cheep)
             .Include(c => c.Author)
-            .Skip(page - 1 * 32).Take(32);
-        Console.WriteLine(query.Count());
+            .Skip((page - 1) * 32).Take(32);
         var result = await query.ToListAsync();
         return result;
     }
+
+    
 }
