@@ -25,7 +25,7 @@ using ( var serviceScope = app.Services.CreateScope() )
 {
     var context = serviceScope.ServiceProvider.GetRequiredService<CheepDBContext>();
     
-    //DbInitializer.SeedDatabase(context);
+    DbInitializer.SeedDatabase(context);
 }
 //DbInitializer.SeedDatabase( app.Services.GetService<CheepDBContext>() );
 
