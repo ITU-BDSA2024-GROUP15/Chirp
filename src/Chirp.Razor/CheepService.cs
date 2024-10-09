@@ -1,6 +1,4 @@
-
-
-using Chirp.Razor;
+namespace Chirp.Razor;
 
 public interface ICheepService
 {
