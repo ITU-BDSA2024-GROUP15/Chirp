@@ -1,6 +1,8 @@
 using System.Reflection;
-using Chirp.Razor;
-using Chirp.Razor.Datamodel;
+using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Services;
+using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
