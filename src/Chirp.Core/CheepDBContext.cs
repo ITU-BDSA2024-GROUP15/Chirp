@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿namespace Chirp.Core;
 
-namespace Chirp.Razor.Datamodel;
+using Microsoft.EntityFrameworkCore;
+
 
 public class CheepDbContext : DbContext //Used to give context to db
 {

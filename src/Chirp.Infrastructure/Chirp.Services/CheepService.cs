@@ -1,6 +1,7 @@
-using Chirp.Razor.Datamodel;
+using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Repositories;
 
-namespace Chirp.Razor;
+namespace Chirp.Infrastructure.Chirp.Services;
 
 public interface ICheepService
 {
@@ -63,13 +64,13 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task<Author?> getAuthorByEmail(string email)
+    public async Task<Author?> GetAuthorByEmail(string email)
     {
        return await _authorRepository.GetAuthorByEmail(email);
         
     }
 
-    public async Task<Author?> getAuthorByNAme(string name)
+    public async Task<Author?> GetAuthorByNAme(string name)
     {
         return await _authorRepository.GetAuthorByName(name);
         

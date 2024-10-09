@@ -1,6 +1,6 @@
-﻿using Chirp.Razor.Datamodel;
+﻿using Chirp.Core;
 
-namespace Chirp.Razor;
+namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public interface IAuthorRepository
 {

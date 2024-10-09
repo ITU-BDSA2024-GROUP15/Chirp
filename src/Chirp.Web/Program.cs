@@ -1,5 +1,7 @@
-using Chirp.Razor;
-using Chirp.Razor.Datamodel;
+using System.Reflection;
+using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,7 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
 var app = builder.Build();

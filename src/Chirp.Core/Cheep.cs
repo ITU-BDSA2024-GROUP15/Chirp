@@ -1,7 +1,7 @@
-﻿
+﻿namespace Chirp.Core;
+
 using System.ComponentModel.DataAnnotations;
 
-namespace Chirp.Razor.Datamodel;
 
 public class Cheep
 {

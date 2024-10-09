@@ -1,7 +1,7 @@
-﻿using Chirp.Razor.Datamodel;
+﻿using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor;
+namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public class AuthorRepository : IAuthorRepository
 {
