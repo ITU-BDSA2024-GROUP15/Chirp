@@ -16,7 +16,7 @@ public class CheepService : ICheepService
         this._repository = repository;
     }
     
-    public async Task<List<CheepDto>> GetCheeps(int page) //TODO ASK TA IF THIS IS ILLEGAL
+    public async Task<List<CheepDto>> GetCheeps(int page)
        {
            if ( page == 0 )
            {
