@@ -8,6 +8,10 @@
 <div>
     <h2> Public Timeline </h2>
 
+
+    @{
+        System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
+    }
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
