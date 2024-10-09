@@ -7,6 +7,13 @@ namespace Chirp.Razor.Tests;
 
 public class UnitTests
 {
+
+    public UnitTests()
+    {
+        
+    }
+    
+    
     //CheepService
     [Fact]
     public void TestGetCheepsAmount()
