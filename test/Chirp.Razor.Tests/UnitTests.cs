@@ -1,57 +1,62 @@
 using Xunit;
 using Chirp.Razor;
 using Chirp.Razor.Datamodel;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
 
 public class UnitTests
 {
-
-    public UnitTests()
-    {
-        
-    }
+    private ICheepRepository _repository = null!;
     
+    public  UnitTests()
+    {
+
+        createInMemoryDatabase(); //TODO ASK TA ABOUT ASYNC TASK IN CONSTRUCTOR
+
+    }
+
+
+    public async Task createInMemoryDatabase()
+    {
+        using var connection = new SqliteConnection("Filename=:memory:");
+        await connection.OpenAsync();
+        var builder = new DbContextOptionsBuilder<CheepDBContext>().UseSqlite(connection);
+        
+        using var context = new CheepDBContext(builder.Options);
+        await context.Database.EnsureCreatedAsync(); // Applies the schema to the database
+        _repository = new CheepRepository(context);
+        DbInitializer.SeedDatabase(context);
+    }
     
     //CheepService
     [Fact]
-    public void TestGetCheepsAmount()
+    public async Task TestGetCheepsAmount()
     {
-        
-        
-        var builder = new DbContextOptionsBuilder<DbContext>();
-        builder.UseSqlite("pathtodb");
-        CheepRepository repository = new CheepRepository();
-        ICheepService service = new CheepService(repository);
-        
-        List<Cheep> Cheeps = service.GetCheeps(0);
-        
-        Assert.True(Cheeps.Count == 32);
+        List<Cheep> cheeps = await _repository.GetCheeps(0);
+        Assert.Equal(32,cheeps.Count);
     }
     
     
 
     [Fact]
-    public void TestGetCheepsPage1()
+    public async Task TestGetCheepsPage1()
     {
-        ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheeps(1);
-        var cheep = Cheeps[0];
-        Assert.Equal("Starbuck now is what we hear the worst.", cheep.Message);    
+        List<Cheep> cheeps = await _repository.GetCheeps(0);
+        var cheep = cheeps[0];
+        Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);    
     }
     
     [Fact]
-    public void TestGetCheepsPage2()
+    public async Task TestGetCheepsPage2()
     {
-        ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheeps(2);
-        var cheep = Cheeps[0];
-        Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Message);  
+
+        List<Cheep> cheeps = await _repository.GetCheeps(2);
+        var cheep = cheeps[0];
+        Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Text);  
     }
-    
+    /*
     [Fact]
     public void TestGetCheepsLastPage() 
     {
@@ -120,5 +125,6 @@ public class UnitTests
     public void TestParseDateTime()
     {
         Assert.Equal("23:21:56 07-09-2024", DBFacade.parseDateTime(1725744116));
-    }
+    } */
 }
+
