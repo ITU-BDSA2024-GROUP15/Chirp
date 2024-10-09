@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chirp.Razor.Migrations
 {
-    [DbContext(typeof(CheepDBContext))]
+    [DbContext(typeof(CheepDbContext))]
     [Migration("20241002222904_InitialDBSchema")]
     partial class InitialDBSchema
     {
