@@ -1,8 +1,6 @@
-using System.Reflection;
 using Chirp.Razor;
 using Chirp.Razor.Datamodel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
