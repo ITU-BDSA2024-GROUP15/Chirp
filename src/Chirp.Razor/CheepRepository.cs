@@ -11,9 +11,9 @@ public class CheepRepository : ICheepRepository
     private readonly CheepDBContext _context;
 
 
-    public CheepRepository(CheepDBContext _context)
+    public CheepRepository(CheepDBContext context)
     {
-        this._context = _context;
+        this._context = context;
     }
     
     

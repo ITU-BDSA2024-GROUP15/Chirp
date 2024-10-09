@@ -1,10 +1,21 @@
-﻿namespace Chirp.Razor.Datamodel;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Chirp.Razor.Datamodel;
 
 public class Author
 {
-    public int AuthorId { get; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public List<Cheep> Cheeps { get; set; }
+    [StringLength(100)]
+    [Required]
+    public required int AuthorId { get; set; }
+    
+    [StringLength(100)]
+    [Required]
+    public required string Name { get; set; }
+    
+    [StringLength(100)]
+    [Required]
+    public required string Email { get; set; }
+    
+    public List<Cheep>? Cheeps { get; set; }
     
 }
