@@ -1,6 +1,7 @@
+using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Repositories;
 
-
-using Chirp.Razor;
+namespace Chirp.Infrastructure.Chirp.Services;
 
 public interface ICheepService
 {

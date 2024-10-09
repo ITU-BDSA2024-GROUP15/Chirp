@@ -1,6 +1,8 @@
 using Xunit;
 using Chirp.Razor;
-using Chirp.Razor.Datamodel;
+using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Services;
+using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
@@ -121,4 +123,5 @@ public class UnitTests
     {
         Assert.Equal("23:21:56 07-09-2024", DBFacade.parseDateTime(1725744116));
     }
+    
 }

@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Chirp.Razor.Datamodel;
+﻿namespace Chirp.Core;
 
 public class Cheep
 {
