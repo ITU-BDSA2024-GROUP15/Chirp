@@ -8,6 +8,10 @@
 <div>
     <h2> Public Timeline </h2>
 
+
+    @{
+        System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
+    }
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
@@ -16,10 +20,10 @@
                 <li>
                     <p>
                         <strong>
-                            <a href="/@cheep.author">@cheep.author</a>
+                            <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
-                        @cheep.message
-                        <small>&mdash; @cheep.timestamp</small>
+                        @cheep.Message
+                        <small>&mdash; @cheep.Timestamp</small>
                     </p>
                 </li>
             }

@@ -1,8 +1,6 @@
-using System.Reflection;
 using Chirp.Razor;
 using Chirp.Razor.Datamodel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); //Takes default connection from appsettings.json to use for db
 
 
-builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
 
 // Add services to the container.
@@ -23,7 +21,7 @@ var app = builder.Build();
 
 using ( var serviceScope = app.Services.CreateScope() )
 {
-    var context = serviceScope.ServiceProvider.GetRequiredService<CheepDBContext>();
+    var context = serviceScope.ServiceProvider.GetRequiredService<CheepDbContext>();
     
     DbInitializer.SeedDatabase(context);
 }
