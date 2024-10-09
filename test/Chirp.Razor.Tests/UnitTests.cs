@@ -10,14 +10,14 @@ public class UnitTests
 {
     private ICheepRepository _repository = null!;
     
-    public  UnitTests()
+    public  UnitTests() // TODO MAKE UTILITY CLASS. Wer're going to use the code for each class ;)
     {
 
-        createInMemoryDatabase(); //TODO ASK TA ABOUT ASYNC TASK IN CONSTRUCTOR
+        createInMemoryDatabase(); 
 
     }
 
-
+    
     public async Task createInMemoryDatabase()
     {
         using var connection = new SqliteConnection("Filename=:memory:");
