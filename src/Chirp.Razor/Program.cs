@@ -22,6 +22,8 @@ var app = builder.Build();
 using ( var serviceScope = app.Services.CreateScope() )
 {
     var context = serviceScope.ServiceProvider.GetRequiredService<CheepDbContext>();
+
+    context.Database.EnsureCreated();
     
     DbInitializer.SeedDatabase(context);
 }
