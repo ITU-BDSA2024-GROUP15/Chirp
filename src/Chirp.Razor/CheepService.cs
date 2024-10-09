@@ -28,10 +28,12 @@ public class CheepService : ICheepService
            var result = new List<CheepDto>();
            foreach (var cheep in queryresult)
            {    
-               var dto = new CheepDto();
-               dto.Author = cheep.Author.Name;
-               dto.Message = cheep.Text;
-               dto.Timestamp = cheep.Timestamp;
+               var dto = new CheepDto
+               {
+                   Author = cheep.Author.Name,
+                   Message = cheep.Text,
+                   Timestamp = cheep.Timestamp
+               };
                result.Add(dto);
            }
            return result;
@@ -47,10 +49,12 @@ public class CheepService : ICheepService
         var result = new List<CheepDto>();
         foreach (var cheep in queryresult)
         {    
-            var dto = new CheepDto();
-            dto.Author = cheep.Author.Name;
-            dto.Message = cheep.Text;
-            dto.Timestamp = cheep.Timestamp;
+            var dto = new CheepDto
+            {
+                Author = cheep.Author.Name,
+                Message = cheep.Text,
+                Timestamp = cheep.Timestamp
+            };
             result.Add(dto);
         }
         return result;
