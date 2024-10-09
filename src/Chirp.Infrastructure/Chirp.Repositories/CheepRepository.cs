@@ -1,20 +1,19 @@
 ﻿using Chirp.Core;
-using Chirp.Infrastructure.Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public class CheepRepository : ICheepRepository
 {
 
     //This should handle data logic for cheep
     
-    private readonly CheepDBContext _context;
+    private readonly CheepDbContext _context;
 
 
-    public CheepRepository(CheepDBContext _context)
+    public CheepRepository(CheepDbContext context)
     {
-        this._context = _context;
+        this._context = context;
     }
     
     
@@ -24,8 +23,7 @@ public class CheepRepository : ICheepRepository
                 orderby cheep.Timestamp descending
                 select cheep)
             .Include(c => c.Author)
-            .Skip(page - 1 * 32).Take(32);
-        Console.WriteLine(query.Count());
+            .Skip((page -1) * 32).Take(32);
         var result = await query.ToListAsync();
         return result;
     }
@@ -38,9 +36,10 @@ public class CheepRepository : ICheepRepository
                 orderby cheep.Timestamp descending
                 select cheep)
             .Include(c => c.Author)
-            .Skip(page - 1 * 32).Take(32);
-        Console.WriteLine(query.Count());
+            .Skip((page - 1) * 32).Take(32);
         var result = await query.ToListAsync();
         return result;
     }
+
+    
 }

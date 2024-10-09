@@ -1,8 +1,8 @@
 using Xunit;
 using Chirp.Razor;
 using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
-using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
@@ -27,9 +27,9 @@ public class UnitTests
         CheepRepository repository = new CheepRepository();
         ICheepService service = new CheepService(repository);
         
-        List<Cheep> Cheeps = service.GetCheeps(0);
+        List<Cheep> cheeps = service.GetCheeps(0);
         
-        Assert.True(Cheeps.Count == 32);
+        Assert.True(cheeps.Count == 32);
     }
     
     
@@ -39,8 +39,8 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheeps(1);
-        var cheep = Cheeps[0];
+        List<Cheep> cheeps = service.GetCheeps(1);
+        var cheep = cheeps[0];
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Message);    
     }
     
@@ -49,8 +49,8 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheeps(2);
-        var cheep = Cheeps[0];
+        List<Cheep> cheeps = service.GetCheeps(2);
+        var cheep = cheeps[0];
         Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Message);  
     }
     
@@ -59,9 +59,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheeps(21);
+        List<Cheep> cheeps = service.GetCheeps(21);
         
-        Assert.True(Cheeps.Count == 17);
+        Assert.True(cheeps.Count == 17);
     }
     
     [Fact]
@@ -69,9 +69,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheeps(32);
+        List<Cheep> cheeps = service.GetCheeps(32);
         
-        Assert.True(Cheeps.Count == 0);    
+        Assert.True(cheeps.Count == 0);    
     }
     
     
@@ -80,9 +80,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (0));
+        List<Cheep> cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (0));
         //we know Jacqualine isn't the first author on the public timeline.
-        Assert.True(Cheeps[0].Author == "Jacqualine Gilcoine" && Cheeps.Count == 32);
+        Assert.True(cheeps[0].Author == "Jacqualine Gilcoine" && cheeps.Count == 32);
     }
     
     [Fact]
@@ -90,9 +90,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (2));
+        List<Cheep> cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (2));
         
-        Assert.Equal("What a relief it was the place examined.", Cheeps[0].Message);
+        Assert.Equal("What a relief it was the place examined.", cheeps[0].Message);
     }    
     
     [Fact]
@@ -100,9 +100,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (12));
+        List<Cheep> cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (12));
         
-        Assert.True(Cheeps.Count == 7 && Cheeps[0].Author == "Jacqualine Gilcoine");    
+        Assert.True(cheeps.Count == 7 && cheeps[0].Author == "Jacqualine Gilcoine");    
     }
     
     [Fact]
@@ -110,9 +110,9 @@ public class UnitTests
     {
         ICheepService service = new CheepService();
         service.ChangeDB(new DBFacade("test"));
-        List<Cheep> Cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (20));
+        List<Cheep> cheeps = service.GetCheepsFromAuthor("Jacqualine Gilcoine", (20));
         
-        Assert.True(Cheeps.Count == 0);   
+        Assert.True(cheeps.Count == 0);   
     }    
 
 

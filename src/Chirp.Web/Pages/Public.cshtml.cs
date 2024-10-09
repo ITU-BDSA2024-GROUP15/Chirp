@@ -8,7 +8,7 @@ namespace Chirp.Razor.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-    public List<CheepDTO> Cheeps { get; set; }
+    public List<CheepDto>? Cheeps { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -17,7 +17,6 @@ public class PublicModel : PageModel
     
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        Console.WriteLine($"page: {page}");
         
         Cheeps = await _service.GetCheeps(page);
       

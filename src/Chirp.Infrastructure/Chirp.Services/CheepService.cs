@@ -5,56 +5,74 @@ namespace Chirp.Infrastructure.Chirp.Services;
 
 public interface ICheepService
 {
-    public Task<List<CheepDTO>> GetCheeps(int limit);
-    public Task<List<CheepDTO>> GetCheepsFromAuthor(int page, string author);
+    public Task<List<CheepDto>> GetCheeps(int limit);
+    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author);
 }
 
 public class CheepService : ICheepService
 {
-    private ICheepRepository repository;
+    private ICheepRepository _cheepRepository;
+    private IAuthorRepository _authorRepository;
 
 
-    public CheepService(ICheepRepository repository)
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        this.repository = repository;
+        this._cheepRepository = cheepRepository;
+        this._authorRepository = authorRepository;
     }
     
-    public async Task<List<CheepDTO>> GetCheeps(int page) //TODO ASK TA IF THIS IS ILLEGAL
+    public async Task<List<CheepDto>> GetCheeps(int page)
        {
            if ( page == 0 )
            {
                page = 1;
            }
-           var queryresult = await repository.GetCheeps(page);
-           var result = new List<CheepDTO>();
+           var queryresult = await _cheepRepository.GetCheeps(page);
+           var result = new List<CheepDto>();
            foreach (var cheep in queryresult)
            {    
-               var dto = new CheepDTO();
-               dto.author = cheep.Author.Name;
-               dto.message = cheep.Text;
-               dto.timestamp = cheep.Timestamp;
+               var dto = new CheepDto
+               {
+                   Author = cheep.Author.Name,
+                   Message = cheep.Text,
+                   Timestamp = cheep.Timestamp
+               };
                result.Add(dto);
            }
            return result;
        }
 
-    public async Task<List<CheepDTO>> GetCheepsFromAuthor(int page, string author)
+    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
     {
         if ( page == 0 )
         {
             page = 1;
         }
-        var queryresult = await repository.GetCheepsFromAuthor(page, author);
-        var result = new List<CheepDTO>();
+        var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, author);
+        var result = new List<CheepDto>();
         foreach (var cheep in queryresult)
         {    
-            var dto = new CheepDTO();
-            dto.author = cheep.Author.Name;
-            dto.message = cheep.Text;
-            dto.timestamp = cheep.Timestamp;
+            var dto = new CheepDto
+            {
+                Author = cheep.Author.Name,
+                Message = cheep.Text,
+                Timestamp = cheep.Timestamp
+            };
             result.Add(dto);
         }
         return result;
     }
- 
+
+
+    public async Task<Author?> GetAuthorByEmail(string email)
+    {
+       return await _authorRepository.GetAuthorByEmail(email);
+        
+    }
+
+    public async Task<Author?> GetAuthorByNAme(string name)
+    {
+        return await _authorRepository.GetAuthorByName(name);
+        
+    }
 }
