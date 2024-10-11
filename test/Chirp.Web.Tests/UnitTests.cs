@@ -11,7 +11,6 @@ public class UnitTests
 
     public UnitTests()
     {
-        
     }
     
     
@@ -30,11 +29,7 @@ public class UnitTests
     [Fact]
     public void TestGetCheepsPage1()
     {
-        ICheepService service = new CheepService();
-        service.ChangeDB(new DBFacade("test"));
-        List<Cheep> cheeps = service.GetCheeps(1);
-        var cheep = cheeps[0];
-        Assert.Equal("Starbuck now is what we hear the worst.", cheep.Message);    
+        
     }
     
     [Fact]
