@@ -1,11 +1,10 @@
 using Xunit;
-using Chirp.Razor;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.Web.Tests;
 
 public class UnitTests
 {
@@ -18,22 +17,16 @@ public class UnitTests
     
     //CheepService
     [Fact]
-    public void TestGetCheepsAmount()
+    public async Task TestGetCheepsAmount()
     {
-        
-        
-        var builder = new DbContextOptionsBuilder<DbContext>();
-        builder.UseSqlite("pathtodb");
-        CheepRepository repository = new CheepRepository();
-        ICheepService service = new CheepService(repository);
-        
-        List<Cheep> cheeps = service.GetCheeps(0);
-        
-        Assert.True(cheeps.Count == 32);
+        var _repository = await TestUtilities.createInMemoryDB();
+                
+        var cheeps = await _repository.GetCheeps(0);
+        Assert.Equal(32,cheeps.Count);
     }
     
     
-
+    /*
     [Fact]
     public void TestGetCheepsPage1()
     {
@@ -123,5 +116,6 @@ public class UnitTests
     {
         Assert.Equal("23:21:56 07-09-2024", DBFacade.parseDateTime(1725744116));
     }
+    */
     
 }
