@@ -13,7 +13,7 @@ public class AuthorRepository : IAuthorRepository
 
     public AuthorRepository(CheepDbContext context)
     {
-        this._context = context;
+        _context = context;
     }
     
     
@@ -41,7 +41,19 @@ public class AuthorRepository : IAuthorRepository
 
     public Task<Author> CreateAuthor(string name, string email)
     {
+        //Should get id for new author 1 bigger than the current max 
+        int maxID = _context.Authors.Max(author => author.AuthorId);
         
+        //Create new author
+        var newAuthor = new Author()
+        {
+            AuthorId = maxID + 1,
+            Name = name,
+            Email = email
+        };
+        
+        _context.Authors.Add(newAuthor);
+        _context.SaveChanges();
         
         throw new NotImplementedException();
     }
