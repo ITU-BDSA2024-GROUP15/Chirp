@@ -1,8 +1,4 @@
 using Xunit;
-using Chirp.Core;
-using Chirp.Infrastructure.Chirp.Repositories;
-using Chirp.Infrastructure.Chirp.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web.Tests;
 

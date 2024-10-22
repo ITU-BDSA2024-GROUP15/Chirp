@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.Web.Tests;
 
 
 public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
