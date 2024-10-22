@@ -89,6 +89,6 @@ public class CheepService : ICheepService
         {
             await AddAuthor(name, email);
         }
-        await _cheepRepository.AddCheep(name, text);
+        await _cheepRepository.AddCheep(name, await GetAuthorByEmail(email));
     }
 }
