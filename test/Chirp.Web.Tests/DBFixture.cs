@@ -23,11 +23,14 @@ public class DBFixture : IAsyncLifetime
         await connection.OpenAsync();
         var builder = new DbContextOptionsBuilder<CheepDbContext>().UseSqlite(connection);
 
+        
+        
         var context = new CheepDbContext(builder.Options);
         await context.Database.EnsureCreatedAsync(); // Applies the schema to the database
+        DbInitializer.SeedDatabase(context); //Here we could make our own data
 
         CheepRepository = new CheepRepository(context);
-        DbInitializer.SeedDatabase(context);
+        
     }
 
 
