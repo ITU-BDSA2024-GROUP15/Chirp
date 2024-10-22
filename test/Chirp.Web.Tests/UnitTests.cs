@@ -103,7 +103,22 @@ public class UnitTests
         
         Assert.True(cheeps.Count == 0);   
         TestUtilities.closeConnection();
-    }    
+    }
+
+
+    [Fact]
+    public async Task TestAddCheep()
+    {
+        var repository = await TestUtilities.createInMemoryDB();
+
+        var cheepsBefore = await repository.GetCheepsFromAuthor(0, "Mellie Yost");
+
+        await repository.AddCheep("Mellie Yost", "Hiiii!");
+        
+        var cheepsAfter = await repository.GetCheepsFromAuthor(0, "Mellie Yost");
+        
+        Assert.True(cheepsBefore.Count != cheepsAfter.Count);
+    }
 
     
 }
