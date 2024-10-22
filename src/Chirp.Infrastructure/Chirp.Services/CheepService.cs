@@ -70,9 +70,25 @@ public class CheepService : ICheepService
         
     }
 
-    public async Task<Author?> GetAuthorByNAme(string name)
+    public async Task<Author?> GetAuthorByName(string name)
     {
         return await _authorRepository.GetAuthorByName(name);
         
+    }
+
+
+    public async Task AddAuthor(string name, string email)
+    {
+        await _authorRepository.CreateAuthor(name, email);
+    }
+
+
+    public async Task AddCheep(string text, string name, string email)
+    {
+        if ( await GetAuthorByName(name) == null )
+        {
+            await AddAuthor(name, email);
+        }
+        await _cheepRepository.AddCheep(name, text);
     }
 }

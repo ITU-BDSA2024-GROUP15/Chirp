@@ -6,4 +6,6 @@ public interface ICheepRepository
 {
     public Task<List<Cheep>> GetCheeps(int page);
     public Task<List<Cheep>> GetCheepsFromAuthor(int page, string author); 
+    
+    public Task AddCheep(string author, string text);
 }
