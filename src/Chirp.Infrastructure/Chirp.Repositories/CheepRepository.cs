@@ -46,7 +46,7 @@ public class CheepRepository : ICheepRepository
     public async Task AddCheep(string authorName, string text)
     {
         //Get author and author id
-        AuthorRepository authorRepository = new AuthorRepository(_context); //this bad?
+        AuthorRepository authorRepository = new AuthorRepository(_context); //this bad? 
 
         var author = await authorRepository.GetAuthorByName(authorName);
         int maxId = _context.Cheeps.Max(cheep => cheep.CheepId);
