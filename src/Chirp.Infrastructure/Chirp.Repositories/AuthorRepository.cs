@@ -26,13 +26,13 @@ public class AuthorRepository : IAuthorRepository
         Console.WriteLine(query);
         if ( result.Count == 0 )
         {
-            return null;
+            throw new Exception("No author found");
         }
         return result[0];
     }
 
 
-    public async Task<Author?> GetAuthorByEmail(string email)
+    public async Task<Author> GetAuthorByEmail(string email)
     {
         var query = (from author in _context.Authors
                 where author.Email == email
@@ -41,7 +41,7 @@ public class AuthorRepository : IAuthorRepository
         Console.WriteLine(query);
         if ( result.Count == 0 )
         {
-            return null;
+            throw new Exception("No author found");
         }
         return result[0];
     }
@@ -50,12 +50,12 @@ public class AuthorRepository : IAuthorRepository
     public async Task CreateAuthor(string name, string email)
     {
         //Should get id for new author 1 bigger than the current max 
-        int maxID = _context.Authors.Max(author => author.AuthorId);
+        int maxId = _context.Authors.Max(author => author.AuthorId);
         
         //Create new author
         var newAuthor = new Author()
         {
-            AuthorId = maxID + 1,
+            AuthorId = maxId + 1,
             Name = name,
             Email = email
         };
