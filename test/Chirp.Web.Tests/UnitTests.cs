@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web.Tests;
 
-public class UnitTests
+public class UnitTests : IClassFixture<DBFixture>
 {
+    private DBFixture _fixture;
 
-    public UnitTests()
+    
+    public UnitTests(DBFixture fixture)
     {
+        _fixture = fixture;
     }
     
     
@@ -18,9 +21,11 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsAmount()
     {
-        var _repository = await TestUtilities.createInMemoryDB();
-                
-        var cheeps = await _repository.GetCheeps(0);
+        await _fixture.InitializeAsync();
+        
+        
+        
+        var cheeps = await _fixture.CheepRepository.GetCheeps(0);
         Assert.Equal(32,cheeps.Count);
     }
     
