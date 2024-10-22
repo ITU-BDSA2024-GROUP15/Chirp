@@ -45,7 +45,7 @@ public class CheepRepository : ICheepRepository
 
     public async Task AddCheep(string text, Author author)
     {
-        int maxId = _context.Cheeps.Max(cheep => cheep.CheepId);
+        int maxId = _context.Cheeps.Max(cheep => cheep.CheepId); 
 
         Cheep cheep = new Cheep()
         {
