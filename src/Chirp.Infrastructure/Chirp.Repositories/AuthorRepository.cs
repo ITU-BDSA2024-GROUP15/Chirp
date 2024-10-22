@@ -26,13 +26,13 @@ public class AuthorRepository : IAuthorRepository
         Console.WriteLine(query);
         if ( result.Count == 0 )
         {
-            return null;
+            throw new Exception("No author found");
         }
         return result[0];
     }
 
 
-    public async Task<Author?> GetAuthorByEmail(string email)
+    public async Task<Author> GetAuthorByEmail(string email)
     {
         var query = (from author in _context.Authors
                 where author.Email == email
@@ -41,7 +41,7 @@ public class AuthorRepository : IAuthorRepository
         Console.WriteLine(query);
         if ( result.Count == 0 )
         {
-            return null;
+            throw new Exception("No author found");
         }
         return result[0];
     }

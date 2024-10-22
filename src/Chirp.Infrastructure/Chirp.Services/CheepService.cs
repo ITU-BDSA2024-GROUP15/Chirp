@@ -64,7 +64,7 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task<Author?> GetAuthorByEmail(string email)
+    public async Task<Author> GetAuthorByEmail(string email)
     {
        return await _authorRepository.GetAuthorByEmail(email);
         
