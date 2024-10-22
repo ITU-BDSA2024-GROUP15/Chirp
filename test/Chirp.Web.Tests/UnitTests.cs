@@ -21,10 +21,6 @@ public class UnitTests : IClassFixture<DBFixture>
     [Fact]
     public async Task TestGetCheepsAmount()
     {
-        await _fixture.InitializeAsync();
-        
-        
-        
         var cheeps = await _fixture.CheepRepository.GetCheeps(0);
         Assert.Equal(32,cheeps.Count);
     }

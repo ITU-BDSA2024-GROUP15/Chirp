@@ -15,13 +15,15 @@ public class DBFixture : IAsyncLifetime
     public ICheepRepository CheepRepository { get; private set; }
     //we can then add a author repo
     
+    public SqliteConnection DatabaseConnection { get; private set; }
+    
 
 
     public async Task InitializeAsync()
     {
-        using var connection = new SqliteConnection("Filename=:memory:");
-        await connection.OpenAsync();
-        var builder = new DbContextOptionsBuilder<CheepDbContext>().UseSqlite(connection);
+        DatabaseConnection = new SqliteConnection("Filename=:memory:");
+        await DatabaseConnection.OpenAsync();
+        var builder = new DbContextOptionsBuilder<CheepDbContext>().UseSqlite(DatabaseConnection);
 
         
         
@@ -35,9 +37,11 @@ public class DBFixture : IAsyncLifetime
 
 
     
-    public Task DisposeAsync()
+    public Task? DisposeAsync()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        DatabaseConnection.Dispose();
+        return null;
     }
 
     
