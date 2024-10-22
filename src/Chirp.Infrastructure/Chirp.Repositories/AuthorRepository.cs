@@ -24,6 +24,10 @@ public class AuthorRepository : IAuthorRepository
             select author);
         var result = await query.ToListAsync();
         Console.WriteLine(query);
+        if ( result.Count == 0 )
+        {
+            return null;
+        }
         return result[0];
     }
 
@@ -35,11 +39,15 @@ public class AuthorRepository : IAuthorRepository
                 select author);
         var result = await query.ToListAsync();
         Console.WriteLine(query);
+        if ( result.Count == 0 )
+        {
+            return null;
+        }
         return result[0];
     }
 
 
-    public Task<Author> CreateAuthor(string name, string email)
+    public async Task CreateAuthor(string name, string email)
     {
         //Should get id for new author 1 bigger than the current max 
         int maxID = _context.Authors.Max(author => author.AuthorId);
@@ -52,9 +60,8 @@ public class AuthorRepository : IAuthorRepository
             Email = email
         };
         
-        _context.Authors.Add(newAuthor);
-        _context.SaveChanges();
-        
-        throw new NotImplementedException();
+        await _context.Authors.AddAsync(newAuthor);
+        await _context.SaveChangesAsync();
     }
+    
 }

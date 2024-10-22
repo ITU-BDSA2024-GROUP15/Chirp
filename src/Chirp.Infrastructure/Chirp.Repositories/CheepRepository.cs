@@ -41,33 +41,9 @@ public class CheepRepository : ICheepRepository
         return result;
     }
     
+    
 
-
-    public async void AddCheepWithNoAuthor(string authorName, string text, string email) //Can the email be null or should the user provide it?
-    {
-        //Get author and author id
-        AuthorRepository authorRepository = new AuthorRepository(_context); //this bad?
-        
-        var author = await authorRepository.CreateAuthor(authorName, email);
-        int maxId = _context.Cheeps.Max(cheep => cheep.CheepId);
-
-        Cheep cheep = new Cheep()
-        {
-            Author = author,
-            AuthorId = author.AuthorId,
-            CheepId = maxId + 1,
-            Text = text,
-            Timestamp = DateTime.Now
-        };
-
-        _context.Cheeps.Add(cheep);
-        await _context.SaveChangesAsync();
-
-
-    }
-
-
-    public async void AddCheepWithAuthor(string authorName, string text)
+    public async Task AddCheep(string authorName, string text)
     {
         //Get author and author id
         AuthorRepository authorRepository = new AuthorRepository(_context); //this bad?
@@ -84,7 +60,7 @@ public class CheepRepository : ICheepRepository
             Timestamp = DateTime.Now
         };
 
-        _context.Cheeps.Add(cheep);
+        await _context.Cheeps.AddAsync(cheep);
         await _context.SaveChangesAsync();
     }
 }
