@@ -50,12 +50,12 @@ public class AuthorRepository : IAuthorRepository
     public async Task CreateAuthor(string name, string email)
     {
         //Should get id for new author 1 bigger than the current max 
-        int maxID = _context.Authors.Max(author => author.AuthorId);
+        int maxId = _context.Authors.Max(author => author.AuthorId);
         
         //Create new author
         var newAuthor = new Author()
         {
-            AuthorId = maxID + 1,
+            AuthorId = maxId + 1,
             Name = name,
             Email = email
         };
