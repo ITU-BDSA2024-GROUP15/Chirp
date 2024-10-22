@@ -7,11 +7,13 @@ namespace Chirp.Web.Tests;
 
 public static class TestUtilities
 {
+    
+    public static SqliteConnection Connection { get; set; }
     public static async Task<ICheepRepository> createInMemoryDB()
     {
-        using var connection = new SqliteConnection("Filename=:memory:");
-        await connection.OpenAsync();
-        var builder = new DbContextOptionsBuilder<CheepDbContext>().UseSqlite(connection);
+        Connection = new SqliteConnection("Filename=:memory:");
+        await Connection.OpenAsync();
+        var builder = new DbContextOptionsBuilder<CheepDbContext>().UseSqlite(Connection);
 
         var context = new CheepDbContext(builder.Options);
         await context.Database.EnsureCreatedAsync(); // Applies the schema to the database
@@ -20,4 +22,13 @@ public static class TestUtilities
         DbInitializer.SeedDatabase(context);
         return repository;
     }
+
+
+    public static void closeConnection()
+    {
+        Connection.Close();
+    }
+    
+    
+    
 }

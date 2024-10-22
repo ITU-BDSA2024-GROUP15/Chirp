@@ -22,6 +22,8 @@ public class UnitTests
                 
         var cheeps = await _repository.GetCheeps(0);
         Assert.Equal(32,cheeps.Count);
+        TestUtilities.closeConnection();
+        
     }
     
     
