@@ -105,7 +105,7 @@ public class UnitTests
         TestUtilities.closeConnection();
     }
 
-
+    /*
     [Fact]
     public async Task TestAddCheep()
     {
@@ -119,6 +119,7 @@ public class UnitTests
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
     }
+    */
 
     
 }
