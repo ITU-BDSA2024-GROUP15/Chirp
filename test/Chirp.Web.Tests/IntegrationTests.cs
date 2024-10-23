@@ -12,14 +12,14 @@ public class IntegrationTests
     public async Task TestAddCheep()
     {
         var context = await TestUtilities.CreateInMemoryDb();
-        IAuthorRepository repository1 = new AuthorRepository(context); 
-        ICheepRepository repository2 = new CheepRepository(context); 
-        var cheepsBefore = await repository2.GetCheepsFromAuthor(0, "Mellie Yost");
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context); 
+        var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
-        Author author = await repository1.GetAuthorByName("Mellie Yost");
-        await repository2.AddCheep("hejj", author);
+        Author author = await authorrepo.GetAuthorByName("Mellie Yost");
+        await cheeprepo.AddCheep("hejj", author);
         
-        var cheepsAfter = await repository2.GetCheepsFromAuthor(0, "Mellie Yost");
+        var cheepsAfter = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
