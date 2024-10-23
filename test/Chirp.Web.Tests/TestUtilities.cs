@@ -9,7 +9,7 @@ public static class TestUtilities
 {
     
     public static SqliteConnection Connection { get; set; }
-    public static async Task<ICheepRepository> createInMemoryDB()
+    public static async Task<CheepDbContext> createInMemoryDB()
     {
         Connection = new SqliteConnection("Filename=:memory:");
         await Connection.OpenAsync();
@@ -17,11 +17,14 @@ public static class TestUtilities
 
         var context = new CheepDbContext(builder.Options);
         await context.Database.EnsureCreatedAsync(); // Applies the schema to the database
-
-        ICheepRepository repository = new CheepRepository(context);
         DbInitializer.SeedDatabase(context);
-        return repository;
+      
+        
+        return context;
     }
+    
+    
+    
 
 
     public static void closeConnection()
