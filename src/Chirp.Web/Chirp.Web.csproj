@@ -1,12 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+      <UserSecretsId>eb4d1df9-1a44-4e10-bb88-f4bb63e91f7a</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
@@ -21,7 +23,7 @@
 
 
     <ItemGroup>
-        <Content Include="..\Chirp.Infrastructure\data\**" CopyToPublishDirectory="PreserveNewest"/>
+        <Content Include="..\Chirp.Infrastructure\data\**" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
 
 </Project>
