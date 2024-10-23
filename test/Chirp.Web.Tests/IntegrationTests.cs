@@ -11,7 +11,7 @@ public class IntegrationTests
     [Fact]
     public async Task TestAddCheep()
     {
-        var context = await TestUtilities.createInMemoryDB();
+        var context = await TestUtilities.CreateInMemoryDb();
         IAuthorRepository repository1 = new AuthorRepository(context); 
         ICheepRepository repository2 = new CheepRepository(context); 
         var cheepsBefore = await repository2.GetCheepsFromAuthor(0, "Mellie Yost");
@@ -23,7 +23,7 @@ public class IntegrationTests
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-        TestUtilities.closeConnection();
+        TestUtilities.CloseConnection();
     }
     
 }
