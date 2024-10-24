@@ -1,5 +1,6 @@
 ﻿using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Services;
 using Xunit;
 
 namespace Chirp.Web.Tests;
@@ -24,6 +25,26 @@ public class IntegrationTests
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
         TestUtilities.CloseConnection();
+    }
+
+
+    [Fact]
+    public async Task AddCheepCheepServiceNonExistingAuthor()
+    {
+        var context = await TestUtilities.CreateInMemoryDb();
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo);
+        
+        await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
+
+        Author author = await authorrepo.GetAuthorByName("NewAuthor");
+        
+        Assert.NotNull(author);
+        
+        TestUtilities.CloseConnection();
+        
     }
     
 }
