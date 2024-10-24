@@ -35,11 +35,11 @@ builder.Services.AddAuthentication(options =>
         o.CallbackPath = "/signin-github";
     });
 
+
+
 var app = builder.Build();
 
-
-
-
+https://github.com/login/oauth/authorize?scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly&response_type=token
 
 using ( var serviceScope = app.Services.CreateScope() )
 {
