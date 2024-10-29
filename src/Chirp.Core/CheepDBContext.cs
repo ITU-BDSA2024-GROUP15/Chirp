@@ -1,9 +1,12 @@
-﻿namespace Chirp.Core;
+﻿using Chirp.Core.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+namespace Chirp.Core;
 
 using Microsoft.EntityFrameworkCore;
 
 
-public class CheepDbContext : DbContext //Used to give context to db
+public class CheepDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
@@ -11,7 +14,7 @@ public class CheepDbContext : DbContext //Used to give context to db
 
     //Constructor
     public CheepDbContext(DbContextOptions<CheepDbContext> options) : base(options)
-    {
+    {   
         
     }
 }

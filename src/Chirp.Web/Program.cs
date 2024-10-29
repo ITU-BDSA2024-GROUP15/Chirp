@@ -1,7 +1,9 @@
 using Chirp.Core;
+using Chirp.Core.Data;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ string? connectionString = builder.Configuration.GetConnectionString("DefaultCon
 
 
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>   
+        options.SignIn.RequireConfirmedAccount = true)            
+    .AddEntityFrameworkStores<CheepDbContext>(); 
 
 
 // Add services to the container.
@@ -29,6 +35,8 @@ using ( var serviceScope = app.Services.CreateScope() )
     
     DbInitializer.SeedDatabase(context);
 }
+
+
 //DbInitializer.SeedDatabase( app.Services.GetService<CheepDBContext>() );
 
 // Configure the HTTP request pipeline.
@@ -43,6 +51,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication(); 
 
 app.MapRazorPages();
 
