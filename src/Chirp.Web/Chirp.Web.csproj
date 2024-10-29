@@ -36,6 +36,13 @@
     <ItemGroup>
       <Folder Include="Areas\Identity\Data\" />
     </ItemGroup>
+
+
+    <ItemGroup>
+      <Compile Update="Areas\Identity\Pages\Account\Register.cshtml.cs">
+        <DependentUpon>Register.cshtml</DependentUpon>
+      </Compile>
+    </ItemGroup>
     
     
 
