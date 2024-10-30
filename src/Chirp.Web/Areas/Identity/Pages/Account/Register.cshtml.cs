@@ -80,6 +80,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
             
             [Required]
+            [DataType(DataType.Text)]
             [Display(Name = "Name")]
             public string Name { get; set; }
 
@@ -117,6 +118,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                
+                user.UserName = Input.Name;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
