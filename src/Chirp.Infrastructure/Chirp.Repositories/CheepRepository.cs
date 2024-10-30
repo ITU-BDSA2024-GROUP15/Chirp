@@ -50,7 +50,7 @@ public class CheepRepository : ICheepRepository
         Cheep cheep = new Cheep()
         {
             Author = author,
-            AuthorId = author.AuthorId,
+            AuthorId = author.Id,
             CheepId = maxId + 1,
             Text = text,
             Timestamp = DateTime.Now

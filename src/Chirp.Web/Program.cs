@@ -1,5 +1,4 @@
 using Chirp.Core;
-using Chirp.Core.Data;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,7 @@ string? connectionString = builder.Configuration.GetConnectionString("CheepDbCon
 
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>   
+builder.Services.AddDefaultIdentity<Author>(options =>   
         options.SignIn.RequireConfirmedAccount = true)            
     .AddEntityFrameworkStores<CheepDbContext>(); 
 

@@ -31,11 +31,6 @@
     <ItemGroup>
         <Content Include="..\Chirp.Infrastructure\data\**" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
-
-
-    <ItemGroup>
-      <Folder Include="Areas\Identity\Data\" />
-    </ItemGroup>
     
     
 

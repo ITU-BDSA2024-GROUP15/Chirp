@@ -1,9 +1,10 @@
 ﻿
-@using Chirp.Core.Data
+@using Chirp.Core
 @using Microsoft.AspNetCore.Identity
-@using Chirp.Core.Data
-@inject SignInManager<ApplicationUser> SignInManager   
-@inject UserManager<ApplicationUser> UserManager       
+@using Chirp.Web.Areas.Identity.Pages.Account
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<Author> SignInManager   
+@inject UserManager<Author> UserManager   
  
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
