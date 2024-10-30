@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 
-string? connectionString = builder.Configuration.GetConnectionString("CheepDbContextConnection"); //Takes default connection from appsettings.json to use for db
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); //Takes default connection from appsettings.json to use for db
 
 
 builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(connectionString));
