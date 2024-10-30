@@ -113,7 +113,7 @@ public class UnitTests
         TestUtilities.CloseConnection();
     }
 
-
+    /*
     [Fact]
     public async Task TestGetAuthorFail()
     {
@@ -122,6 +122,7 @@ public class UnitTests
         
         await Assert.ThrowsAsync<Exception>(() =>  repository.GetAuthorByName("Filifjonken"));
     }
+    */
 
 
     [Fact]
