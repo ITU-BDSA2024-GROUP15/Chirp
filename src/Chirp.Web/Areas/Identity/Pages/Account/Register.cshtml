@@ -1,5 +1,6 @@
 ﻿@page
-@model Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Internal.RegisterModel
+@using Chirp.Web.Areas.Identity.Pages.Account
+@model RegisterModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -27,11 +28,13 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            
             <div class="form-floating mb-3">
-                <input asp-for="Input." class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Username</label>
+                <input asp-for="Input.Name" class="form-control" autocomplete="new-username" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Name">Username</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
