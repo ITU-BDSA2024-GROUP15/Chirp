@@ -1,68 +1,50 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+﻿using Chirp.Core;
+using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Services;
 using Xunit;
 
 namespace Chirp.Web.Tests;
 
 
-public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public class IntegrationTests
 {   
-    /*
-    private readonly WebApplicationFactory<Program> _fixture;
-    private readonly HttpClient _client;
-
-    public IntegrationTests(WebApplicationFactory<Program> fixture)
+    
+    [Fact]
+    public async Task TestAddCheep()
     {
-        //TODO: ensure we use testDB for this (after we get dependency injection working)
-        _fixture = fixture;
-        _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
+        var context = await TestUtilities.CreateInMemoryDb();
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context); 
+        var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
+        
+        Author author = await authorrepo.GetAuthorByName("Mellie Yost");
+        await cheeprepo.AddCheep("hejj", author);
+        
+        var cheepsAfter = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
+        
+        Assert.True(cheepsBefore.Count != cheepsAfter.Count);
+        
+        TestUtilities.CloseConnection();
     }
+
 
     [Fact]
-    public async void CanSeePublicTimeline()
+    public async Task AddCheepCheepServiceNonExistingAuthor()
     {
-        var response = await _client.GetAsync("/");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        var context = await TestUtilities.CreateInMemoryDb();
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
 
-        Assert.Contains("Chirp!", content);
-        Assert.Contains("Public Timeline", content);
-    }
+        ICheepService service = new CheepService(cheeprepo, authorrepo);
+        
+        await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
 
-    [Theory]
-    [InlineData("Helge")]
-    [InlineData("Adrian")]
-    public async void CanSeePrivateTimeline(string author)
-    {
-        var response = await _client.GetAsync($"/{author}");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-
-        Assert.Contains("Chirp!", content);
-        Assert.Contains($"{author}'s Timeline", content);
+        Author author = await authorrepo.GetAuthorByName("NewAuthor");
+        
+        Assert.NotNull(author);
+        
+        TestUtilities.CloseConnection();
+        
     }
     
-    [Theory]
-    [InlineData("Helge", "Hello, BDSA students!")]
-    [InlineData("Adrian","Hej, velkommen til kurset." )]
-    public async void PrivateTimelineShowsContent(string author, string message)
-    {
-        var response = await _client.GetAsync($"/{author}");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-        
-        Assert.Contains(message, content);
-    }
-
-    [Fact]
-    public async void PublicTimelineShowsContent()
-    {
-        var response = await _client.GetAsync("/");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-        
-        Assert.Contains("Starbuck now is what we hear the worst", content);
-    }
-    
-    */
 }

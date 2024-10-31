@@ -26,7 +26,7 @@ public class AuthorRepository : IAuthorRepository
         Console.WriteLine(query);
         if ( result.Count == 0 )
         {
-            throw new Exception("No author found");
+            return null;
         }
         return result[0];
     }
@@ -41,7 +41,7 @@ public class AuthorRepository : IAuthorRepository
         Console.WriteLine(query);
         if ( result.Count == 0 )
         {
-            throw new Exception("No author found");
+            return null;
         }
         return result[0];
     }
