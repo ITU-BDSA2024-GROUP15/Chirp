@@ -119,6 +119,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                
                 var user = CreateUser();
                 
                 user.UserName = Input.Name;
