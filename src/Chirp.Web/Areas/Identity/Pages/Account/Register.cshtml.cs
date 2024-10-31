@@ -134,7 +134,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     //New account created
                     
                     //Add claim
-                    var claim = new Claim("Username", user.UserName);
+                    var claim = new Claim("Username", user.Name);
                     await _userManager.AddClaimAsync(user, claim);
 
                     var userId = await _userManager.GetUserIdAsync(user);
