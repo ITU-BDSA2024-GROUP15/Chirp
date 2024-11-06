@@ -21,7 +21,7 @@ public class PublicModel : PageModel
     
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        
+        Console.WriteLine("message " + _cheepBinder.CheepMessage);
         Cheeps = await _service.GetCheeps(page);
       
         return Page();
@@ -34,13 +34,13 @@ public class PublicModel : PageModel
         {
             return Page();
         }
-
-        
+         
+        Console.WriteLine("message " + _cheepBinder.CheepMessage);
         //TODO Move and make sure user is logged in
-        await _service.AddCheep(_cheepBinder.CheepMessage, "Bob", "Bobby@testemail.com");
+        await _service.AddCheep(Request.Form["CheepMessage"], "Bob", "Bobby@testemail.com");
         
         
 
-        return RedirectToPage("/");
+        return RedirectToPage("Public");
     }
 }
