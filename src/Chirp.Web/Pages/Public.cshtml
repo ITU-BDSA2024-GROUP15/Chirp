@@ -1,9 +1,17 @@
 ﻿@page "/"
+@using Chirp.Web.Pages
 @model Chirp.Web.Pages.PublicModel
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
 }
+
+<div>
+    @{
+        await Html.RenderPartialAsync("Shared/SendCheepPartial", Model._cheepBinder);
+    }
+</div>
 
 <div>
     <h2> Public Timeline </h2>
