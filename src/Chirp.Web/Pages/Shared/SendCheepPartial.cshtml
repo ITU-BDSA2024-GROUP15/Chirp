@@ -1,11 +1,17 @@
-﻿@using Chirp.Web.Pages
+﻿@using Chirp.Core
+@using Chirp.Web.Pages
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model CheepBinder
+@inject SignInManager<Author> SignInManager   
     
-
-<div class="cheepbox">
-    <h3>Send cheep:</h3>
-    <form method="post">
-        <input type="text"  asp-for="CheepMessage">
-        <input type="submit" value="Share">
-    </form>
-</div>
+@if (SignInManager.IsSignedIn(User) )
+{
+    <div class="cheepbox">
+        <h3>Send cheep:</h3>
+        <form method="post">
+            <input type="text"  asp-for="CheepMessage">
+            <input type="submit" value="Share">
+        </form>
+    </div>
+}
+    
