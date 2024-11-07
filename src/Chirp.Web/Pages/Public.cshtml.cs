@@ -1,4 +1,5 @@
-﻿using Chirp.Core;
+﻿using System.Security.Claims;
+using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -34,13 +35,9 @@ public class PublicModel : PageModel
         {
             return Page();
         }
-         
-        Console.WriteLine("message " + _cheepBinder.CheepMessage);
-        //TODO Move and make sure user is logged in
-        await _service.AddCheep(Request.Form["CheepMessage"], "Bob", "Bobby@testemail.com");
         
+        await _service.AddCheep(Request.Form["CheepMessage"], "bob", "Bobby@testemail.com");
         
-
         return RedirectToPage("Public");
     }
 }
