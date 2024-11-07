@@ -39,7 +39,7 @@ public class UserTimelineModel : PageModel
         }
       
         
-        await _service.AddCheep(Request.Form["CheepMessage"], "bob", "Bobby@testemail.com");
+        await _service.AddCheep(Request.Form["CheepMessage"], User.Identity.Name, "Bobby@testemail.com");
       
         return RedirectToPage("UserTimeline");
     }

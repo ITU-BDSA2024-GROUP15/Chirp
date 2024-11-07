@@ -36,7 +36,8 @@ public class PublicModel : PageModel
             return Page();
         }
         
-        await _service.AddCheep(Request.Form["CheepMessage"], "bob", "Bobby@testemail.com");
+        //TODO bug: User.Identity.Name gives email and not name?
+        await _service.AddCheep(Request.Form["CheepMessage"], User.Identity.Name, "Bobby@testemail.com");
         
         return RedirectToPage("Public");
     }
