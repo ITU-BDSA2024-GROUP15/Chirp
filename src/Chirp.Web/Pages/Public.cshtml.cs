@@ -10,19 +10,23 @@ namespace Chirp.Web.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-    public CheepBinder _cheepBinder;
+   
     public List<CheepDto>? Cheeps { get; set; }
+    
+    [BindProperty]
+    [Required]
+    public string CheepMessage { get; set; }
     
 
     public PublicModel(ICheepService service)
     {
         _service = service;
-        _cheepBinder = new CheepBinder();
+        
     }
     
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
-        Console.WriteLine("message " + _cheepBinder.CheepMessage);
+        
         Cheeps = await _service.GetCheeps(page);
       
         return Page();
@@ -36,8 +40,9 @@ public class PublicModel : PageModel
             return Page();
         }
         
+        Console.WriteLine("AAA" + CheepMessage);
         //TODO bug: User.Identity.Name gives email and not name?
-        await _service.AddCheep(Request.Form["CheepMessage"], User.Identity.Name, "Bobby@testemail.com");
+        await _service.AddCheep(CheepMessage, User.Identity.Name, "Bobby@testemail.com");
         
         return RedirectToPage("Public");
     }

@@ -2,18 +2,22 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
+using Microsoft.Build.Framework;
 
 namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    public CheepBinder _cheepBinder;
+    
     private readonly ICheepService _service;
+    
+    [BindProperty]
+    [Required]
+    public string CheepMessage { get; set; }
     
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
-        _cheepBinder = new CheepBinder();
     }
     
     
@@ -39,7 +43,7 @@ public class UserTimelineModel : PageModel
         }
       
         
-        await _service.AddCheep(Request.Form["CheepMessage"], User.Identity.Name, "Bobby@testemail.com");
+        await _service.AddCheep(CheepMessage, User.Identity.Name, "Bobby@testemail.com");
       
         return RedirectToPage("UserTimeline");
     }

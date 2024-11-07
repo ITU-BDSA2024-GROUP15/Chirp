@@ -1,6 +1,9 @@
 ﻿@page "/"
+@using Chirp.Core
 @using Chirp.Web.Pages
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Web.Pages.PublicModel
+@inject SignInManager<Author> SignInManager   
 
 @{
     ViewData["Title"] = "Chirp!";
@@ -8,8 +11,15 @@
 }
 
 <div>
-    @{
-        await Html.RenderPartialAsync("Shared/SendCheepPartial", Model._cheepBinder);
+    @if (SignInManager.IsSignedIn(User) )
+    {
+        <div class="cheepbox">
+            <h3>Send cheep:</h3>
+            <form method="post">
+                <input type="text"  asp-for="CheepMessage">
+                <input type="submit" value="Share">
+            </form>
+        </div>
     }
 </div>
 
