@@ -17,19 +17,22 @@ public class ExampleTest : PageTest
         await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
 
         // Expect a title "to contain" a substring.
-        await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
+        await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
     }
 
     [Test]
     public async Task GetStartedLink()
     {
-        await Page.GotoAsync("https://playwright.dev");
+        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
 
-        // Click the get started link.
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Get started" }).ClickAsync();
-
-        // Expects page to have a heading with the name of Installation.
-        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Installation" })).ToBeVisibleAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Register", Exact = true }).ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Create a new account." }).ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Use another service to" }).ClickAsync();
+        await Page.GetByText("Username").ClickAsync();
+        await Page.GetByText("Email").ClickAsync();
+        await Page.GetByText("Password", new() { Exact = true }).ClickAsync();
+        await Page.GetByText("Confirm Password").ClickAsync();
     } 
 }
 
