@@ -15,7 +15,7 @@ public class UnitTests
         ICheepRepository repository = new CheepRepository(context);        
         var cheeps = await repository.GetCheeps(0);
         Assert.Equal(32,cheeps.Count);
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
         
     }
     
@@ -27,7 +27,7 @@ public class UnitTests
         var cheeps = await repository.GetCheeps(0);
         var cheep = cheeps[0];
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
     [Fact]
@@ -39,7 +39,7 @@ public class UnitTests
         var cheeps = await repository.GetCheeps(2);
         var cheep = cheeps[0];
         Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Text);  
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
     
@@ -51,7 +51,7 @@ public class UnitTests
         var cheeps = await repository.GetCheeps(21);
         
         Assert.True(cheeps.Count == 17);
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
     [Fact]
@@ -62,7 +62,7 @@ public class UnitTests
         var cheeps = await repository.GetCheeps(32);
         
         Assert.True(cheeps.Count == 0);    
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
     
@@ -75,7 +75,7 @@ public class UnitTests
         var cheep = cheeps[0];
         //we know Jacqualine is the first author on the public timeline.
         Assert.True(cheep.Author.Name == "Jacqualine Gilcoine"  && cheeps.Count == 32);
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
     [Fact]
@@ -87,7 +87,7 @@ public class UnitTests
         var cheep = cheeps[0];
         
         Assert.Equal("What a relief it was the place examined.", cheep.Text);
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }    
     
     [Fact]
@@ -99,7 +99,7 @@ public class UnitTests
         var cheep = cheeps[0];
         
         Assert.True(cheeps.Count == 7 && cheep.Author.Name == "Jacqualine Gilcoine"); 
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
     [Fact]
@@ -110,7 +110,7 @@ public class UnitTests
         var cheeps = await repository.GetCheepsFromAuthor(20, "Jacqualine Gilcoine");
         
         Assert.True(cheeps.Count == 0);   
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
 
     /*

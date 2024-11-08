@@ -26,7 +26,7 @@ public static class TestUtilities
     
 
 
-    public static void CloseConnection()
+    public static async Task CloseConnection()
     {
         if ( Connection != null ) Connection.Close();
     }
