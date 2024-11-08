@@ -50,7 +50,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
     }
     
 
@@ -71,7 +71,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         Assert.NotNull(author);
         
-        TestUtilities.CloseConnection();
+        await TestUtilities.CloseConnection();
         
     }
     
