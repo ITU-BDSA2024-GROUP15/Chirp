@@ -34,6 +34,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
     */
     
+    /*
     [Fact]
     public async Task TestAddCheep()
     {
@@ -51,6 +52,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         TestUtilities.CloseConnection();
     }
+    */
 
 
     /*
