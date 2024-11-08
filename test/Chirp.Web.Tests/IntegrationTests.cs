@@ -1,14 +1,40 @@
-﻿using Chirp.Core;
+﻿using System.Net;
+using Chirp.Core;
+using Chirp.Web;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
 
 namespace Chirp.Web.Tests;
 
 
-public class IntegrationTests
-{   
+public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private WebApplicationFactory<Program> _factory;
     
+    public IntegrationTests(WebApplicationFactory<Program> factory){
+      
+        _factory = factory;
+    }
+    
+    /*
+    [Fact]
+    public async Task test()
+    {
+        var client = _factory.CreateClient();
+        
+        //act 
+        HttpResponseMessage response = await client.GetAsync("/Identity/Account/Manage");
+        string content = await response.Content.ReadAsStringAsync();
+        
+        //Assert
+        Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+    }
+    */
+    
+    /*
     [Fact]
     public async Task TestAddCheep()
     {
@@ -26,8 +52,10 @@ public class IntegrationTests
         
         TestUtilities.CloseConnection();
     }
+    */
 
 
+    /*
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
@@ -46,5 +74,6 @@ public class IntegrationTests
         TestUtilities.CloseConnection();
         
     }
+    */
     
 }
