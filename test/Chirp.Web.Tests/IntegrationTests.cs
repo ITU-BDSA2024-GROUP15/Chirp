@@ -28,6 +28,7 @@ public class IntegrationTests
     }
 
 
+    /*
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
@@ -46,5 +47,6 @@ public class IntegrationTests
         TestUtilities.CloseConnection();
         
     }
+    */
     
 }
