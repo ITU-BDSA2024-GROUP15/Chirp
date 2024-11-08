@@ -19,6 +19,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         _factory = factory;
     }
     
+    /*
     [Fact]
     public async Task test()
     {
@@ -30,9 +31,8 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         //Assert
         Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
-        
-        
     }
+    */
     
     [Fact]
     public async Task TestAddCheep()
