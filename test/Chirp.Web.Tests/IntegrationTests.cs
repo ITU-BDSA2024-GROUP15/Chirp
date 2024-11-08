@@ -19,7 +19,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         _factory = factory;
     }
     
-    /*
+    /* TODO: What the fuck is this test?
     [Fact]
     public async Task test()
     {
@@ -34,7 +34,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
     */
     
-    /*
+    
     [Fact]
     public async Task TestAddCheep()
     {
@@ -52,10 +52,10 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         TestUtilities.CloseConnection();
     }
-    */
+    
 
 
-    /*
+    
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
@@ -74,6 +74,6 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         TestUtilities.CloseConnection();
         
     }
-    */
+    
     
 }
