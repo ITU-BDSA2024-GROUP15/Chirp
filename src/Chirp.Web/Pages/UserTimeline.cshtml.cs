@@ -41,10 +41,20 @@ public class UserTimelineModel : PageModel
         {
             return Page();
         }
-      
         
-        await _service.AddCheep(CheepMessage, User.Identity.Name, "Bobby@testemail.com");
-      
+        var authorName = User.Identity?.Name;
+        if ( authorName == null )
+        {
+            return Page();
+        }
+        var author = await _service.GetAuthorByEmail(authorName);
+        if ( author == null )
+        {
+            return Page();
+        }
+        
+        await _service.AddCheep(CheepMessage, author.Name, author.Email);
+        
         return RedirectToPage("UserTimeline");
     }
 }

@@ -8,6 +8,10 @@ public interface ICheepService
     public Task<List<CheepDto>> GetCheeps(int limit);
     public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author);
     public Task AddCheep(string text, string name, string email);
+    public Task<Author> GetAuthorByEmail(string email);
+    public Task<Author?> GetAuthorByName(string name);
+    public Task AddAuthor(string name, string email);
+
 }
 
 public class CheepService : ICheepService

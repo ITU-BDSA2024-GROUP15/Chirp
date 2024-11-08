@@ -40,9 +40,18 @@ public class PublicModel : PageModel
             return Page();
         }
         
-        Console.WriteLine("AAA" + CheepMessage);
-        //TODO bug: User.Identity.Name gives email and not name?
-        await _service.AddCheep(CheepMessage, User.Identity.Name, "Bobby@testemail.com");
+        var authorName = User.Identity?.Name;
+        if ( authorName == null )
+        {
+            return Page();
+        }
+        var author = await _service.GetAuthorByEmail(authorName);
+        if ( author == null )
+        {
+            return Page();
+        }
+        
+        await _service.AddCheep(CheepMessage, author.Name, author.Email);
         
         return RedirectToPage("Public");
     }
