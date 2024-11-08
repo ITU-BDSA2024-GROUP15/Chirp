@@ -120,13 +120,19 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 
+                //We create a new author (which is our Applicationuser
                 var user = CreateUser();
                 
                 user.Name = Input.Name;
                 user.Email = Input.Email;
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                
+                
+                await _userStore.SetUserNameAsync(user, user.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, user.Email, CancellationToken.None);
+                
+                Console.WriteLine(User.Identity.Name);
+                
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

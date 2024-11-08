@@ -1,10 +1,27 @@
 ﻿@page "/{author}"
+@using Chirp.Core
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Web.Pages.UserTimelineModel
+@inject SignInManager<Author> SignInManager   
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }
+
+<div>
+    @if (SignInManager.IsSignedIn(User) )
+    {
+        <div class="cheepbox">
+            <h3>Send cheep:</h3>
+            <form method="post">
+                <input type="text"  asp-for="CheepMessage">
+                <input type="submit" value="Share">
+            </form>
+        </div>
+    }
+</div>
+
 
 <div>
     <h2> @routeName's Timeline </h2>
