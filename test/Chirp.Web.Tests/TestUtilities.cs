@@ -17,7 +17,7 @@ public static class TestUtilities
         var context = new CheepDbContext(builder.Options);
         await context.Database.EnsureCreatedAsync(); // Applies the schema to the database
         DbInitializer.SeedDatabase(context);
-      
+       
         
         return context;
     }
