@@ -95,4 +95,31 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Create a new account." })).ToBeVisibleAsync();
     }
+    
+    [Test]
+    public async Task CanClickLoginPublicTimeline()
+    {
+        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Use a local account to log in." })).ToBeVisibleAsync();
+    }
+    
+    
+    [Test]
+    public async Task CanClickLoginUserTimeLine()
+    {
+        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/Jacqualine%20Gilcoine");
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Use a local account to log in." })).ToBeVisibleAsync();
+    }
+    
+    [Test]
+    public async Task HasPage2()
+    {
+        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/?page=2");
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
+    }
+    
 }
