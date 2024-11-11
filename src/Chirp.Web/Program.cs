@@ -19,13 +19,8 @@ builder.Services.AddDefaultIdentity<Author>(options =>
 
 builder.Services.AddSession();
 
-builder.Services.AddAuthentication(options =>
-    {
-        //options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        //options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = "GitHub";
-    })
-    //.AddCookie()
+builder.Services.AddAuthentication()
+    .AddCookie()
     .AddGitHub(o =>
     {
         o.ClientId = builder.Configuration["authentication:github:clientId"];
