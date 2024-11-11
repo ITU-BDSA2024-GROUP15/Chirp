@@ -38,7 +38,8 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task TestAddCheep()
     {
-        var context = await TestUtilities.CreateInMemoryDb();
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context); 
         var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
@@ -50,7 +51,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-        await TestUtilities.CloseConnection();
+        await utils.CloseConnection();
     }
     
 
@@ -59,7 +60,8 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
-        var context = await TestUtilities.CreateInMemoryDb();
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
 
@@ -71,7 +73,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         Assert.NotNull(author);
         
-        await TestUtilities.CloseConnection();
+        await utils.CloseConnection();
         
     }
     
