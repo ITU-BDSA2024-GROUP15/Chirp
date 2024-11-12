@@ -19,7 +19,7 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         _factory = factory;
     }
     
-    /*
+    /* TODO: What the fuck is this test?
     [Fact]
     public async Task test()
     {
@@ -34,11 +34,12 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
     */
     
-    /*
+    
     [Fact]
     public async Task TestAddCheep()
     {
-        var context = await TestUtilities.CreateInMemoryDb();
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context); 
         var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
@@ -50,16 +51,17 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-        TestUtilities.CloseConnection();
+        await utils.CloseConnection();
     }
-    */
+    
 
 
-    /*
+    
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
-        var context = await TestUtilities.CreateInMemoryDb();
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
 
@@ -71,9 +73,9 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         
         Assert.NotNull(author);
         
-        TestUtilities.CloseConnection();
+        await utils.CloseConnection();
         
     }
-    */
+    
     
 }
