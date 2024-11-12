@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web.Tests;
 
-public static class TestUtilities
+public class TestUtilities
 {
     
-    public static SqliteConnection? Connection { get; set; }
-    public static async Task<CheepDbContext> CreateInMemoryDb()
+    public SqliteConnection? Connection { get; set; }
+    public async Task<CheepDbContext> CreateInMemoryDb()
     {
         Connection = new SqliteConnection("Filename=:memory:");
         await Connection.OpenAsync();
@@ -26,7 +26,7 @@ public static class TestUtilities
     
 
 
-    public static async Task CloseConnection()
+    public async Task CloseConnection()
     {
         if ( Connection != null ) Connection.Close();
     }
