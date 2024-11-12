@@ -1,18 +1,45 @@
-﻿using Chirp.Core;
+﻿using System.Net;
+using Chirp.Core;
+using Chirp.Web;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
 
 namespace Chirp.Web.Tests;
 
 
-public class IntegrationTests
-{   
+public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private WebApplicationFactory<Program> _factory;
+    
+    public IntegrationTests(WebApplicationFactory<Program> factory){
+      
+        _factory = factory;
+    }
+    
+    /* TODO: What the fuck is this test?
+    [Fact]
+    public async Task test()
+    {
+        var client = _factory.CreateClient();
+        
+        //act 
+        HttpResponseMessage response = await client.GetAsync("/Identity/Account/Manage");
+        string content = await response.Content.ReadAsStringAsync();
+        
+        //Assert
+        Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
+    }
+    */
+    
     
     [Fact]
     public async Task TestAddCheep()
     {
-        var context = await TestUtilities.CreateInMemoryDb();
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context); 
         var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
@@ -24,14 +51,17 @@ public class IntegrationTests
         
         Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-        TestUtilities.CloseConnection();
+        await utils.CloseConnection();
     }
+    
 
 
+    
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
-        var context = await TestUtilities.CreateInMemoryDb();
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
 
@@ -43,8 +73,9 @@ public class IntegrationTests
         
         Assert.NotNull(author);
         
-        TestUtilities.CloseConnection();
+        await utils.CloseConnection();
         
     }
+    
     
 }

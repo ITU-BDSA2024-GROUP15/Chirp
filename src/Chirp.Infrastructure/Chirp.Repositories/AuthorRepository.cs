@@ -23,7 +23,7 @@ public class AuthorRepository : IAuthorRepository
             where author.Name == name
             select author);
         var result = await query.ToListAsync();
-        Console.WriteLine(query);
+        
         if ( result.Count == 0 )
         {
             return null;
@@ -38,7 +38,7 @@ public class AuthorRepository : IAuthorRepository
                 where author.Email == email
                 select author);
         var result = await query.ToListAsync();
-        Console.WriteLine(query);
+        
         if ( result.Count == 0 )
         {
             return null;
