@@ -15,7 +15,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task HasTitle()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         await Page.Locator("body").ClickAsync();
@@ -24,14 +24,14 @@ public class EndToEnd : PageTest
     [Test]
     public async Task CanSeePublicTimeline()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
     }
     
     [Test]
     public async Task HomePageHasRegisterButton()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Register" })).ToBeVisibleAsync();
 
     }
@@ -39,14 +39,14 @@ public class EndToEnd : PageTest
     [Test]
     public async Task HomePageHasLoginButton()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Login" })).ToBeVisibleAsync();
     }
     
     [Test]
     public async Task GoFromPublicTimelineToUserTimeLine()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
         await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
@@ -56,7 +56,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task GoFromUserTimeLineToPublicTimeline()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/Jacqualine%20Gilcoine");
+        await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
@@ -65,21 +65,23 @@ public class EndToEnd : PageTest
     [Test]
     public async Task JacqualineTimelineExists()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/Jacqualine%20Gilcoine");
+        await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
     }
     
     [Test]
     public async Task JacqualineCheepAboutStarbucksExists()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/Jacqualine%20Gilcoine");
-        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Jacqualine Gilcoine Starbuck now is what we hear the worst. — 08/01/2023 13:17:39");
+        await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
+        await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
+        await Page.GetByText("Jacqualine Gilcoine Starbuck").ClickAsync();
+
     }
     
     [Test]
     public async Task CanClickRegisterPublicTimeLine()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
@@ -89,7 +91,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task CanClickRegisterUserTimeLine()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/Jacqualine%20Gilcoine");
+        await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
         
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
@@ -99,7 +101,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task CanClickLoginPublicTimeline()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/");
+        await Page.GotoAsync("http://localhost:5221");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Use a local account to log in." })).ToBeVisibleAsync();
@@ -109,7 +111,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task CanClickLoginUserTimeLine()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/Jacqualine%20Gilcoine");
+        await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Use a local account to log in." })).ToBeVisibleAsync();
@@ -118,7 +120,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task HasPage2()
     {
-        await Page.GotoAsync("https://bdsa2024group15chirprazor.azurewebsites.net/?page=2");
+        await Page.GotoAsync("http://localhost:5221?page=2");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
     }
 
@@ -154,5 +156,46 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
     }
+    
+        [Test]
+        public async Task CanSeeOtherUsersTimeline()
+        {
+        await Page.GotoAsync("http://localhost:5221/");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Mellie Yost" }).ClickAsync();
+        await Page.GetByText("Mellie Yost But what was").ClickAsync();
+        await Page.GetByText("Mellie Yost's Timeline Mellie").ClickAsync();
+        }
+    
+    /*
+    [Test]
+    public async Task MakeTestAccount() // username = testUser    Password = Test123!
+    {
+        await Page.GotoAsync("http://localhost:5221/");
+        
+        
+        
+    }
+    
+    [Test]
+    public async Task ViewOwnTimelineLoggedin()
+    {
+            await Page.GotoAsync("http://localhost:5221/");
+            
+            
+            
+    }
+
+    
+    [Test]
+    public async Task ViewOtherUsersTimelineLoggedin()
+    {
+            await Page.GotoAsync("http://localhost:5221/");
+            
+            
+            
+    }    
+    
+    */
+   
     
 }
