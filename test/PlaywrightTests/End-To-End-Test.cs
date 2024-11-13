@@ -222,7 +222,6 @@ public class EndToEnd : PageTest
             await Page.GotoAsync("http://localhost:5221/");
             
             //Login
-            await Page.GotoAsync("http://localhost:5221/");
             await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
             await Page.GetByPlaceholder("password").ClickAsync();
             await Page.GetByPlaceholder("password").FillAsync("Test123!");
@@ -237,4 +236,6 @@ public class EndToEnd : PageTest
             await Page.GetByText("Wendell Ballan As I turned up").ClickAsync();
             
     }
+    
+    
 }
