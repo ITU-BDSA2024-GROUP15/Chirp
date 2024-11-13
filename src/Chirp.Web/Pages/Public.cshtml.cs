@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
 
 namespace Chirp.Web.Pages;
 
@@ -14,7 +14,8 @@ public class PublicModel : PageModel
     public List<CheepDto>? Cheeps { get; set; }
     
     [BindProperty]
-    [Required]
+    [Microsoft.Build.Framework.Required]
+    [StringLength(160, ErrorMessage = "The message must not exceed 160 characters.", MinimumLength = 1)]
     public string CheepMessage { get; set; }
     
 
