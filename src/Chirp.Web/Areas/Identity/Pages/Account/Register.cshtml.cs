@@ -128,7 +128,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
                 
                 
-                await _userStore.SetUserNameAsync(user, user.Name, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, user.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, user.Email, CancellationToken.None);
                 
                 Console.WriteLine(User.Identity.Name);
