@@ -78,4 +78,21 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     }
     
     
+    [Fact]
+    public async Task TestUsernameCannotContainSlash()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com");
+
+        Author author = await authorrepo.GetAuthorByName("/Haha");
+        //Assert.False(author.GetType() != Author.GetType());
+        
+    }
+    
+    
 }
