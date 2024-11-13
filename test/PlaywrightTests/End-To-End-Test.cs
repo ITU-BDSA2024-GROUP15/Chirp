@@ -157,31 +157,61 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
     }
     
-        [Test]
-        public async Task CanSeeOtherUsersTimeline()
+        [Test] 
+        public async Task CanSeeOtherUsersTimeline() 
         {
         await Page.GotoAsync("http://localhost:5221/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Mellie Yost" }).ClickAsync();
         await Page.GetByText("Mellie Yost But what was").ClickAsync();
         await Page.GetByText("Mellie Yost's Timeline Mellie").ClickAsync();
-        }
+    }
     
-    /*
     [Test]
-    public async Task MakeTestAccount() // username = testUser    Password = Test123!
+    public async Task MakeTestAccount() // username = testUser    Password = Test123!    email: test@testmail.com
     {
         await Page.GotoAsync("http://localhost:5221/");
         
         
         
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("testUser");
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
+        await Page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
+        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
+        await Page.GetByLabel("Confirm Password").ClickAsync();
+        await Page.GetByLabel("Confirm Password").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
+        
+        
+        
+
+
+        
+        
     }
     
     [Test]
-    public async Task ViewOwnTimelineLoggedin()
+    public async Task LoginAndSeeOwnTimeline()
     {
+        //Login
             await Page.GotoAsync("http://localhost:5221/");
+            await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+            await Page.GetByPlaceholder("password").ClickAsync();
+            await Page.GetByPlaceholder("password").FillAsync("Test123!");
+            await Page.GetByPlaceholder("name@example.com").ClickAsync();
+            await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
+            await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+            await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
             
+            // presses my timeline and confirms it is there
+            await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+            await Page.GetByRole(AriaRole.Heading, new() { Name = "testUser's Timeline" }).ClickAsync();
             
+
+
             
     }
 
@@ -191,11 +221,20 @@ public class EndToEnd : PageTest
     {
             await Page.GotoAsync("http://localhost:5221/");
             
+            //Login
+            await Page.GotoAsync("http://localhost:5221/");
+            await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+            await Page.GetByPlaceholder("password").ClickAsync();
+            await Page.GetByPlaceholder("password").FillAsync("Test123!");
+            await Page.GetByPlaceholder("name@example.com").ClickAsync();
+            await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
+            await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+            await Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" }).ClickAsync();
+
+            // clicks on Wendell Ballans username and shows their timeline
+            await Page.GetByRole(AriaRole.Link, new() { Name = "Wendell Ballan" }).ClickAsync();
+            await Page.GetByRole(AriaRole.Heading, new() { Name = "Wendell Ballan's Timeline" }).ClickAsync();
+            await Page.GetByText("Wendell Ballan As I turned up").ClickAsync();
             
-            
-    }    
-    
-    */
-   
-    
+    }
 }
