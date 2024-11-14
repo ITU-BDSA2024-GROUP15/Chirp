@@ -121,18 +121,7 @@ public class UnitTests
         Assert.True(cheeps.Count == 0);   
         await utils.CloseConnection();
     }
-
-    /*
-    [Fact]
-    public async Task TestGetAuthorFail()
-    {
-        var context = await TestUtilities.CreateInMemoryDb();
-        IAuthorRepository repository = new AuthorRepository(context);
-        
-        await Assert.ThrowsAsync<Exception>(() =>  repository.GetAuthorByName("Filifjonken"));
-    }
-    */
-
+    
 
     [Fact]
     public async Task TestCreateAuthor()
