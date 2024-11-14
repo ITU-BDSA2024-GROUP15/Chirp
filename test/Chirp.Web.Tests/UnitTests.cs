@@ -1,5 +1,8 @@
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Services;
+using Chirp.Web.Pages;
+using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal;
 using Xunit;
 
 namespace Chirp.Web.Tests;
@@ -135,7 +138,31 @@ public class UnitTests
         Author author = await repository.GetAuthorByName("Filifjonken");
         
         Assert.True(author.Name == "Filifjonken");   
+        await utils.CloseConnection();
         
     }
+
+
+    [Fact]
+    public async Task TestCheepConstraintOnEndpoint()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        IAuthorRepository authorrepository = new AuthorRepository(context);
+        ICheepRepository cheeprepository = new CheepRepository(context);
+        var cheepservice = new CheepService(cheeprepository, authorrepository);
+        string message = new String('c', 161);
+        var pagemodel = new PublicModel(cheepservice)
+        {
+            CheepMessage = message
+        };
+
+        var result = await pagemodel.OnPost();
+        var cheeps = await cheeprepository.GetCheeps(1);
+        var cheep = cheeps[0];
+        
+        Assert.NotEqual(message, cheep.Text);
+        
+    }  
     
 }
