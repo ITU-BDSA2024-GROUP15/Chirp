@@ -82,7 +82,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
             
             [Required]
-            [RegularExpression(@"[æøåa-zA-Z0-9""\s]")] //Frontend validation
+            [RegularExpression(@"^[^\/]*$")] //Frontend validation
             [DataType(DataType.Text)]
             [Display(Name = "Username")]
             public string Name { get; set; }

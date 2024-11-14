@@ -6,6 +6,7 @@ using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Chirp.Web.Tests;
 
@@ -13,10 +14,13 @@ namespace Chirp.Web.Tests;
 public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private WebApplicationFactory<Program> _factory;
-    
-    public IntegrationTests(WebApplicationFactory<Program> factory){
-      
+    private readonly ITestOutputHelper _testOutputHelper;
+
+
+    public IntegrationTests(WebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
+    {
         _factory = factory;
+        _testOutputHelper = testOutputHelper;
     }
     
     /* TODO: What the fuck is this test?
@@ -87,10 +91,10 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         ICheepRepository cheeprepo = new CheepRepository(context);
         IAuthorRepository authorrepo = new AuthorRepository(context);
 
-        authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com");
+        await authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com");
 
         Author author = await authorrepo.GetAuthorByName("/Haha");
-        //Assert.False(author.GetType() != Author.GetType());
+        Assert.IsType<Author>(author);
         
     }
     

@@ -14,7 +14,7 @@ public class Author : IdentityUser<int>
     */
     
     [StringLength(100)]
-    [RegularExpression(@"[æøåa-zA-Z0-9""\s]")] //Backend validation
+    [RegularExpression(@"^[^\/]*$")] //Backend validation
     [Required]
     public required string Name { get; set; }
 
