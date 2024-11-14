@@ -91,11 +91,9 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
         ICheepRepository cheeprepo = new CheepRepository(context);
         IAuthorRepository authorrepo = new AuthorRepository(context);
 
-        await authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com");
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
 
-        Author author = await authorrepo.GetAuthorByName("/Haha");
-        Assert.IsType<Author>(author);
-        
     }
     
     
