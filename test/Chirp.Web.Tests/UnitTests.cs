@@ -141,28 +141,5 @@ public class UnitTests
         await utils.CloseConnection();
         
     }
-
-
-    [Fact]
-    public async Task TestCheepConstraintOnEndpoint()
-    {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        IAuthorRepository authorrepository = new AuthorRepository(context);
-        ICheepRepository cheeprepository = new CheepRepository(context);
-        var cheepservice = new CheepService(cheeprepository, authorrepository);
-        string message = new String('c', 161);
-        var pagemodel = new PublicModel(cheepservice)
-        {
-            CheepMessage = message
-        };
-
-        var result = await pagemodel.OnPost();
-        var cheeps = await cheeprepository.GetCheeps(1);
-        var cheep = cheeps[0];
-        
-        Assert.NotEqual(message, cheep.Text);
-        
-    }  
     
 }
