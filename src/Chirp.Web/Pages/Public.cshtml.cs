@@ -51,6 +51,11 @@ public class PublicModel : PageModel
         {
             return Page();
         }
+
+        if ( CheepMessage.Length > 160 )
+        {
+            return Page();
+        }
         
         await _service.AddCheep(CheepMessage, author.Name, author.Email);
         
