@@ -17,8 +17,12 @@
             <h3>Send cheep:</h3>
             <form method="post">
                 <input type="text"  asp-for="CheepMessage" required>
-                <input type="submit" value="Share">
+                <div class="container">
+                    <input type="submit" value="Share">
+                    <p>Max 160 characters</p>
+                </div>
             </form>
+            
         </div>
     }
 </div>
