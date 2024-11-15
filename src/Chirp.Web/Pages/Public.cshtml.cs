@@ -10,9 +10,8 @@ namespace Chirp.Web.Pages;
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-   
     public List<CheepDto>? Cheeps { get; set; }
-    
+    public int PageNumber { get; set; }
     [BindProperty]
     [Required]
     public string CheepMessage { get; set; }
@@ -21,14 +20,20 @@ public class PublicModel : PageModel
     public PublicModel(ICheepService service)
     {
         _service = service;
-        
     }
     
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         
         Cheeps = await _service.GetCheeps(page);
-      
+        if ( page == 0 )
+        {
+            PageNumber = 1;
+        }
+        else
+        {
+            PageNumber = page;
+        }
         return Page();
     }
     
