@@ -145,7 +145,19 @@ public class UnitTests
 
 
     [Fact]
-    public async Task testCheepConstraintOnDataModel()
+    public async Task TestGetAllCheepsFromAuthor()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        ICheepRepository repository = new CheepRepository(context);
+        var result = ( await repository.GetAllCheepsFromAuthor("Adrian") ).Count;
+        
+        Assert.Equal(1, result);
+    }
+
+
+    [Fact]
+    public async Task TestCheepConstraintOnDataModel()
     {
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
