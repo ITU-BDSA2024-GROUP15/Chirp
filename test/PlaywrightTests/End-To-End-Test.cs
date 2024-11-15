@@ -139,4 +139,40 @@ public class EndToEnd : PageTest
         await Expect(Page.GetByText("The field Username must match")).ToBeVisibleAsync();
     }
     
+    [Test]
+    public async Task TestForXSSAttack()
+    {
+        await Page.GotoAsync("http://localhost:5221/");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("Hacker");
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").FillAsync("hacker@gmail.com");
+        await Page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
+        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Testkode0!");
+        await Page.GetByLabel("Confirm Password").ClickAsync();
+        await Page.GetByLabel("Confirm Password").FillAsync("Testkode0!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").FillAsync("hacker@gmail.com");
+        await Page.GetByPlaceholder("password").ClickAsync();
+        await Page.GetByPlaceholder("password").FillAsync("Testkode0!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        await Page.Locator("#CheepMessage").ClickAsync();
+        await Page.Locator("#CheepMessage").FillAsync("Muhaha XSS!<script>alert('Hacked');</script>");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
+        //You can't click your home page if u need to click alert()
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Hello Hacker!" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Personal data" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete" }).ClickAsync();
+        await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
+        await Page.GetByPlaceholder("Please enter your password.").FillAsync("Testkode0!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
+    }
+    
+    
+    
 }
