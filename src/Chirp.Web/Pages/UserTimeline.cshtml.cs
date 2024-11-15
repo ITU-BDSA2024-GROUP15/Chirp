@@ -12,7 +12,7 @@ public class UserTimelineModel : PageModel
 {
     
     private readonly ICheepService _service;
-    
+    public int PageNumber { get; set; }
     [BindProperty]
     [Required]
     public string CheepMessage { get; set; }
@@ -31,7 +31,14 @@ public class UserTimelineModel : PageModel
     public async Task<ActionResult> OnGet([FromQuery] int page, string author)
     {
         Cheeps = await _service.GetCheepsFromAuthor(page, author);
-        
+        if ( page == 0 )
+        {
+            PageNumber = 1;
+        }
+        else
+        {
+            PageNumber = page;
+        }
         return Page();
     }
     

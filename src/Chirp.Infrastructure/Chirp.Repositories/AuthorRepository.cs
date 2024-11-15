@@ -1,4 +1,5 @@
-﻿using Chirp.Core;
+﻿using System.ComponentModel.DataAnnotations;
+using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
@@ -49,6 +50,13 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task CreateAuthor(string name, string email)
     {
+
+        //Extra check for input validation
+        if ( name.Contains('/') || name.Contains('\\') )
+        {
+            throw new ArgumentException();
+        }
+       
         //Should get id for new author 1 bigger than the current max 
         int maxId = _context.Authors.Max(author => author.Id);
         

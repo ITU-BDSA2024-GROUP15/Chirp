@@ -51,4 +51,10 @@
     {
         <em>There are no cheeps so far.</em>
     }
+    
+    <div class="pagination">
+        <a href="?page=@(Model.PageNumber > 1 ? Model.PageNumber - 1 : 1)"><</a>
+        <h3>@Model.PageNumber</h3>
+        <a href="?page=@(Model.PageNumber + 1)">></a>
+    </div>
 </div>

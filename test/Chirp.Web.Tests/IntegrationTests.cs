@@ -6,6 +6,7 @@ using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Chirp.Web.Tests;
 
@@ -53,6 +54,21 @@ public class IntegrationTests
         
         await utils.CloseConnection();
         
+    }
+    
+    
+    [Fact]
+    public async Task TestUsernameCannotContainSlash()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
+
     }
     
     
