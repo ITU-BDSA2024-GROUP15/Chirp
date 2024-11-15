@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
@@ -140,6 +141,25 @@ public class UnitTests
         Assert.True(author.Name == "Filifjonken");   
         await utils.CloseConnection();
         
+    }
+
+
+    [Fact]
+    public async Task testCheepConstraintOnDataModel()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+
+        var cheepsBefore = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+        Author author = await authorrepo.GetAuthorByName("Mellie Yost");
+        var invalidCheep = new String('a', 161);
+        await cheeprepo.AddCheep(invalidCheep, author);
+        
+        var cheepsAfter = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+
+        Assert.Equal(cheepsBefore, cheepsAfter);
     }
     
 }
