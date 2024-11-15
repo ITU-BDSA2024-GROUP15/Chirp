@@ -11,33 +11,8 @@ using Xunit.Abstractions;
 namespace Chirp.Web.Tests;
 
 
-public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
+public class IntegrationTests
 {
-    private WebApplicationFactory<Program> _factory;
-    private readonly ITestOutputHelper _testOutputHelper;
-
-
-    public IntegrationTests(WebApplicationFactory<Program> factory, ITestOutputHelper testOutputHelper)
-    {
-        _factory = factory;
-        _testOutputHelper = testOutputHelper;
-    }
-    
-    /* TODO: What the fuck is this test?
-    [Fact]
-    public async Task test()
-    {
-        var client = _factory.CreateClient();
-        
-        //act 
-        HttpResponseMessage response = await client.GetAsync("/Identity/Account/Manage");
-        string content = await response.Content.ReadAsStringAsync();
-        
-        //Assert
-        Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
-    }
-    */
-    
     
     [Fact]
     public async Task TestAddCheep()
