@@ -73,15 +73,15 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task AddFollowing(int authorId, Author followerAuthor, int followingId, Author followsAuthor)
+    public async Task AddFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName)
     {
 
         var follow = new Follow()
         {
             AuthorId = authorId,
-            Author = followerAuthor,
+            AuthorName = followerAuthorName,
             FollowsId = followingId,
-            Follows = followsAuthor
+            FollowsAuthorName = followsAuthorName
         };
         
         await _context.Follows.AddAsync(follow);
@@ -89,14 +89,14 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task RemoveFollowing(int authorId, Author followerAuthor, int followingId, Author followsAuthor)
+    public async Task RemoveFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName)
     {
         var follow = new Follow()
         {
             AuthorId = authorId,
-            Author = followerAuthor,
+            AuthorName = followerAuthorName,
             FollowsId = followingId,
-            Follows = followsAuthor
+            FollowsAuthorName = followsAuthorName
         };
 
         _context.Follows.Remove(follow);

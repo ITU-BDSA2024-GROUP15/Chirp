@@ -8,6 +8,6 @@ public interface IAuthorRepository
     public Task<Author> GetAuthorByEmail(string email); 
     
     public Task CreateAuthor(string name, string email);
-    public Task AddFollowing(int authorId, Author followerAuthor, int followingId, Author followsAuthor);
-    public Task RemoveFollowing(int authorId, Author followerAuthor, int followingId, Author followsAuthor);
+    public Task AddFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName);
+    public Task RemoveFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName);
 }

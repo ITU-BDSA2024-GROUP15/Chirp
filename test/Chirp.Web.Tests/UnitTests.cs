@@ -4,6 +4,7 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Chirp.Web.Pages;
 using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Chirp.Web.Tests;
@@ -176,12 +177,34 @@ public class UnitTests
 
 
     [Fact]
-    public async Task CanFollowAuthor()
+    public async Task CanAddFolowerToDb() 
     {
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
         
         IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        //await authorrepo.AddFollowing(author1.Id, author1, author2.Id, author2);
+
+        var follow = await context.Follows.FirstOrDefaultAsync();
+        
+        Assert.NotNull(follow);
+       // Assert.Equal(author1.Id, follow.AuthorId);
+
     }
     
     

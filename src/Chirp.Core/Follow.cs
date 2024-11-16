@@ -3,16 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Core;
 
-[PrimaryKey(nameof(AuthorId), nameof(FollowsId))]
+[PrimaryKey(nameof(AuthorId), nameof(FollowsId), nameof(AuthorName))]
 public class Follow
 {
     [Required]
     public int AuthorId { get; set; }
     [Required]
-    public required Author Author { get; set; }
+    [StringLength(100)]
+    public required string AuthorName { get; set; }
     
     [Required]
     public int FollowsId { get; set; }
     [Required]
-    public required Author Follows { get; set; }
+    [StringLength(100)]
+    public required string FollowsAuthorName { get; set; }
 }
