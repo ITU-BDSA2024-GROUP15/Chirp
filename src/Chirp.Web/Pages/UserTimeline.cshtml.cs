@@ -30,6 +30,7 @@ public class UserTimelineModel : PageModel
     
     public async Task<ActionResult> OnGet([FromQuery] int page, string author)
     {
+        //Add so get cheeps from author also gets the cheeps that the author is following
         Cheeps = await _service.GetCheepsFromAuthor(page, author);
         if ( page == 0 )
         {

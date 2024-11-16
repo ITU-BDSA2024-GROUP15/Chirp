@@ -11,6 +11,7 @@ public class CheepDbContext : IdentityDbContext<Author, IdentityRole<int>, int> 
 {
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
+    public DbSet<Follow> Follows { get; set; }
 
 
     //Constructor
