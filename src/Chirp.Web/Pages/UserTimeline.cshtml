@@ -42,15 +42,6 @@
                         </strong>
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
-                        @{
-                            if ( cheep.Follows )
-                            {
-                                <a href="@Url.RouteUrl(ViewContext.RouteData.Values)">Follow</a>
-                            }
-                            else
-                            {
-                                <a href="/@Url.RouteUrl(ViewContext.RouteData.Values)">Unfollow</a>
-                            }}
                         
                     </p>
                 </li>

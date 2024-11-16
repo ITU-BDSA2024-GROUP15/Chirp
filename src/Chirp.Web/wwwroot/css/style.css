@@ -309,3 +309,6 @@ div.pagination a{
     cursor: pointer;
 }
 
+.smallbutton {
+    background-color: cornflowerblue;
+}

@@ -38,7 +38,7 @@ public class PublicModel : PageModel
         return Page();
     }
     
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostSendCheep()
     {
         //We check if any validation rules has exceeded
         if ( !ModelState.IsValid )
@@ -64,6 +64,21 @@ public class PublicModel : PageModel
         
         await _service.AddCheep(CheepMessage, author.Name, author.Email);
         
+        return RedirectToPage("Public");
+    }
+
+
+    public async Task<IActionResult> OnPostFollow()
+    {
+        Console.WriteLine("Followed");
+
+        return RedirectToPage("Public");
+    }
+    
+    public async Task<IActionResult> OnPostUnfollow()
+    {
+        Console.WriteLine("Followed");
+
         return RedirectToPage("Public");
     }
 }

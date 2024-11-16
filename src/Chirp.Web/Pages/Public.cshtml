@@ -15,7 +15,7 @@
     {
         <div class="cheepbox">
             <h3>Send cheep:</h3>
-            <form method="post">
+            <form asp-page-handler="SendCheep" method="post">
                 <input type="text"  asp-for="CheepMessage" required>
                 <input type="submit" value="Share">
             </form>
@@ -41,7 +41,27 @@
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
+                        <small>&mdash; 
+                            @cheep.Timestamp
+                        
+                            </small>
+                        
+                        @{
+                            
+                            if ( SignInManager.IsSignedIn(User) )
+                            {
+                                if ( cheep.Follows )
+                                {
+                                    <button type="submit" asp-page-handler="Follow">Follow</button>
+                                }
+                                else
+                                {
+                                    <form asp-page-handler="Unfollow" method="post" ><button class="smallbutton">Unfollow</button></form>
+                                }
+                                
+                            }
+                        }
+
                     </p>
                 </li>
             }
