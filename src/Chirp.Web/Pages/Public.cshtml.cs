@@ -88,7 +88,10 @@ public class PublicModel : PageModel
     {
         Console.WriteLine("Followed");
         
+        var authorName = User.Identity?.Name;
+        var author = await _service.GetAuthorByEmail(authorName);
         
+        await _service.RemoveFollowing(author.Id, author.Name, FollowsName);
         
         return RedirectToPage("Public");
     }

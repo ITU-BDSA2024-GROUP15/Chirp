@@ -236,7 +236,7 @@ public class UnitTests
         //Check that the Follow has been added
         Assert.NotNull(follow);
 
-        await authorrepo.RemoveFollowing(author1.Id, author1.Name);
+        await authorrepo.RemoveFollowing(author1.Id, author1.Name, author2.Name);
         
         //Check that the follow has been removed
         var followRemoved = await context.Follows.FirstOrDefaultAsync();
