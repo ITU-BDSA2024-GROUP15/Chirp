@@ -5,4 +5,5 @@ public class CheepDto
     public required string Message { get; set; } 
     public DateTime Timestamp { get; set; }
     public required string Author { get; set; }
+    public bool Follows { get; set; }
 }

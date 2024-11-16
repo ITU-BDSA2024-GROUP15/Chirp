@@ -68,6 +68,9 @@ public class UserTimelineModel : PageModel
         return RedirectToPage("UserTimeline");
     }
     
+    
+    
+    
     public IActionResult OnGetLogin()
     {
         if ( User.Identity.IsAuthenticated )
