@@ -206,6 +206,43 @@ public class UnitTests
         Assert.Equal(author1.Id, follow.AuthorId);
 
     }
+
+    [Fact]
+    public async Task CanRemoveFollowerFromDb()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+
+        var follow = await context.Follows.FirstOrDefaultAsync();
+        
+        //Check that the Follow has been added
+        Assert.NotNull(follow);
+
+        await authorrepo.RemoveFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+        
+        //Check that the follow has been removed
+        var followRemoved = await context.Follows.FirstOrDefaultAsync();
+        Assert.Null(followRemoved);
+        
+    }
     
     
     [Fact]

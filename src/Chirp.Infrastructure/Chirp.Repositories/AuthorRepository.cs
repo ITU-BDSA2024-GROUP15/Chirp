@@ -91,15 +91,17 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task RemoveFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName)
     {
-        var follow = new Follow()
-        {
-            AuthorId = authorId,
-            AuthorName = followerAuthorName,
-            FollowsId = followingId,
-            FollowsAuthorName = followsAuthorName
-        };
+        //https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
+        
+        
+        //We first find the follow that we want to remove
+        var follow = _context.Follows.FirstOrDefault(follow => follow.AuthorId == authorId && follow.AuthorName == followerAuthorName);
 
-        _context.Follows.Remove(follow);
-        await _context.SaveChangesAsync();
+        if ( follow != null )
+        {
+            _context.Follows.Remove(follow);
+            await _context.SaveChangesAsync();
+        }
+        
     }
 }
