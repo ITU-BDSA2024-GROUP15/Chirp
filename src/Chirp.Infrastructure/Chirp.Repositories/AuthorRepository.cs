@@ -106,11 +106,10 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task<List<Follow>> GetFollowing(int authorId, string followerAuthorName, int followingId)
+    public async Task<List<Follow>> GetFollowing(int authorId, string followerAuthorName)
     {
         var query = (from follow in _context.Follows
-            where follow.AuthorId == authorId && follow.AuthorName == followerAuthorName &&
-                  follow.FollowsId == followingId
+            where follow.AuthorId == authorId && follow.AuthorName == followerAuthorName
                   select follow);
         var result = await query.ToListAsync();
         return result;

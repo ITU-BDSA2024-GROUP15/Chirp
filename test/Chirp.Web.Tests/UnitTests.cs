@@ -246,7 +246,7 @@ public class UnitTests
 
 
     [Fact]
-    public async Task CanGetFollowsFromDb()
+    public async Task CanGetFollowFromDb()
     {
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
@@ -269,11 +269,52 @@ public class UnitTests
 
         await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
         
-        var follows = await authorrepo.GetFollowing(author1.Id, author1.Name, author2.Id);
+        var follows = await authorrepo.GetFollowing(author1.Id, author1.Name);
         
         Assert.NotNull(follows);
         Assert.Equal(author2.Name, follows[0].FollowsAuthorName);
     }
+    
+    
+    [Fact]
+    public async Task CanGetFollowsFromDb()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+        
+        Author author3 = new Author()
+        {
+            Id = 3,
+            Name = "Test3",
+            Email = "test3@mail.com",
+        };
+
+        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+        await authorrepo.AddFollowing(author1.Id, author1.Name, author3.Id, author3.Name);
+        
+        var follows = await authorrepo.GetFollowing(author1.Id, author1.Name);
+        
+        Assert.NotNull(follows);
+        Assert.Equal(author2.Name, follows[0].FollowsAuthorName);
+        Assert.Equal(author3.Name, follows[1].FollowsAuthorName);
+    }
+
     
     [Fact]
     public async Task TestQueryCheepsFromFollow()
