@@ -89,7 +89,7 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task RemoveFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName)
+    public async Task RemoveFollowing(int authorId, string followerAuthorName)
     {
         //https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
         
@@ -103,5 +103,17 @@ public class AuthorRepository : IAuthorRepository
             await _context.SaveChangesAsync();
         }
         
+    }
+
+
+    public async Task<List<Follow>> GetFollowing(int authorId, string followerAuthorName, int followingId)
+    {
+        var query = (from follow in _context.Follows
+            where follow.AuthorId == authorId && follow.AuthorName == followerAuthorName &&
+                  follow.FollowsId == followingId
+                  select follow);
+        var result = await query.ToListAsync();
+        return result;
+
     }
 }
