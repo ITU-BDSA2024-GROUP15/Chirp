@@ -87,6 +87,19 @@ public class AuthorRepository : IAuthorRepository
         await _context.Follows.AddAsync(follow);
         await _context.SaveChangesAsync();
     }
-    
-    
+
+
+    public async Task RemoveFollowing(int authorId, Author followerAuthor, int followingId, Author followsAuthor)
+    {
+        var follow = new Follow()
+        {
+            AuthorId = authorId,
+            Author = followerAuthor,
+            FollowsId = followingId,
+            Follows = followsAuthor
+        };
+
+        _context.Follows.Remove(follow);
+        await _context.SaveChangesAsync();
+    }
 }
