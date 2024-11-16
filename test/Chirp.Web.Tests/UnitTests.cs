@@ -173,6 +173,28 @@ public class UnitTests
 
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
+
+
+    [Fact]
+    public async Task CanFollowAuthor()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+    }
+    
+    
+    [Fact]
+    public async Task TestQueryCheepsFromFollow()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        
+        
+    }
     
     
 }

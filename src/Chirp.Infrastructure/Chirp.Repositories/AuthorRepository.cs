@@ -71,5 +71,22 @@ public class AuthorRepository : IAuthorRepository
         await _context.Authors.AddAsync(newAuthor);
         await _context.SaveChangesAsync();
     }
+
+
+    public async Task AddFollowing(int authorId, Author followerAuthor, int followingId, Author followsAuthor)
+    {
+
+        var follow = new Follow()
+        {
+            AuthorId = authorId,
+            Author = followerAuthor,
+            FollowsId = followingId,
+            Follows = followsAuthor
+        };
+        
+        await _context.Follows.AddAsync(follow);
+        await _context.SaveChangesAsync();
+    }
+    
     
 }

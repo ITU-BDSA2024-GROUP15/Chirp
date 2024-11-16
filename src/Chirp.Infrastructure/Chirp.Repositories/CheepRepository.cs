@@ -38,6 +38,8 @@ public class CheepRepository : ICheepRepository
             .Include(c => c.Author)
             .Skip((page - 1) * 32).Take(32);
         var result = await query.ToListAsync();
+        
+        
         return result;
     }
     
