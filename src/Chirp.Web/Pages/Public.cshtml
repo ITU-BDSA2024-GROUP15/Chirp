@@ -56,7 +56,11 @@
                                 }
                                 else
                                 {
-                                    <form asp-page-handler="Unfollow" method="post" ><button class="smallbutton">Unfollow</button></form>
+                                        
+                                    <form asp-page-handler="Unfollow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button class="smallbutton">Unfollow</button>
+                                    </form>
                                 }
                                 
                             }

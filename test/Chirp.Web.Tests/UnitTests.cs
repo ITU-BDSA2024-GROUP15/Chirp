@@ -315,6 +315,39 @@ public class UnitTests
         Assert.Equal(author3.Name, follows[1].FollowsAuthorName);
     }
 
+    [Fact]
+    public async Task CanAddFolowerToDbWithCheepService() 
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        
+        ICheepService service = new CheepService(cheeprepo, authorrepo);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await service.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+
+        var follow = await context.Follows.FirstOrDefaultAsync();
+        
+        Assert.NotNull(follow);
+        Assert.Equal(author1.Id, follow.AuthorId);
+
+    }
     
     [Fact]
     public async Task TestQueryCheepsFromFollow()

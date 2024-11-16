@@ -16,7 +16,8 @@ public class PublicModel : PageModel
     [Microsoft.Build.Framework.Required]
     [StringLength(160, ErrorMessage = "The message must not exceed 160 characters.", MinimumLength = 1)]
     public string CheepMessage { get; set; }
-    
+    [BindProperty]
+    public string FollowsName { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -71,6 +72,14 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostFollow()
     {
         Console.WriteLine("Followed");
+        
+        var authorName = User.Identity?.Name;
+        var author = await _service.GetAuthorByEmail(authorName);
+        
+        var followsAuthor = await _service.GetAuthorByName(FollowsName);
+        
+        Console.WriteLine("waaB: " + author.Id + author.Name + followsAuthor.Id + followsAuthor.Name);
+        await _service.AddFollowing(author.Id, author.Name, followsAuthor.Id, followsAuthor.Name);
 
         return RedirectToPage("Public");
     }
@@ -78,7 +87,9 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostUnfollow()
     {
         Console.WriteLine("Followed");
-
+        
+        
+        
         return RedirectToPage("Public");
     }
 }
