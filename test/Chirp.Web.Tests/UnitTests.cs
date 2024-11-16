@@ -198,12 +198,12 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        //await authorrepo.AddFollowing(author1.Id, author1, author2.Id, author2);
+        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         Assert.NotNull(follow);
-       // Assert.Equal(author1.Id, follow.AuthorId);
+        Assert.Equal(author1.Id, follow.AuthorId);
 
     }
     
