@@ -106,6 +106,13 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
+    /// <summary>
+    /// Gets a list of Authors that an author follows. AuthorId and followerAuthorName is the id and name of
+    /// the author that follows.
+    /// </summary>
+    /// <param name="authorId"></param>
+    /// <param name="followerAuthorName"></param>
+    /// <returns></returns>
     public async Task<List<Follow>> GetFollowing(int authorId, string followerAuthorName)
     {
         var query = (from follow in _context.Follows

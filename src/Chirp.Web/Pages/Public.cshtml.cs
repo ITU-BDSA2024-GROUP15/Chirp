@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -27,7 +28,17 @@ public class PublicModel : PageModel
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         
-        Cheeps = await _service.GetCheeps(page);
+        var authorName = User.Identity?.Name;
+        if ( authorName == null )
+        {
+            Cheeps = await _service.GetCheeps(page);
+        }
+        else
+        {
+            Cheeps = await _service.GetCheeps(page, authorName);
+        }
+        
+        
         if ( page == 0 )
         {
             PageNumber = 1;
@@ -74,7 +85,7 @@ public class PublicModel : PageModel
         Console.WriteLine("Followed");
         
         var authorName = User.Identity?.Name;
-        var author = await _service.GetAuthorByEmail(authorName);
+        var author = await _service.GetAuthorByName(authorName);
         
         var followsAuthor = await _service.GetAuthorByName(FollowsName);
         

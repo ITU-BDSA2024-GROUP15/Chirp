@@ -50,9 +50,13 @@
                             
                             if ( SignInManager.IsSignedIn(User) )
                             {
-                                if ( cheep.Follows )
+                                if ( !cheep.Follows )
                                 {
-                                    <button type="submit" asp-page-handler="Follow">Follow</button>
+                                    <form asp-page-handler="Unfollow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button type="submit" asp-page-handler="Follow">Follow</button>
+                                    </form>
+                                    
                                 }
                                 else
                                 {
