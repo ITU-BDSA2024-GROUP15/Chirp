@@ -16,6 +16,7 @@ public interface ICheepService
     public Task RemoveFollowing(string followerAuthorName, string followsAuthorName);
     public Task<List<Follow>> GetFollowed(string followerAuthorName);
     public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
+    public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
     //TODO: Remove all unused or privately used methods
 }
 
@@ -154,6 +155,31 @@ public class CheepService : ICheepService
         var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(author);
         var Dtos = await ConvertCheepsToCheepDtos(cheeps);
         return Dtos;
+    }
+
+
+    private async Task<List<CheepDto>> GetAllCheepsForTimeline(string author)
+    {
+        var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(author);
+        var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(author);
+        await Task.WhenAll(cheepsByAuthor, cheepsByFollowed);
+        
+        //combine the lists inelegantly
+        cheepsByAuthor.Result.AddRange(cheepsByFollowed.Result);
+        var allCheeps = await ConvertCheepsToCheepDtos(cheepsByAuthor.Result);
+        
+        //sort it by time
+        var result = allCheeps.OrderBy(c => c.Timestamp).ToList();
+        return result;
+        
+    }
+
+
+    public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //untested
+    {
+        var allDtos = await GetAllCheepsForTimeline(author);
+        var result = allDtos.Slice((page-1)*32, 32);
+        return result;
     }
 
 
