@@ -85,12 +85,9 @@ public class PublicModel : PageModel
         Console.WriteLine("Followed");
         
         var authorName = User.Identity?.Name;
-        var author = await _service.GetAuthorByName(authorName);
         
-        var followsAuthor = await _service.GetAuthorByName(FollowsName);
-        
-        Console.WriteLine("waaB: " + author.Id + author.Name + followsAuthor.Id + followsAuthor.Name);
-        await _service.AddFollowing(author.Name, followsAuthor.Name);
+        Console.WriteLine("waaB: " + authorName + FollowsName);
+        await _service.AddFollowing(authorName, FollowsName);
 
         return RedirectToPage("Public");
     }
@@ -98,7 +95,7 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostUnfollow()
     {
         Console.WriteLine("Followed");
-        
+         
         var authorName = User.Identity?.Name;
         var author = await _service.GetAuthorByName(authorName);
         
