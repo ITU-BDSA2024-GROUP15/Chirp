@@ -105,7 +105,7 @@ public class AuthorRepository : IAuthorRepository
 
 
     /// <summary>
-    /// Gets a list of Authors that an author follows. FollowerAuthorName is the id and name of
+    /// Gets a list of Authors that an author follows. FollowerAuthorName is the name of
     /// the author that follows.
     /// </summary>
     /// <param name="authorId"></param>
