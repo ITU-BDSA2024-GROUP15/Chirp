@@ -25,7 +25,8 @@ public class UserTimelineModel : PageModel
     
     public List<CheepDto>? Cheeps { get; set; }
 
-    
+    //TODO: ensure you cannot follow/ unfollow self
+    //TODO: ensure you can unfollow others
     
     
     public async Task<ActionResult> OnGet([FromQuery] int page, string author)
