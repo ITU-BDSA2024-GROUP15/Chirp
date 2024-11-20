@@ -18,7 +18,7 @@ public class PublicModel : PageModel
     [StringLength(160, ErrorMessage = "The message must not exceed 160 characters.", MinimumLength = 1)]
     public string CheepMessage { get; set; }
     [BindProperty]
-    public string FollowsName { get; set; }
+    public string? FollowsName { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -55,6 +55,7 @@ public class PublicModel : PageModel
         //We check if any validation rules has exceeded
         if ( !ModelState.IsValid )
         {
+            foreach (var state in ModelState) { foreach (var error in state.Value.Errors) { Console.WriteLine($"Property: {state.Key}, Error: {error.ErrorMessage}"); } }
             return Page();
         }
         
