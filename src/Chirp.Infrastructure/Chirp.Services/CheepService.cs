@@ -22,12 +22,14 @@ public class CheepService : ICheepService
 {
     private ICheepRepository _cheepRepository;
     private IAuthorRepository _authorRepository;
+    private IFollowRepository _followRepository;
 
 
-    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
         this._cheepRepository = cheepRepository;
         this._authorRepository = authorRepository;
+        this._followRepository = followRepository;
     }
     
     public async Task<List<CheepDto>> GetCheeps(int page)
@@ -153,19 +155,19 @@ public class CheepService : ICheepService
 
     public async Task AddFollowing(string followerAuthorName, string followsAuthorName)
     {
-        await _authorRepository.AddFollowing(followerAuthorName, followsAuthorName);
+        await _followRepository.AddFollowing(followerAuthorName, followsAuthorName);
     }
 
 
     public async Task RemoveFollowing(string followerAuthorName, string followsAuthorName)
     {
-        await _authorRepository.RemoveFollowing(followerAuthorName, followsAuthorName);
+        await _followRepository.RemoveFollowing(followerAuthorName, followsAuthorName);
     }
 
 
     public async Task<List<Follow>> GetFollowed(string followerAuthorName)
     {
-        return await _authorRepository.GetFollowed(followerAuthorName); 
+        return await _followRepository.GetFollowed(followerAuthorName); 
     }
     
     
