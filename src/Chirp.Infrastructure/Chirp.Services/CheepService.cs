@@ -15,7 +15,8 @@ public interface ICheepService
     public Task AddFollowing(string followerAuthorName, string followsAuthorName);
     public Task RemoveFollowing(string followerAuthorName, string followsAuthorName);
     public Task<List<Follow>> GetFollowed(string followerAuthorName);
-
+    public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
+    //TODO: Remove all unused or privately used methods
 }
 
 public class CheepService : ICheepService
@@ -45,23 +46,11 @@ public class CheepService : ICheepService
 
            
            
-           var result = new List<CheepDto>();
-           foreach (var cheep in queryresult)
-           {
-               
-               var dto = new CheepDto
-               {
-                   Author = cheep.Author.Name,
-                   Message = cheep.Text,
-                   Timestamp = cheep.Timestamp,
-                   Follows = false
-               };
-               result.Add(dto);
-           }
+           var result = await ConvertCheepsToCheepDtos(queryresult);
            return result;
        }
     
-    public async Task<List<CheepDto>> GetCheeps(int page, string authorName)
+    public async Task<List<CheepDto>> GetCheeps(int page, string authorName) //for use when logged in, allows us to display the correct button, either follow or unfollow
     {
            
         Author author = await _authorRepository.GetAuthorByName(authorName);
@@ -75,7 +64,6 @@ public class CheepService : ICheepService
         //Gets a list over which Authors the current author follows
         var follows = await GetFollowed(author.Name);
         
-           
         var result = new List<CheepDto>();
         foreach (var cheep in queryresult)
         {
@@ -109,17 +97,7 @@ public class CheepService : ICheepService
             page = 1;
         }
         var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, author);
-        var result = new List<CheepDto>();
-        foreach (var cheep in queryresult)
-        {    
-            var dto = new CheepDto
-            {
-                Author = cheep.Author.Name,
-                Message = cheep.Text,
-                Timestamp = cheep.Timestamp
-            };
-            result.Add(dto);
-        }
+        var result = await ConvertCheepsToCheepDtos(queryresult);
         return result;
     }
 
@@ -169,6 +147,31 @@ public class CheepService : ICheepService
     {
         return await _followRepository.GetFollowed(followerAuthorName); 
     }
-    
+
+
+    public async Task<List<CheepDto>> GetAllCheepsFromAuthor(string author)
+    {
+        var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(author);
+        var Dtos = await ConvertCheepsToCheepDtos(cheeps);
+        return Dtos;
+    }
+
+
+    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps)
+    {
+        var result = new List<CheepDto>();
+        foreach (var cheep in cheeps)
+        {
+            var dto = new CheepDto
+            {
+                Author = cheep.Author.Name,
+                Message = cheep.Text,
+                Timestamp = cheep.Timestamp,
+                Follows = false
+            };
+            result.Add(dto);
+        }
+        return result;    
+    }
     
 }
