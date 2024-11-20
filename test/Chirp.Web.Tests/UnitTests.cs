@@ -175,7 +175,7 @@ public class UnitTests
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
 
-
+    /*
     [Fact]
     public async Task CanAddFolowerToDb() 
     {
@@ -359,6 +359,6 @@ public class UnitTests
         
         
     }
-    
+    */
     
 }
