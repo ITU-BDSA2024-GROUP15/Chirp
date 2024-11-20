@@ -147,8 +147,9 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     Input.Name = info.Principal.FindFirstValue(ClaimTypes.Name);
 
                 }
+
+                return await OnPostConfirmationAsync();
                 
-                return Page();
             }
         }
 
