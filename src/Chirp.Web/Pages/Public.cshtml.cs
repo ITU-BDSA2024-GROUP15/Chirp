@@ -90,7 +90,7 @@ public class PublicModel : PageModel
         var followsAuthor = await _service.GetAuthorByName(FollowsName);
         
         Console.WriteLine("waaB: " + author.Id + author.Name + followsAuthor.Id + followsAuthor.Name);
-        await _service.AddFollowing(author.Id, author.Name, followsAuthor.Id, followsAuthor.Name);
+        await _service.AddFollowing(author.Name, followsAuthor.Name);
 
         return RedirectToPage("Public");
     }
@@ -102,7 +102,7 @@ public class PublicModel : PageModel
         var authorName = User.Identity?.Name;
         var author = await _service.GetAuthorByName(authorName);
         
-        await _service.RemoveFollowing(author.Id, author.Name, FollowsName);
+        await _service.RemoveFollowing(author.Name, FollowsName);
         
         return RedirectToPage("Public");
     }

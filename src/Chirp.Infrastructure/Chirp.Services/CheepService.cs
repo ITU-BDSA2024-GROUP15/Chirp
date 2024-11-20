@@ -12,9 +12,9 @@ public interface ICheepService
     public Task<Author> GetAuthorByEmail(string email);
     public Task<Author?> GetAuthorByName(string name);
     public Task AddAuthor(string name, string email);
-    public Task AddFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName);
-    public Task RemoveFollowing(int authorId, string followerAuthorName, string followsAuthorName);
-    public Task<List<Follow>> GetFollowing(int authorId, string followerAuthorName);
+    public Task AddFollowing(string followerAuthorName, string followsAuthorName);
+    public Task RemoveFollowing(string followerAuthorName, string followsAuthorName);
+    public Task<List<Follow>> GetFollowed(string followerAuthorName);
 
 }
 
@@ -71,7 +71,7 @@ public class CheepService : ICheepService
         var queryresult = await _cheepRepository.GetCheeps(page);
            
         //Gets a list over which Authors the current author follows
-        var follows = await GetFollowing(author.Id, author.Name);
+        var follows = await GetFollowed(author.Name);
         
            
         var result = new List<CheepDto>();
@@ -151,21 +151,21 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task AddFollowing(int authorId, string followerAuthorName, int followingId, string followsAuthorName)
+    public async Task AddFollowing(string followerAuthorName, string followsAuthorName)
     {
-        await _authorRepository.AddFollowing(authorId, followerAuthorName, followingId, followsAuthorName);
+        await _authorRepository.AddFollowing(followerAuthorName, followsAuthorName);
     }
 
 
-    public async Task RemoveFollowing(int authorId, string followerAuthorName, string followsAuthorName)
+    public async Task RemoveFollowing(string followerAuthorName, string followsAuthorName)
     {
-        await _authorRepository.RemoveFollowing(authorId, followerAuthorName, followsAuthorName);
+        await _authorRepository.RemoveFollowing(followerAuthorName, followsAuthorName);
     }
 
 
-    public async Task<List<Follow>> GetFollowing(int authorId, string followerAuthorName)
+    public async Task<List<Follow>> GetFollowed(string followerAuthorName)
     {
-        return await _authorRepository.GetFollowing(authorId, followerAuthorName); 
+        return await _authorRepository.GetFollowed(followerAuthorName); 
     }
     
     
