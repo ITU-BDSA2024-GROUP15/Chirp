@@ -158,11 +158,10 @@ public class CheepService : ICheepService
 
     private async Task<List<CheepDto>> GetAllCheepsForTimeline(string author)
     {
+        
         var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(author);
         var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(author);
         await Task.WhenAll(cheepsByAuthor, cheepsByFollowed);
-        
-        Console.Write("Cheeps by followed: " + cheepsByFollowed.Result.Count + " Cheeps by author: " + cheepsByAuthor.Result.Count);
         //combine the lists inelegantly
         cheepsByAuthor.Result.AddRange(cheepsByFollowed.Result);
         var allCheeps = await ConvertCheepsToCheepDtos(cheepsByAuthor.Result);
@@ -173,7 +172,7 @@ public class CheepService : ICheepService
         
     }
 
-
+//Todo ensure this only returns 32 elements
     public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //untested
     {
         var allDtos = await GetAllCheepsForTimeline(author);

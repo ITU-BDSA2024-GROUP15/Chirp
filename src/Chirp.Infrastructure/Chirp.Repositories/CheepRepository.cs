@@ -57,12 +57,14 @@ public class CheepRepository : ICheepRepository
     
     public async Task<List<Cheep>> GetAllCheepsFromFollowed(string author) //Made with the help of ChatGPT
     {
-        var query = from cheep in _context.Cheeps
+        var query = (from cheep in _context.Cheeps
             where (from follow in _context.Follows
-                    where follow.Followed == author
+                    where follow.Follower == author
                     select follow.Followed)
                 .Contains(cheep.Author.Name)
-            select cheep;
+            select cheep)
+            .Include(c => c.Author);
+        
         var result = await query.ToListAsync();
         return result;
     }
