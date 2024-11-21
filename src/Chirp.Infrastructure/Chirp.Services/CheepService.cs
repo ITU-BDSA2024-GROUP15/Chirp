@@ -47,7 +47,7 @@ public class CheepService : ICheepService
 
            
            
-           var result = await ConvertCheepsToCheepDtos(queryresult);
+           var result = await ConvertCheepsToCheepDtos(queryresult, false);
            return result;
        }
     
@@ -96,7 +96,7 @@ public class CheepService : ICheepService
             page = 1;
         }
         var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, author);
-        var result = await ConvertCheepsToCheepDtos(queryresult);
+        var result = await ConvertCheepsToCheepDtos(queryresult, false);
         return result;
     }
 
@@ -151,7 +151,7 @@ public class CheepService : ICheepService
     public async Task<List<CheepDto>> GetAllCheepsFromAuthor(string author)
     {
         var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(author);
-        var Dtos = await ConvertCheepsToCheepDtos(cheeps);
+        var Dtos = await ConvertCheepsToCheepDtos(cheeps, false);
         return Dtos;
     }
 
@@ -161,13 +161,16 @@ public class CheepService : ICheepService
         
         var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(author);
         var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(author);
-        await Task.WhenAll(cheepsByAuthor, cheepsByFollowed);
+       
+        var cheepsByAuthorDtos = ConvertCheepsToCheepDtos(await cheepsByAuthor, false);
+        var cheepsByFollowedDtos = ConvertCheepsToCheepDtos(await cheepsByFollowed, true);
+        await Task.WhenAll(cheepsByAuthorDtos, cheepsByFollowedDtos);
         //combine the lists inelegantly
-        cheepsByAuthor.Result.AddRange(cheepsByFollowed.Result);
-        var allCheeps = await ConvertCheepsToCheepDtos(cheepsByAuthor.Result);
+        cheepsByAuthorDtos.Result.AddRange(cheepsByFollowedDtos.Result);
+        var allCheeps = cheepsByAuthorDtos.Result;
         
         //sort it by time
-        var result = allCheeps.OrderBy(c => c.Timestamp).ToList();
+        var result = allCheeps.OrderByDescending(c => c.Timestamp).ToList();
         return result;
         
     }
@@ -181,7 +184,7 @@ public class CheepService : ICheepService
     }
 
 
-    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps)
+    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, bool following)
     {
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
@@ -191,7 +194,7 @@ public class CheepService : ICheepService
                 Author = cheep.Author.Name,
                 Message = cheep.Text,
                 Timestamp = cheep.Timestamp,
-                Follows = false
+                Follows = following
             };
             result.Add(dto);
         }
