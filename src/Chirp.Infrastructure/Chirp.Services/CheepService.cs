@@ -178,7 +178,7 @@ public class CheepService : ICheepService
     public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //untested
     {
         var allDtos = await GetAllCheepsForTimeline(author);
-        var result = allDtos.Slice((page-1)*32, 32);
+        var result = allDtos;
         return result;
     }
 
