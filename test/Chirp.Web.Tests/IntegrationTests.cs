@@ -43,8 +43,9 @@ public class IntegrationTests
         var context = await utils.CreateInMemoryDb();
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
 
-        ICheepService service = new CheepService(cheeprepo, authorrepo);
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
         
         await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
 

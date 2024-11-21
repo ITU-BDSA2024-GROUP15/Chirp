@@ -175,14 +175,14 @@ public class UnitTests
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
 
-    /* TODO: UPDATE TESTS to work
+    
     [Fact]
     public async Task CanAddFolowerToDb() 
     {
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
         
-        IAuthorRepository authorrepo = new AuthorRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
 
         Author author1 = new Author()
         {
@@ -198,12 +198,12 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+        await followrepo.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         Assert.NotNull(follow);
-        Assert.Equal(author1.Id, follow.AuthorId);
+        Assert.Equal(author1.Name, follow.AuthorName);
 
     }
 
@@ -213,7 +213,7 @@ public class UnitTests
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
         
-        IAuthorRepository authorrepo = new AuthorRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
 
         Author author1 = new Author()
         {
@@ -229,14 +229,14 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+        await followrepo.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         //Check that the Follow has been added
         Assert.NotNull(follow);
 
-        await authorrepo.RemoveFollowing(author1.Id, author1.Name, author2.Name);
+        await followrepo.RemoveFollowing(author1.Name, author2.Name);
         
         //Check that the follow has been removed
         var followRemoved = await context.Follows.FirstOrDefaultAsync();
@@ -251,7 +251,7 @@ public class UnitTests
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
         
-        IAuthorRepository authorrepo = new AuthorRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
 
         Author author1 = new Author()
         {
@@ -267,9 +267,9 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+        await followrepo.AddFollowing(author1.Name, author2.Name);
         
-        var follows = await authorrepo.GetFollowing(author1.Id, author1.Name);
+        var follows = await followrepo.GetFollowed(author1.Name);
         
         Assert.NotNull(follows);
         Assert.Equal(author2.Name, follows[0].FollowsAuthorName);
@@ -282,7 +282,7 @@ public class UnitTests
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
         
-        IAuthorRepository authorrepo = new AuthorRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
 
         Author author1 = new Author()
         {
@@ -305,10 +305,10 @@ public class UnitTests
             Email = "test3@mail.com",
         };
 
-        await authorrepo.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
-        await authorrepo.AddFollowing(author1.Id, author1.Name, author3.Id, author3.Name);
+        await followrepo.AddFollowing(author1.Name, author2.Name);
+        await followrepo.AddFollowing(author1.Name, author3.Name);
         
-        var follows = await authorrepo.GetFollowing(author1.Id, author1.Name);
+        var follows = await followrepo.GetFollowed(author1.Name);
         
         Assert.NotNull(follows);
         Assert.Equal(author2.Name, follows[0].FollowsAuthorName);
@@ -323,8 +323,9 @@ public class UnitTests
         
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
         
-        ICheepService service = new CheepService(cheeprepo, authorrepo);
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
 
         Author author1 = new Author()
         {
@@ -340,12 +341,12 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await service.AddFollowing(author1.Id, author1.Name, author2.Id, author2.Name);
+        await service.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         Assert.NotNull(follow);
-        Assert.Equal(author1.Id, follow.AuthorId);
+        Assert.Equal(author1.Name, follow.AuthorName);
 
     }
     
@@ -359,6 +360,6 @@ public class UnitTests
         
         
     }
-    */
+    
     
 }
