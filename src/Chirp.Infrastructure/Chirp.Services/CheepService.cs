@@ -6,15 +6,15 @@ namespace Chirp.Infrastructure.Chirp.Services;
 public interface ICheepService
 {
     public Task<List<CheepDto>> GetCheeps(int limit);
-    public Task<List<CheepDto>> GetCheeps(int limit, string authorName);
+    public Task<List<CheepDto>> GetCheeps(int limit, string follower);
     public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author);
     public Task AddCheep(string text, string name, string email);
     public Task<Author> GetAuthorByEmail(string email);
     public Task<Author?> GetAuthorByName(string name);
     public Task AddAuthor(string name, string email);
-    public Task AddFollowing(string followerAuthorName, string followsAuthorName);
-    public Task RemoveFollowing(string followerAuthorName, string followsAuthorName);
-    public Task<List<Follow>> GetFollowed(string followerAuthorName);
+    public Task AddFollowing(string follower, string followed);
+    public Task RemoveFollowing(string follower, string followed);
+    public Task<List<Follow>> GetFollowed(string follower);
     public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
     //TODO: Remove all unused or privately used methods
@@ -51,10 +51,10 @@ public class CheepService : ICheepService
            return result;
        }
     
-    public async Task<List<CheepDto>> GetCheeps(int page, string authorName) //for use when logged in, allows us to display the correct button, either follow or unfollow
+    public async Task<List<CheepDto>> GetCheeps(int page, string follower) //for use when logged in, allows us to display the correct button, either follow or unfollow
     {
            
-        Author author = await _authorRepository.GetAuthorByName(authorName);
+        Author author = await _authorRepository.GetAuthorByName(follower);
            
         if ( page == 0 )
         {
@@ -71,9 +71,7 @@ public class CheepService : ICheepService
             bool isFollowing = false;
             foreach ( var follow in follows )
             {
-                Console.WriteLine("FOLLOWS:");
-                Console.WriteLine(follow.AuthorName);
-                if ( follow.FollowsAuthorName == cheep.Author.Name )
+                if ( follow.Followed == cheep.Author.Name )
                 {
                     isFollowing = true;
                 }
@@ -132,21 +130,21 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task AddFollowing(string followerAuthorName, string followsAuthorName)
+    public async Task AddFollowing(string follower, string followed)
     {
-        await _followRepository.AddFollowing(followerAuthorName, followsAuthorName);
+        await _followRepository.AddFollowing(follower, followed);
     }
 
 
-    public async Task RemoveFollowing(string followerAuthorName, string followsAuthorName)
+    public async Task RemoveFollowing(string follower, string followed)
     {
-        await _followRepository.RemoveFollowing(followerAuthorName, followsAuthorName);
+        await _followRepository.RemoveFollowing(follower, followed);
     }
 
 
-    public async Task<List<Follow>> GetFollowed(string followerAuthorName)
+    public async Task<List<Follow>> GetFollowed(string follower)
     {
-        return await _followRepository.GetFollowed(followerAuthorName); 
+        return await _followRepository.GetFollowed(follower); 
     }
 
 
@@ -164,6 +162,7 @@ public class CheepService : ICheepService
         var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(author);
         await Task.WhenAll(cheepsByAuthor, cheepsByFollowed);
         
+        Console.Write("Cheeps by followed: " + cheepsByFollowed.Result.Count + " Cheeps by author: " + cheepsByAuthor.Result.Count);
         //combine the lists inelegantly
         cheepsByAuthor.Result.AddRange(cheepsByFollowed.Result);
         var allCheeps = await ConvertCheepsToCheepDtos(cheepsByAuthor.Result);

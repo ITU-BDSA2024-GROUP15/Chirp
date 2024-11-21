@@ -13,13 +13,13 @@ public class FollowRepository : IFollowRepository
         _context = context;
     }
     
-    public async Task AddFollowing(string followerAuthorName, string followsAuthorName)
+    public async Task AddFollowing(string follower, string Followed)
     {
 
         var follow = new Follow()
         {
-            AuthorName = followerAuthorName,
-            FollowsAuthorName = followsAuthorName
+            Follower = follower,
+            Followed = Followed
         };
         
         await _context.Follows.AddAsync(follow);
@@ -27,13 +27,13 @@ public class FollowRepository : IFollowRepository
     }
 
 
-    public async Task RemoveFollowing(string followerAuthorName, string followsAuthorName)
+    public async Task RemoveFollowing(string follower, string follwed)
     {
         //https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
         
         
         //We first find the follow that we want to remove
-        var follow = _context.Follows.FirstOrDefault(follow => follow.AuthorName == followerAuthorName && follow.FollowsAuthorName == followsAuthorName);
+        var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == follower && follow.Followed == follwed);
 
         if ( follow != null )
         {
@@ -45,16 +45,15 @@ public class FollowRepository : IFollowRepository
 
 
     /// <summary>
-    /// Gets a list of Authors that an author follows. FollowerAuthorName is the name of
+    /// Gets a list of Authors that an author follows. Follower is the name of
     /// the author that follows.
     /// </summary>
-    /// <param name="authorId"></param>
-    /// <param name="followerAuthorName"></param>
+    /// <param name="follower"></param>
     /// <returns></returns>
-    public async Task<List<Follow>> GetFollowed(string followerAuthorName)
+    public async Task<List<Follow>> GetFollowed(string follower)
     {
         var query = (from follow in _context.Follows
-            where follow.AuthorName == followerAuthorName
+            where follow.Follower == follower
             select follow);
         var result = await query.ToListAsync();
         return result;

@@ -203,7 +203,7 @@ public class UnitTests
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         Assert.NotNull(follow);
-        Assert.Equal(author1.Name, follow.AuthorName);
+        Assert.Equal(author1.Name, follow.Follower);
 
     }
 
@@ -272,7 +272,7 @@ public class UnitTests
         var follows = await followrepo.GetFollowed(author1.Name);
         
         Assert.NotNull(follows);
-        Assert.Equal(author2.Name, follows[0].FollowsAuthorName);
+        Assert.Equal(author2.Name, follows[0].Followed);
     }
     
     
@@ -311,8 +311,8 @@ public class UnitTests
         var follows = await followrepo.GetFollowed(author1.Name);
         
         Assert.NotNull(follows);
-        Assert.Equal(author2.Name, follows[0].FollowsAuthorName);
-        Assert.Equal(author3.Name, follows[1].FollowsAuthorName);
+        Assert.Equal(author2.Name, follows[0].Followed);
+        Assert.Equal(author3.Name, follows[1].Followed);
     }
 
     [Fact]
@@ -346,7 +346,7 @@ public class UnitTests
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         Assert.NotNull(follow);
-        Assert.Equal(author1.Name, follow.AuthorName);
+        Assert.Equal(author1.Name, follow.Follower);
 
     }
     

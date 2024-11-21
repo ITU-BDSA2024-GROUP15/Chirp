@@ -114,15 +114,15 @@ namespace Chirp.Core.Migrations
 
             modelBuilder.Entity("Chirp.Core.Follow", b =>
                 {
-                    b.Property<string>("AuthorName")
+                    b.Property<string>("Follower")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("FollowsAuthorName")
+                    b.Property<string>("Followed")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("AuthorName", "FollowsAuthorName");
+                    b.HasKey("Follower", "Followed");
 
                     b.ToTable("Follows");
                 });

@@ -4,7 +4,7 @@ namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public interface IFollowRepository
 {
-    public Task AddFollowing(string followerAuthorName, string followsAuthorName);
-    public Task RemoveFollowing(string followerAuthorName, string followsAuthorName);
-    public Task<List<Follow>> GetFollowed(string followerAuthorName);
+    public Task AddFollowing(string follower, string followed);
+    public Task RemoveFollowing(string follower, string followed);
+    public Task<List<Follow>> GetFollowed(string follower);
 }
