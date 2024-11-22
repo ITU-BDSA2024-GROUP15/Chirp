@@ -312,3 +312,14 @@ div.pagination a{
 .smallbutton {
     background-color: cornflowerblue;
 }
+div.container{
+    display: flex;
+    gap:1%;
+}
+
+div.container p{
+    padding-left: 405px;
+    color: #888;
+    font-size: 12px;
+}
+
