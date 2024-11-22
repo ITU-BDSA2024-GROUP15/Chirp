@@ -56,7 +56,7 @@ public class UserTimelineModel : PageModel
         {
             return Page();
         }
-        var author = await _service.GetAuthorByEmail(authorName);
+        var author = await _service.GetAuthorByName(authorName);
         if ( author == null )
         {
             return Page();
