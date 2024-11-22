@@ -42,11 +42,28 @@ public class CheepRepository : ICheepRepository
     }
     
     
+    public async Task<List<Cheep>> GetAllCheepsFromAuthor(string author)
+    {
+        var query = ( from cheep in _context.Cheeps
+                where cheep.Author.Name == author
+                orderby cheep.Timestamp descending
+                select cheep )
+            .Include(c => c.Author);
+        var result = await query.ToListAsync();
+        return result;
+    }
+    
 
     public async Task AddCheep(string text, Author author)
     {
-        int maxId = _context.Cheeps.Max(cheep => cheep.CheepId); 
 
+        if ( text.Length <= 0 || text.Length > 160 )
+        {
+            return;
+        }
+        int maxId = _context.Cheeps.Max(cheep => cheep.CheepId); 
+        
+        
         Cheep cheep = new Cheep()
         {
             Author = author,

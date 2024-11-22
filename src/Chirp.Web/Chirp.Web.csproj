@@ -4,10 +4,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-      <UserSecretsId>c491092f-1867-4067-84aa-23f4afb0b0f7</UserSecretsId>
+      <UserSecretsId>0c864033-1e9d-4d60-be4d-093611e2fdaa</UserSecretsId>
   </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">

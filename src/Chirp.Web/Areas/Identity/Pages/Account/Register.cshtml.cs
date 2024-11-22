@@ -82,6 +82,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
             
             [Required]
+            [RegularExpression(@"^[^\/]*$")] //Frontend validation
             [DataType(DataType.Text)]
             [Display(Name = "Username")]
             public string Name { get; set; }
@@ -130,8 +131,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 
                 await _userStore.SetUserNameAsync(user, user.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, user.Email, CancellationToken.None);
-                
-                Console.WriteLine(User.Identity.Name);
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

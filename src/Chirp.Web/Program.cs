@@ -1,6 +1,7 @@
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,6 +16,19 @@ builder.Services.AddDbContext<CheepDbContext>(options => options.UseSqlite(conne
 builder.Services.AddDefaultIdentity<Author>(options =>   
         options.SignIn.RequireConfirmedAccount = true)            
     .AddEntityFrameworkStores<CheepDbContext>(); 
+
+builder.Services.AddSession();
+
+builder.Services.AddAuthentication()
+    .AddCookie()
+    .AddGitHub(o =>
+    {
+        o.ClientId = builder.Configuration["authentication:github:clientId"];
+        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+        o.CallbackPath = "/signin-github";
+        o.Scope.Add("user:email");
+        o.Scope.Add("read:user");
+    });
 
 
 // Add services to the container.
@@ -53,6 +67,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 app.MapRazorPages();
 

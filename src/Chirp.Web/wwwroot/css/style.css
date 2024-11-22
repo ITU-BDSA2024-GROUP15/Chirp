@@ -287,3 +287,36 @@ ul.nav li a {
 ul.nav li a:hover {
     background-color: #8b4949;
 }
+
+div.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:1%;
+}
+
+div.pagination h3{
+    color: #7e2c2c;
+}
+
+div.pagination a{
+    text-decoration: none;
+    background-color: #cc6e6e;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+div.container{
+    display: flex;
+    gap:1%;
+}
+
+div.container p{
+    padding-left: 405px;
+    color: #888;
+    font-size: 12px;
+}
+

@@ -1,34 +1,40 @@
-﻿using System.Security.Claims;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Build.Framework;
 
 namespace Chirp.Web.Pages;
 
 public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
-   
     public List<CheepDto>? Cheeps { get; set; }
-    
+    public int PageNumber { get; set; }
     [BindProperty]
-    [Required]
+    [Microsoft.Build.Framework.Required]
+    [StringLength(160, ErrorMessage = "The message must not exceed 160 characters.", MinimumLength = 1)]
     public string CheepMessage { get; set; }
     
 
     public PublicModel(ICheepService service)
     {
         _service = service;
-        
     }
     
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         
         Cheeps = await _service.GetCheeps(page);
-      
+        if ( page == 0 )
+        {
+            PageNumber = 1;
+        }
+        else
+        {
+            PageNumber = page;
+        }
         return Page();
     }
     
@@ -47,6 +53,11 @@ public class PublicModel : PageModel
         }
         var author = await _service.GetAuthorByEmail(authorName);
         if ( author == null )
+        {
+            return Page();
+        }
+
+        if ( CheepMessage.Length > 160 )
         {
             return Page();
         }

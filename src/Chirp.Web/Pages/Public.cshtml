@@ -16,9 +16,13 @@
         <div class="cheepbox">
             <h3>Send cheep:</h3>
             <form method="post">
-                <input type="text"  asp-for="CheepMessage">
-                <input type="submit" value="Share">
+                <input type="text"  asp-for="CheepMessage" required>
+                <div class="container">
+                    <input type="submit" value="Share">
+                    <p>Max 160 characters</p>
+                </div>
             </form>
+            
         </div>
     }
 </div>
@@ -51,4 +55,10 @@
     {
         <em>There are no cheeps so far.</em>
     }
+    
+    <div class="pagination">
+        <a href="?page=@(Model.PageNumber > 1 ? Model.PageNumber - 1 : 1)"><</a>
+        <h3>@Model.PageNumber</h3>
+        <a href="?page=@(Model.PageNumber + 1)">></a>
+    </div>
 </div>

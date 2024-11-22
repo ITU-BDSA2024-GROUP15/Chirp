@@ -1,5 +1,9 @@
+using System.Runtime.InteropServices.JavaScript;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.Chirp.Services;
+using Chirp.Web.Pages;
+using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal;
 using Xunit;
 
 namespace Chirp.Web.Tests;
@@ -121,18 +125,7 @@ public class UnitTests
         Assert.True(cheeps.Count == 0);   
         await utils.CloseConnection();
     }
-
-    /*
-    [Fact]
-    public async Task TestGetAuthorFail()
-    {
-        var context = await TestUtilities.CreateInMemoryDb();
-        IAuthorRepository repository = new AuthorRepository(context);
-        
-        await Assert.ThrowsAsync<Exception>(() =>  repository.GetAuthorByName("Filifjonken"));
-    }
-    */
-
+    
 
     [Fact]
     public async Task TestCreateAuthor()
@@ -146,7 +139,40 @@ public class UnitTests
         Author author = await repository.GetAuthorByName("Filifjonken");
         
         Assert.True(author.Name == "Filifjonken");   
+        await utils.CloseConnection();
         
     }
+
+
+    [Fact]
+    public async Task TestGetAllCheepsFromAuthor()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        ICheepRepository repository = new CheepRepository(context);
+        var result = ( await repository.GetAllCheepsFromAuthor("Adrian") ).Count;
+        
+        Assert.Equal(1, result);
+    }
+
+
+    [Fact]
+    public async Task TestCheepConstraintOnDataModel()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+
+        var cheepsBefore = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+        Author author = await authorrepo.GetAuthorByName("Mellie Yost");
+        var invalidCheep = new String('a', 161);
+        await cheeprepo.AddCheep(invalidCheep, author);
+        
+        var cheepsAfter = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+
+        Assert.Equal(cheepsBefore, cheepsAfter);
+    }
+    
     
 }
