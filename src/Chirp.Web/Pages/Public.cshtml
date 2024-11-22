@@ -48,7 +48,7 @@
                         
                         @{
                             
-                            if ( SignInManager.IsSignedIn(User) )
+                            if ( SignInManager.IsSignedIn(User)  && cheep.Author != User.Identity.Name )
                             {
                                 if ( !cheep.Follows )
                                 {
