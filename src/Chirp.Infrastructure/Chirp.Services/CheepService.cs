@@ -174,12 +174,19 @@ public class CheepService : ICheepService
         return result;
         
     }
-
-//Todo ensure this only returns 32 elements
-    public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //untested
+    public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //ensures only 32 cheeps are returned
     {
         var allDtos = await GetAllCheepsForTimeline(author);
-        var result = allDtos;
+        var result = new List<CheepDto>();
+        var start = ( page - 1 ) * 32;
+        if ( start < 0 ) start = 0;
+        if ( start < allDtos.Count )
+        {
+            for ( int i = start; i < allDtos.Count && i - start < 32; i++ )
+            {
+                result.Add(allDtos[i]);
+            }
+        }
         return result;
     }
 
