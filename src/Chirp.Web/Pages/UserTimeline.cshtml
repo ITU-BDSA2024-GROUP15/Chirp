@@ -43,6 +43,20 @@
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
                         
+                        @{
+                            if ( SignInManager.IsSignedIn(User) )
+                            {
+                                if ( cheep.Follows )
+                                {
+                                    <form asp-page-handler="Unfollow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button class="smallbutton">Unfollow</button>
+                                    </form>
+                                } 
+                                
+                            }
+                        }
+                        
                     </p>
                 </li>
             }

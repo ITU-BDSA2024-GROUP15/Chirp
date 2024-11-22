@@ -17,6 +17,9 @@ public class UserTimelineModel : PageModel
     [Required]
     public string CheepMessage { get; set; }
     
+    [BindProperty]
+    public string? FollowsName { get; set; }
+    
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
@@ -84,6 +87,19 @@ public class UserTimelineModel : PageModel
             RedirectUri = Url.Page("/") // Redirect back to the home page after successful login
         };
         return Challenge(authenticationProperties, "GitHub");
+    }
+    
+    
+    public async Task<IActionResult> OnPostUnfollow()
+    {
+        Console.WriteLine("Followed");
+         
+        var authorName = User.Identity?.Name;
+        
+        
+        await _service.RemoveFollowing(authorName, FollowsName);
+        
+        return RedirectToPage("UserTimeline");
     }
     
 }
