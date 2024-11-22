@@ -1,6 +1,4 @@
-@using Chirp.Core
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@inject SignInManager<Author> SignInManager
+@inject SignInManager<IdentityUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
