@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,7 +17,8 @@ public class PublicModel : PageModel
     [Microsoft.Build.Framework.Required]
     [StringLength(160, ErrorMessage = "The message must not exceed 160 characters.", MinimumLength = 1)]
     public string CheepMessage { get; set; }
-    
+    [BindProperty]
+    public string? FollowsName { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -26,7 +28,17 @@ public class PublicModel : PageModel
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         
-        Cheeps = await _service.GetCheeps(page);
+        var authorName = User.Identity?.Name;
+        if ( authorName == null )
+        {
+            Cheeps = await _service.GetCheeps(page);
+        }
+        else
+        {
+            Cheeps = await _service.GetCheeps(page, authorName);
+        }
+        
+        
         if ( page == 0 )
         {
             PageNumber = 1;
@@ -38,7 +50,7 @@ public class PublicModel : PageModel
         return Page();
     }
     
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostSendCheep()
     {
         //We check if any validation rules has exceeded
         if ( !ModelState.IsValid )
@@ -51,7 +63,7 @@ public class PublicModel : PageModel
         {
             return Page();
         }
-        var author = await _service.GetAuthorByEmail(authorName);
+        var author = await _service.GetAuthorByName(authorName);
         if ( author == null )
         {
             return Page();
@@ -63,6 +75,31 @@ public class PublicModel : PageModel
         }
         
         await _service.AddCheep(CheepMessage, author.Name, author.Email);
+        
+        return RedirectToPage("Public");
+    }
+
+
+    public async Task<IActionResult> OnPostFollow()
+    {
+        Console.WriteLine("Followed");
+        
+        var authorName = User.Identity?.Name;
+        
+        Console.WriteLine("waaB: " + authorName + FollowsName);
+        await _service.AddFollowing(authorName, FollowsName);
+
+        return RedirectToPage("Public");
+    }
+    
+    public async Task<IActionResult> OnPostUnfollow()
+    {
+        Console.WriteLine("Followed");
+         
+        var authorName = User.Identity?.Name;
+       
+        
+        await _service.RemoveFollowing(authorName, FollowsName);
         
         return RedirectToPage("Public");
     }

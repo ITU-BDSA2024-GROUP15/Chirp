@@ -3,6 +3,7 @@ using System;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Core.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    partial class CheepDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241120143026_ChangedFollowSchema")]
+    partial class ChangedFollowSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -114,15 +117,15 @@ namespace Chirp.Core.Migrations
 
             modelBuilder.Entity("Chirp.Core.Follow", b =>
                 {
-                    b.Property<string>("Follower")
+                    b.Property<string>("AuthorName")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Followed")
+                    b.Property<string>("FollowsAuthorName")
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Follower", "Followed");
+                    b.HasKey("AuthorName", "FollowsAuthorName");
 
                     b.ToTable("Follows");
                 });

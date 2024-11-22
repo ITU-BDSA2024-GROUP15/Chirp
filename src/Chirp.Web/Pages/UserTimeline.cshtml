@@ -45,6 +45,30 @@
                         </strong>
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
+                        
+                        @{
+                            if ( SignInManager.IsSignedIn(User) && cheep.Author != User.Identity.Name)
+                            {
+                                if ( !cheep.Follows )
+                                {
+                                    <form asp-page-handler="Follow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button type="submit" asp-page-handler="Follow">Follow</button>
+                                    </form>
+                                    
+                                }
+                                else
+                                {
+                                        
+                                    <form asp-page-handler="Unfollow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button class="smallbutton">Unfollow</button>
+                                    </form>
+                                }
+                                
+                            }
+                        }
+                        
                     </p>
                 </li>
             }

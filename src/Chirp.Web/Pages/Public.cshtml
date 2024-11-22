@@ -15,7 +15,7 @@
     {
         <div class="cheepbox">
             <h3>Send cheep:</h3>
-            <form method="post">
+            <form asp-page-handler="SendCheep" method="post">
                 <input type="text"  asp-for="CheepMessage" required>
                 <div class="container">
                     <input type="submit" value="Share">
@@ -45,7 +45,35 @@
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
+                        <small>&mdash; 
+                            @cheep.Timestamp
+                        
+                            </small>
+                        
+                        @{
+                            
+                            if ( SignInManager.IsSignedIn(User)  && cheep.Author != User.Identity.Name )
+                            {
+                                if ( !cheep.Follows )
+                                {
+                                    <form asp-page-handler="Follow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button type="submit" asp-page-handler="Follow">Follow</button>
+                                    </form>
+                                    
+                                }
+                                else
+                                {
+                                        
+                                    <form asp-page-handler="Unfollow" method="post">
+                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
+                                        <button class="smallbutton">Unfollow</button>
+                                    </form>
+                                }
+                                
+                            }
+                        }
+
                     </p>
                 </li>
             }
