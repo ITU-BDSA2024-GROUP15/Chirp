@@ -53,7 +53,7 @@ public class EndToEnd : PageTest
     
     
     [Test]
-    public async Task GoFromUserTimeLineToPublicTimeline()
+    public async Task GoFromUserTimeLineToPublicTimeline() 
     {
         await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
