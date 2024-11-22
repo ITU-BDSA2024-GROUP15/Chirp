@@ -3,6 +3,7 @@ using System;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Core.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    partial class CheepDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241116150958_AddFollowSchema")]
+    partial class AddFollowSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -114,15 +117,15 @@ namespace Chirp.Core.Migrations
 
             modelBuilder.Entity("Chirp.Core.Follow", b =>
                 {
-                    b.Property<string>("Follower")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Followed")
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                    b.Property<int>("FollowsId")
+                        .HasColumnType("INTEGER");
 
-                    b.HasKey("Follower", "Followed");
+                    b.HasKey("AuthorId", "FollowsId");
+
+                    b.HasIndex("FollowsId");
 
                     b.ToTable("Follows");
                 });
@@ -266,6 +269,25 @@ namespace Chirp.Core.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("Chirp.Core.Follow", b =>
+                {
+                    b.HasOne("Chirp.Core.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Author", "Follows")
+                        .WithMany()
+                        .HasForeignKey("FollowsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Follows");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

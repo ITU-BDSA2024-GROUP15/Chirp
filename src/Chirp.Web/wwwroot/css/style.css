@@ -309,6 +309,9 @@ div.pagination a{
     cursor: pointer;
 }
 
+.smallbutton {
+    background-color: cornflowerblue;
+}
 div.container{
     display: flex;
     gap:1%;

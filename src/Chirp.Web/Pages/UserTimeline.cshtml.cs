@@ -17,6 +17,9 @@ public class UserTimelineModel : PageModel
     [Required]
     public string CheepMessage { get; set; }
     
+    [BindProperty]
+    public string? FollowsName { get; set; }
+    
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
@@ -25,12 +28,14 @@ public class UserTimelineModel : PageModel
     
     public List<CheepDto>? Cheeps { get; set; }
 
-    
+    //TODO: ensure you cannot follow/ unfollow self
+    //TODO: ensure you can unfollow others
     
     
     public async Task<ActionResult> OnGet([FromQuery] int page, string author)
     {
-        Cheeps = await _service.GetCheepsFromAuthor(page, author);
+        //Add so get cheeps from author also gets the cheeps that the author is following
+        Cheeps = await _service.GetCheepsForTimeline(author, page, User.Identity.Name);
         if ( page == 0 )
         {
             PageNumber = 1;
@@ -56,7 +61,7 @@ public class UserTimelineModel : PageModel
         {
             return Page();
         }
-        var author = await _service.GetAuthorByEmail(authorName);
+        var author = await _service.GetAuthorByName(authorName);
         if ( author == null )
         {
             return Page();
@@ -66,6 +71,9 @@ public class UserTimelineModel : PageModel
         
         return RedirectToPage("UserTimeline");
     }
+    
+    
+    
     
     public IActionResult OnGetLogin()
     {
@@ -79,6 +87,30 @@ public class UserTimelineModel : PageModel
             RedirectUri = Url.Page("/") // Redirect back to the home page after successful login
         };
         return Challenge(authenticationProperties, "GitHub");
+    }
+    
+    public async Task<IActionResult> OnPostFollow()
+    {
+        Console.WriteLine("Followed");
+        
+        var authorName = User.Identity?.Name;
+        
+        Console.WriteLine("waaB: " + authorName + FollowsName);
+        await _service.AddFollowing(authorName, FollowsName);
+
+        return RedirectToPage("UserTimeline");
+    }
+    
+    public async Task<IActionResult> OnPostUnfollow()
+    {
+        Console.WriteLine("Followed");
+         
+        var authorName = User.Identity?.Name;
+        
+        
+        await _service.RemoveFollowing(authorName, FollowsName);
+        
+        return RedirectToPage("UserTimeline");
     }
     
 }

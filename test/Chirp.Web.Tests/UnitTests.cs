@@ -4,6 +4,7 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Chirp.Web.Pages;
 using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Chirp.Web.Tests;
@@ -172,6 +173,192 @@ public class UnitTests
         var cheepsAfter = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
 
         Assert.Equal(cheepsBefore, cheepsAfter);
+    }
+
+    
+    [Fact]
+    public async Task CanAddFolowerToDb() 
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IFollowRepository followrepo = new FollowRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await followrepo.AddFollowing(author1.Name, author2.Name);
+
+        var follow = await context.Follows.FirstOrDefaultAsync();
+        
+        Assert.NotNull(follow);
+        Assert.Equal(author1.Name, follow.Follower);
+
+    }
+
+    [Fact]
+    public async Task CanRemoveFollowerFromDb()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IFollowRepository followrepo = new FollowRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await followrepo.AddFollowing(author1.Name, author2.Name);
+
+        var follow = await context.Follows.FirstOrDefaultAsync();
+        
+        //Check that the Follow has been added
+        Assert.NotNull(follow);
+
+        await followrepo.RemoveFollowing(author1.Name, author2.Name);
+        
+        //Check that the follow has been removed
+        var followRemoved = await context.Follows.FirstOrDefaultAsync();
+        Assert.Null(followRemoved);
+        
+    }
+
+
+    [Fact]
+    public async Task CanGetFollowFromDb()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IFollowRepository followrepo = new FollowRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await followrepo.AddFollowing(author1.Name, author2.Name);
+        
+        var follows = await followrepo.GetFollowed(author1.Name);
+        
+        Assert.NotNull(follows);
+        Assert.Equal(author2.Name, follows[0].Followed);
+    }
+    
+    
+    [Fact]
+    public async Task CanGetFollowsFromDb()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IFollowRepository followrepo = new FollowRepository(context);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+        
+        Author author3 = new Author()
+        {
+            Id = 3,
+            Name = "Test3",
+            Email = "test3@mail.com",
+        };
+
+        await followrepo.AddFollowing(author1.Name, author2.Name);
+        await followrepo.AddFollowing(author1.Name, author3.Name);
+        
+        var follows = await followrepo.GetFollowed(author1.Name);
+        
+        Assert.NotNull(follows);
+        Assert.Equal(author2.Name, follows[0].Followed);
+        Assert.Equal(author3.Name, follows[1].Followed);
+    }
+
+    [Fact]
+    public async Task CanAddFolowerToDbWithCheepService() 
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
+        
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await service.AddFollowing(author1.Name, author2.Name);
+
+        var follow = await context.Follows.FirstOrDefaultAsync();
+        
+        Assert.NotNull(follow);
+        Assert.Equal(author1.Name, follow.Follower);
+
+    }
+    
+    [Fact]
+    public async Task TestQueryCheepsFromFollow()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        
+        
     }
     
     
