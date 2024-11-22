@@ -89,6 +89,17 @@ public class UserTimelineModel : PageModel
         return Challenge(authenticationProperties, "GitHub");
     }
     
+    public async Task<IActionResult> OnPostFollow()
+    {
+        Console.WriteLine("Followed");
+        
+        var authorName = User.Identity?.Name;
+        
+        Console.WriteLine("waaB: " + authorName + FollowsName);
+        await _service.AddFollowing(authorName, FollowsName);
+
+        return RedirectToPage("UserTimeline");
+    }
     
     public async Task<IActionResult> OnPostUnfollow()
     {
