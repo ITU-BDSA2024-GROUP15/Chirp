@@ -7,7 +7,7 @@ public interface ICheepService
 {
     public Task<List<CheepDto>> GetCheeps(int limit);
     public Task<List<CheepDto>> GetCheeps(int limit, string follower);
-    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author);
+    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string spectator);
     public Task AddCheep(string text, string name, string email);
     public Task<Author> GetAuthorByEmail(string email);
     public Task<Author?> GetAuthorByName(string name);
@@ -66,14 +66,14 @@ public class CheepService : ICheepService
         return result;
     }
 
-    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
+    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string spectator)
     {
         if ( page == 0 )
         {
             page = 1;
         }
         var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, author);
-        var result = await ConvertCheepsToCheepDtos(queryresult, author);
+        var result = await ConvertCheepsToCheepDtos(queryresult, spectator);
         return result;
     }
 
