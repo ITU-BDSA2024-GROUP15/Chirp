@@ -14,7 +14,28 @@
         <p>Username: @(User.Identity?.Name)</p>
         <p>Email: </p>
         <h3>Following</h3>
-        
+
+
+        @{
+            System.Diagnostics.Debug.Assert(Model.Follows != null, "Model.Follows != null");
+        }
+        @if (Model.Follows.Any())
+        {
+        <ul class="followlist">
+            @foreach (var follow in Model.Follows)
+            {
+            <li>
+                <strong>
+                    <a href="/@follow.Followed">@follow.Followed</a>
+                </strong>
+            </li>
+            }
+        </ul>
+        }
+        else
+        {
+        <em>You're not following anyone.</em>
+        }
         
         <h3>Cheeps</h3>
         @{
