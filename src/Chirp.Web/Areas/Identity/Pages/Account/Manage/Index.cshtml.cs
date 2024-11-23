@@ -2,10 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Identity;
@@ -18,8 +15,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<Author> _userManager;
         private readonly ICheepService _service;
-        public List<CheepDto>? Cheeps { get; set; }
-        public List<Follow>? Follows { get; set; }
+        public List<CheepDto> Cheeps { get; set; }
+        public List<Follow> Follows { get; set; }
         
         public Author Author { get; set; }
 
