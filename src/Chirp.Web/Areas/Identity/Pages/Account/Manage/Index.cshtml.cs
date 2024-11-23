@@ -20,6 +20,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly ICheepService _service;
         public List<CheepDto>? Cheeps { get; set; }
         public List<Follow>? Follows { get; set; }
+        
+        public Author Author { get; set; }
 
         public IndexModel(
             ICheepService service, UserManager<Author> userManager)
@@ -37,10 +39,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-
-            var username = _userManager.GetUserName(User) ?? throw new InvalidOperationException();
-            Cheeps = await _service.GetAllCheepsFromAuthor(username);
-            Follows = await _service.GetFollowed(username);
+            Author = await _service.GetAuthorByName(_userManager.GetUserName(User) ?? throw new InvalidOperationException());
+            if (Author != null)
+            {
+                Cheeps = await _service.GetAllCheepsFromAuthor(Author.UserName ??
+                                                               throw new
+                                                                   InvalidOperationException());
+                Follows = await _service.GetFollowed(Author.UserName);
+            }
 
             return Page();
         }
