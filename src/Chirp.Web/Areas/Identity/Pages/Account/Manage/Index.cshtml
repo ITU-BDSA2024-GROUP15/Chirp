@@ -1,12 +1,9 @@
 ﻿@page
-@using Chirp.Core
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IndexModel
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
-@inject SignInManager<Author> SignInManager   
 
 <h3>@ViewData["Title"]</h3>
 <div class="row">
