@@ -17,6 +17,9 @@ public interface ICheepService
     public Task<List<Follow>> GetFollowed(string follower);
     public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page, string spectator);
+
+
+    public Task<List<Follow>> GetFollowers(string followed);
     //TODO: Remove all unused or privately used methods
 }
 
@@ -122,6 +125,12 @@ public class CheepService : ICheepService
     public async Task<List<Follow>> GetFollowed(string follower)
     {
         return await _followRepository.GetFollowed(follower); 
+    }
+
+
+    public async Task<List<Follow>> GetFollowers(string followed)
+    {
+        return await _followRepository.GetFollowers(followed);
     }
 
 
