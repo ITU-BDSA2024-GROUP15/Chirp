@@ -59,4 +59,14 @@ public class FollowRepository : IFollowRepository
         return result;
 
     }
+    
+    public async Task<List<Follow>> GetFollowers(string followed)
+    {
+        var query = (from follow in _context.Follows
+            where follow.Followed == followed
+            select follow);
+        var result = await query.ToListAsync();
+        return result;
+
+    }
 }

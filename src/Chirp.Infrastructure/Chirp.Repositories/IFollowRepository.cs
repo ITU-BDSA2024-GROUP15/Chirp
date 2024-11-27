@@ -7,4 +7,5 @@ public interface IFollowRepository
     public Task AddFollowing(string follower, string followed);
     public Task RemoveFollowing(string follower, string followed);
     public Task<List<Follow>> GetFollowed(string follower);
+    public Task<List<Follow>> GetFollowers(string followed);
 }
