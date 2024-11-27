@@ -17,11 +17,7 @@ public class FollowRepository : IFollowRepository
         _context = context;
     }
     
-    /// <summary>
-    /// Used to add a new Follow - A Author follows another Author
-    /// </summary>
-    /// <param name="follower">The Author who is following</param>
-    /// <param name="followed">The Author who is getting followed</param>
+    
     public async Task AddFollowing(string follower, string followed)
     {
 
@@ -36,16 +32,10 @@ public class FollowRepository : IFollowRepository
     }
 
 
-    /// <summary>
-    /// Used to remove a Follow - An author no longer follows another author
-    /// </summary>
-    /// <param name="follower">The Author who is following</param>
-    /// <param name="followed">The Author who is getting followed</param>
+   
     public async Task RemoveFollowing(string follower, string follwed)
     {
-        //https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
-        
-        
+        //lambda expression inspiration:https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
         //We first find the follow that we want to remove
         var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == follower && follow.Followed == follwed);
 
@@ -58,11 +48,7 @@ public class FollowRepository : IFollowRepository
     }
 
 
-    /// <summary>
-    /// Gets a list of Authors that an author follows.
-    /// </summary>
-    /// <param name="follower">The Author who is following</param>
-    /// <returns>List of follows</returns>
+    
     public async Task<List<Follow>> GetFollowed(string follower)
     {
         var query = (from follow in _context.Follows
