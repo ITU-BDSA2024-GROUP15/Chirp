@@ -71,6 +71,53 @@ public class IntegrationTests
             authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
 
     }
-    
+
+
+    [Fact]
+    public async Task TestGetAllCheepsFromTimelineAndFollow()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        
+        //We first make a user follow another user. Show that the cheeps should now be the sum of their cheeps in their private timeline
+        //Octavio Wagganer(15) follow Mellie Yost(7)
+
+        string authorname1 = "Octavio Wagganer";
+        string authorname2 = "Mellie Yost";
+
+        await service.AddFollowing(authorname1, authorname2);
+        var cheeps = await service.GetCheepsForTimeline(authorname1, 1,  authorname1);
+        
+        Assert.Equal(22, cheeps.Count());
+
+    }
+
+
+    [Fact]
+    public async Task TestCheepHasFollowIfAuthorFollows()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        
+        string authorname1 = "Octavio Wagganer";
+        string authorname2 = "Mellie Yost";
+
+        await service.AddFollowing(authorname1, authorname2);
+
+        var cheeps = await service.GetCheepsForTimeline(authorname1, 1, authorname1);
+        var cheep = cheeps.First();
+        
+        Assert.True(cheep.Follows);
+    }
     
 }
