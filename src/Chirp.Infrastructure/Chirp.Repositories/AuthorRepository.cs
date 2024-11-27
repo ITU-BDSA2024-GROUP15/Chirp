@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
+/// <summary>
+/// Used to handle data logic for author.
+/// Includes methods for accessing and handling author data.
+/// </summary>
 public class AuthorRepository : IAuthorRepository
 {
-    
-    //This should handle data logic for cheep
     
     private readonly CheepDbContext _context;
 
@@ -46,7 +48,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
 
-
+    
     public async Task CreateAuthor(string name, string email)
     {
 

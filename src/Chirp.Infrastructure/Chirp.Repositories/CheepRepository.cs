@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
+/// <summary>
+/// Used to handle data logic for cheeps.
+/// Includes methods for accessing and handling cheep data.
+/// </summary>
 public class CheepRepository : ICheepRepository
 {
-
-    //This should handle data logic for cheep
     
     private readonly CheepDbContext _context;
 
@@ -17,6 +19,7 @@ public class CheepRepository : ICheepRepository
     }
     
     
+   
     public async Task<List<Cheep>> GetCheeps(int page)
     {
         var query = (from cheep in _context.Cheeps
@@ -29,6 +32,7 @@ public class CheepRepository : ICheepRepository
     }
 
 
+ 
     public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string author)
     {
         var query = (from cheep in _context.Cheeps
@@ -44,6 +48,7 @@ public class CheepRepository : ICheepRepository
     }
     
     
+    
     public async Task<List<Cheep>> GetAllCheepsFromAuthor(string author)
     {
         var query = ( from cheep in _context.Cheeps
@@ -54,6 +59,7 @@ public class CheepRepository : ICheepRepository
         var result = await query.ToListAsync();
         return result;
     }
+    
     
     public async Task<List<Cheep>> GetAllCheepsFromFollowed(string author) //Made with the help of ChatGPT
     {
@@ -70,6 +76,7 @@ public class CheepRepository : ICheepRepository
     }
     
 
+    
     public async Task AddCheep(string text, Author author)
     {
 
