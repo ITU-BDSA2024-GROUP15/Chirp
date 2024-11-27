@@ -17,7 +17,6 @@ public interface ICheepService
     public Task<List<Follow>> GetFollowed(string follower);
     public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
-    public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page, string spectator);
     public Task DeleteFromFollows(string username);
 
 
