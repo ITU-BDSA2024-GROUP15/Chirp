@@ -4,12 +4,25 @@
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
-
-<h3>@ViewData["Title"]</h3>
 <div class="row">
+    <div class="col-md-6">
+        <p>Your account contains personal data that you have given us. This page allows you to see or delete that data.</p>
+        <p>
+            Deleting this data will permanently remove your account, and this cannot be recovered.
+        </p>
+        <p>
+            <button>
+                <a class="deletebutton" asp-page="DeletePersonalData">Delete</a>
+            </button>
+        </p>
+    </div>
+    <p>____________________________________________________________________________________________</p>
+<h3>@ViewData["Title"]</h3>
+
     <div class="col-md-6">
         <p>Username: @(Model.Author.Name)</p>
         <p>Email: @(Model.Author.Email)</p>
+        
         <h3>Following</h3>
 
 
