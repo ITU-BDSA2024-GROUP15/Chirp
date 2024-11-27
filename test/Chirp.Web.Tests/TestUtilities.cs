@@ -1,4 +1,5 @@
 ﻿using Chirp.Core;
+using Chirp.Infrastructure.data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +27,10 @@ public class TestUtilities
     
 
 
-    public async Task CloseConnection()
+    public Task CloseConnection()
     {
         if ( Connection != null ) Connection.Close();
+        return Task.CompletedTask;
     }
     
     

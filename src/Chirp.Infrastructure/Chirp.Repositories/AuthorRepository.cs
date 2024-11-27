@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Chirp.Core;
+﻿using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
@@ -18,7 +17,7 @@ public class AuthorRepository : IAuthorRepository
     }
     
     
-    public async Task<Author> GetAuthorByName(string name)
+    public async Task<Author?> GetAuthorByName(string name)
     {
         var query = (from author in _context.Authors
             where author.Name == name
@@ -33,7 +32,7 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task<Author> GetAuthorByEmail(string email)
+    public async Task<Author?> GetAuthorByEmail(string email)
     {
         var query = (from author in _context.Authors
                 where author.Email == email
