@@ -136,14 +136,14 @@ public class CheepService : ICheepService
     }
 
 
-    private async Task<List<CheepDto>> GetAllCheepsForTimeline(string follower)
+    private async Task<List<CheepDto>> GetAllCheepsForTimeline(string author)
     {
         
-        var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(follower);
-        var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(follower);
+        var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(author);
+        var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(author);
        
-        var cheepsByAuthorDtos = ConvertCheepsToCheepDtos(await cheepsByAuthor, follower);
-        var cheepsByFollowedDtos = ConvertCheepsToCheepDtos(await cheepsByFollowed, follower);
+        var cheepsByAuthorDtos = ConvertCheepsToCheepDtos(await cheepsByAuthor, author);
+        var cheepsByFollowedDtos = ConvertCheepsToCheepDtos(await cheepsByFollowed, author);
         await Task.WhenAll(cheepsByAuthorDtos, cheepsByFollowedDtos);
         
         //combine the lists inelegantly
@@ -155,9 +155,9 @@ public class CheepService : ICheepService
         return result;
         
     }
-    public async Task<List<CheepDto>> GetCheepsForTimeline(string follower, int page) //ensures only 32 cheeps are returned
+    public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //ensures only 32 cheeps are returned
     {
-        var allDtos = await GetAllCheepsForTimeline(follower);
+        var allDtos = await GetAllCheepsForTimeline(author);
         var result = new List<CheepDto>();
         var start = ( page - 1 ) * 32;
         if ( start < 0 ) start = 0;
@@ -172,10 +172,10 @@ public class CheepService : ICheepService
     }
 
 
-    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, string follower)
+    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, string author)
     {
         //Gets a list over which Authors the current author follows
-        var follows = await GetFollowed(follower);
+        var follows = await GetFollowed(author);
         
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
