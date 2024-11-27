@@ -332,7 +332,7 @@ public class EndToEnd : PageTest
 
     }
     
-    /*
+    
     [Test]
     public async Task CanFollowJacqualine()
     {
@@ -374,7 +374,6 @@ public class EndToEnd : PageTest
 
     }
     
-    */
      
     [Test]
     public async Task CanFollowJacqualineAndUnfollow()
