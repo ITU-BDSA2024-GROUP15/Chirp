@@ -47,7 +47,7 @@
                         <small>&mdash; @cheep.Timestamp</small>
                         
                         @{
-                            if ( SignInManager.IsSignedIn(User) && cheep.Author != User.Identity.Name)
+                            if ( SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
                             {
                                 if ( !cheep.Follows )
                                 {
@@ -69,7 +69,7 @@
                             }
                         }
                         
-                    </p>
+                    
                 </li>
             }
         </ul>

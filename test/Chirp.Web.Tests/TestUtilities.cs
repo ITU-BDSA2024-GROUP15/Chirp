@@ -27,9 +27,10 @@ public class TestUtilities
     
 
 
-    public async Task CloseConnection()
+    public Task CloseConnection()
     {
         if ( Connection != null ) Connection.Close();
+        return Task.CompletedTask;
     }
     
     

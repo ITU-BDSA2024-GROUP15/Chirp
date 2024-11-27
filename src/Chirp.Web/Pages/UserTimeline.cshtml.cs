@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
     public int PageNumber { get; set; }
     [BindProperty]
     [Required]
-    public string CheepMessage { get; set; }
+    public string? CheepMessage { get; set; }
     
     [BindProperty]
     public string? FollowsName { get; set; }
@@ -35,13 +35,13 @@ public class UserTimelineModel : PageModel
     public async Task<ActionResult> OnGet([FromQuery] int page, string author)
     {
         //Add so get cheeps from author also gets the cheeps that the author is following
-        if (User.Identity.Name == author)
+        if (User.Identity != null && User.Identity.Name == author)
         {
             Cheeps = await _service.GetCheepsForTimeline(author, page, User.Identity.Name); 
         }
         else
         {
-            Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name);
+            Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name); //we should kill "spectator" param
         }
         
         if ( page == 0 )
@@ -74,9 +74,9 @@ public class UserTimelineModel : PageModel
         {
             return Page();
         }
-        
-        await _service.AddCheep(CheepMessage, author.Name, author.Email);
-        
+
+        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Name, author.Email);
+
         return RedirectToPage("UserTimeline");
     }
     
@@ -85,7 +85,7 @@ public class UserTimelineModel : PageModel
     
     public IActionResult OnGetLogin()
     {
-        if ( User.Identity.IsAuthenticated )
+        if ( User.Identity != null && User.Identity.IsAuthenticated )
         {
             return Redirect("/");
         }
@@ -104,7 +104,9 @@ public class UserTimelineModel : PageModel
         var authorName = User.Identity?.Name;
         
         Console.WriteLine("waaB: " + authorName + FollowsName);
-        await _service.AddFollowing(authorName, FollowsName);
+        if (authorName != null)
+            if (FollowsName != null)
+                await _service.AddFollowing(authorName, FollowsName);
 
         return RedirectToPage("UserTimeline");
     }
@@ -114,10 +116,12 @@ public class UserTimelineModel : PageModel
         Console.WriteLine("Followed");
          
         var authorName = User.Identity?.Name;
-        
-        
-        await _service.RemoveFollowing(authorName, FollowsName);
-        
+
+
+        if (authorName != null)
+            if (FollowsName != null)
+                await _service.RemoveFollowing(authorName, FollowsName);
+
         return RedirectToPage("UserTimeline");
     }
     
