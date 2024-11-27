@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Net;
 using Chirp.Core;
 using Chirp.Web;
 using Chirp.Infrastructure.Chirp.Repositories;
@@ -118,6 +119,32 @@ public class IntegrationTests
         var cheep = cheeps.First();
         
         Assert.True(cheep.Follows);
+    }
+
+
+    [Fact]
+    public async Task TestDeleteFollows()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+       
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        ICheepService cheepService = new CheepService(cheeprepo, authorrepo, followrepo);
+        await authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
+        await authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
+        await followrepo.AddFollowing("erik", "lars");
+        var oldfollows = await cheepService.GetFollowed("erik");
+        Assert.True(oldfollows.Count == 1);
+        await cheepService.DeleteFromFollows("lars");
+        
+        var newfollows = await cheepService.GetFollowed("erik");
+        
+        Assert.True(newfollows.Count == 0);
+
+
     }
     
 }
