@@ -37,11 +37,11 @@ public class UserTimelineModel : PageModel
         //Add so get cheeps from author also gets the cheeps that the author is following
         if (User.Identity != null && User.Identity.Name == author)
         {
-            Cheeps = await _service.GetCheepsForTimeline(author, page, User.Identity.Name); 
+            Cheeps = await _service.GetCheepsForTimeline(author, page); 
         }
         else
         {
-            Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name); //we should kill "spectator" param
+            Cheeps = await _service.GetCheepsFromAuthor(page, author);
         }
         
         if ( page == 0 )

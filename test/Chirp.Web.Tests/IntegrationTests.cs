@@ -91,7 +91,7 @@ public class IntegrationTests
         string authorname2 = "Mellie Yost";
 
         await service.AddFollowing(authorname1, authorname2);
-        var cheeps = await service.GetCheepsForTimeline(authorname1, 1,  authorname1);
+        var cheeps = await service.GetCheepsForTimeline(authorname1, 1);
         
         Assert.Equal(22, cheeps.Count());
 
@@ -114,7 +114,7 @@ public class IntegrationTests
 
         await service.AddFollowing(authorname1, authorname2);
 
-        var cheeps = await service.GetCheepsForTimeline(authorname1, 1, authorname1);
+        var cheeps = await service.GetCheepsForTimeline(authorname1, 1);
         var cheep = cheeps.First();
         
         Assert.True(cheep.Follows);
