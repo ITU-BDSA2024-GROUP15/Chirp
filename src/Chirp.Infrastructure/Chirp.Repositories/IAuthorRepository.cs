@@ -12,14 +12,14 @@ public interface IAuthorRepository
     /// </summary>
     /// <param name="name">Name of the Author</param>
     /// <returns>An Author</returns>
-    public Task<Author> GetAuthorByName(string name);
+    public Task<Author?> GetAuthorByName(string name);
     
     /// <summary>
     /// Gets an Author form a given email.
     /// </summary>
     /// <param name="email">Email of the Author</param>
     /// <returns>An Author</returns>
-    public Task<Author> GetAuthorByEmail(string email); 
+    public Task<Author?> GetAuthorByEmail(string email); 
     
     /// <summary>
     /// Creates a new Author

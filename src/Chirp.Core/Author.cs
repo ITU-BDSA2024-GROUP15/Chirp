@@ -19,6 +19,4 @@ public class Author : IdentityUser<int>
     [Required]
     public new required string Email { get; set; } //TODO make email and name unique 
     
-    public List<Cheep>? Cheeps { get; set; }
-    
 }

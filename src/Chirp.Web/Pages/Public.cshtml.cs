@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,7 +14,7 @@ public class PublicModel : PageModel
     [BindProperty]
     [Microsoft.Build.Framework.Required]
     [StringLength(160, ErrorMessage = "The message must not exceed 160 characters.", MinimumLength = 1)]
-    public string CheepMessage { get; set; }
+    public string? CheepMessage { get; set; }
     [BindProperty]
     public string? FollowsName { get; set; }
 
@@ -69,13 +67,13 @@ public class PublicModel : PageModel
             return Page();
         }
 
-        if ( CheepMessage.Length > 160 )
+        if ( CheepMessage != null && CheepMessage.Length > 160 )
         {
             return Page();
         }
-        
-        await _service.AddCheep(CheepMessage, author.Name, author.Email);
-        
+
+        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Name, author.Email);
+
         return RedirectToPage("Public");
     }
 
@@ -87,7 +85,9 @@ public class PublicModel : PageModel
         var authorName = User.Identity?.Name;
         
         Console.WriteLine("waaB: " + authorName + FollowsName);
-        await _service.AddFollowing(authorName, FollowsName);
+        if (authorName != null)
+            if (FollowsName != null)
+                await _service.AddFollowing(authorName, FollowsName);
 
         return RedirectToPage("Public");
     }
@@ -97,10 +97,12 @@ public class PublicModel : PageModel
         Console.WriteLine("Followed");
          
         var authorName = User.Identity?.Name;
-       
-        
-        await _service.RemoveFollowing(authorName, FollowsName);
-        
+
+
+        if (authorName != null)
+            if (FollowsName != null)
+                await _service.RemoveFollowing(authorName, FollowsName);
+
         return RedirectToPage("Public");
     }
 }

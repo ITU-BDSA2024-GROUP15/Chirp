@@ -1,6 +1,5 @@
 ﻿@page "/"
 @using Chirp.Core
-@using Chirp.Web.Pages
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Web.Pages.PublicModel
 @inject SignInManager<Author> SignInManager   
@@ -52,7 +51,7 @@
                         
                         @{
                             
-                            if ( SignInManager.IsSignedIn(User)  && cheep.Author != User.Identity.Name )
+                            if ( SignInManager.IsSignedIn(User)  && cheep.Author != User.Identity?.Name )
                             {
                                 if ( !cheep.Follows )
                                 {
@@ -74,7 +73,7 @@
                             }
                         }
 
-                    </p>
+                    
                 </li>
             }
         </ul>

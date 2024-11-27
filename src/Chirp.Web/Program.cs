@@ -2,9 +2,7 @@ using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Chirp.Infrastructure.data;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +22,8 @@ builder.Services.AddAuthentication()
     .AddCookie()
     .AddGitHub(o =>
     {
-        o.ClientId = builder.Configuration["authentication:github:clientId"];
-        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+        o.ClientId = builder.Configuration["authentication:github:clientId"] ?? string.Empty;
+        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"] ?? string.Empty;
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
         o.Scope.Add("read:user");
