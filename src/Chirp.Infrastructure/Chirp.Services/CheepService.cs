@@ -117,7 +117,7 @@ public class CheepService : ICheepService
     public async Task<List<CheepDto>> GetCheeps(int page, string follower) //for use when logged in, allows us to display the correct button, either follow or unfollow
     {
            
-        Author author = await _authorRepository.GetAuthorByName(follower);
+        Author? author = await _authorRepository.GetAuthorByName(follower);
            
         if ( page == 0 )
         {
