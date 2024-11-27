@@ -256,8 +256,8 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register", Exact = true }).ClickAsync();
         await Page.GetByPlaceholder("Username").ClickAsync();
         await Page.GetByPlaceholder("Username").FillAsync("testUser");
-        await Page.GetByPlaceholder("name@example.com").ClickAsync();
-        await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("testUser");
         await Page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
         await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
         await Page.GetByLabel("Confirm Password").ClickAsync();
