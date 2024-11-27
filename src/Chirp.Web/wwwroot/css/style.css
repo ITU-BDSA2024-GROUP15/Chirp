@@ -329,5 +329,9 @@ ul.followlist li, ul.followlist {
     margin: 0 0 0 0;
 }
 
+.deletebutton{
+    text-decoration: none;
+    color: white;
+}
 
 
