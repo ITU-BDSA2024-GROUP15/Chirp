@@ -119,7 +119,7 @@ public class EndToEnd : PageTest
     [Test]
     public async Task HasPage2()
     {
-        await Page.GotoAsync("http://localhost:5221?page=2");
+        await Page.GotoAsync("http://localhost:5221?Page=2");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
     }
 
