@@ -2,6 +2,9 @@
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
+/// <summary>
+/// Defines method signatures for handling cheeps
+/// </summary>
 public interface ICheepRepository
 {
     public Task<List<Cheep>> GetCheeps(int page);

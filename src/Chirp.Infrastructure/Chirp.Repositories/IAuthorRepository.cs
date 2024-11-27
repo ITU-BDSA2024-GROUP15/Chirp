@@ -2,6 +2,9 @@
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
+/// <summary>
+/// Defines method signatures for handling authors
+/// </summary>
 public interface IAuthorRepository
 {
     public Task<Author> GetAuthorByName(string name);

@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
+/// <summary>
+/// Used to handle data logic for author.
+/// Includes methods for accessing and handling author data.
+/// </summary>
 public class AuthorRepository : IAuthorRepository
 {
-    
-    //This should handle data logic for cheep
     
     private readonly CheepDbContext _context;
 
@@ -18,6 +20,11 @@ public class AuthorRepository : IAuthorRepository
     }
     
     
+    /// <summary>
+    /// Gets an Author form a given name.
+    /// </summary>
+    /// <param name="name">Name of the Author</param>
+    /// <returns>An Author</returns>
     public async Task<Author> GetAuthorByName(string name)
     {
         var query = (from author in _context.Authors
@@ -33,6 +40,11 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
+    /// <summary>
+    /// Gets an Author form a given email.
+    /// </summary>
+    /// <param name="email">Email of the Author</param>
+    /// <returns>An Author</returns>
     public async Task<Author> GetAuthorByEmail(string email)
     {
         var query = (from author in _context.Authors
@@ -47,7 +59,12 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
 
-
+    /// <summary>
+    /// Creates a new Author
+    /// </summary>
+    /// <param name="name">Name of Author</param>
+    /// <param name="email">Email of Author</param>
+    /// <exception cref="ArgumentException">thrown if name contains illegal characters</exception>
     public async Task CreateAuthor(string name, string email)
     {
 

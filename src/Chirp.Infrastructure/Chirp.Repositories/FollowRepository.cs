@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
+/// <summary>
+/// Used to handle data logic for Follows.
+/// Includes methods for accessing and handling follow data.
+/// </summary>
 public class FollowRepository : IFollowRepository
 {
     private readonly CheepDbContext _context;
@@ -13,13 +17,18 @@ public class FollowRepository : IFollowRepository
         _context = context;
     }
     
-    public async Task AddFollowing(string follower, string Followed)
+    /// <summary>
+    /// Used to add a new Follow - A Author follows another Author
+    /// </summary>
+    /// <param name="follower">The Author who is following</param>
+    /// <param name="followed">The Author who is getting followed</param>
+    public async Task AddFollowing(string follower, string followed)
     {
 
         var follow = new Follow()
         {
             Follower = follower,
-            Followed = Followed
+            Followed = followed
         };
         
         await _context.Follows.AddAsync(follow);
@@ -27,6 +36,11 @@ public class FollowRepository : IFollowRepository
     }
 
 
+    /// <summary>
+    /// Used to remove a Follow - An author no longer follows another author
+    /// </summary>
+    /// <param name="follower">The Author who is following</param>
+    /// <param name="followed">The Author who is getting followed</param>
     public async Task RemoveFollowing(string follower, string follwed)
     {
         //https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
@@ -45,11 +59,10 @@ public class FollowRepository : IFollowRepository
 
 
     /// <summary>
-    /// Gets a list of Authors that an author follows. Follower is the name of
-    /// the author that follows.
+    /// Gets a list of Authors that an author follows.
     /// </summary>
-    /// <param name="follower"></param>
-    /// <returns></returns>
+    /// <param name="follower">The Author who is following</param>
+    /// <returns>List of follows</returns>
     public async Task<List<Follow>> GetFollowed(string follower)
     {
         var query = (from follow in _context.Follows
