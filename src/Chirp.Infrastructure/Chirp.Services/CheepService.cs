@@ -9,7 +9,7 @@ public interface ICheepService
     public Task<List<CheepDto>> GetCheeps(int limit, string follower);
     public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string spectator);
     public Task AddCheep(string text, string name, string email);
-    public Task<Author> GetAuthorByEmail(string email);
+    public Task<Author?> GetAuthorByEmail(string email);
     public Task<Author?> GetAuthorByName(string name);
     public Task AddAuthor(string name, string email);
     public Task AddFollowing(string follower, string followed);
@@ -54,8 +54,6 @@ public class CheepService : ICheepService
     public async Task<List<CheepDto>> GetCheeps(int page, string follower) //for use when logged in, allows us to display the correct button, either follow or unfollow
     {
            
-        Author author = await _authorRepository.GetAuthorByName(follower);
-           
         if ( page == 0 )
         {
             page = 1;
@@ -78,7 +76,7 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task<Author> GetAuthorByEmail(string email)
+    public async Task<Author?> GetAuthorByEmail(string email)
     {
        return await _authorRepository.GetAuthorByEmail(email);
         
@@ -103,7 +101,12 @@ public class CheepService : ICheepService
         {
             await AddAuthor(name, email);
         }
-        await _cheepRepository.AddCheep(text, await GetAuthorByEmail(email));
+        var author = await GetAuthorByEmail(email);
+        if (author == null)
+        {
+            return;
+        }
+        await _cheepRepository.AddCheep(text, author);
     }
 
 
@@ -128,8 +131,8 @@ public class CheepService : ICheepService
     public async Task<List<CheepDto>> GetAllCheepsFromAuthor(string author)
     {
         var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(author);
-        var Dtos = await ConvertCheepsToCheepDtos(cheeps, author);
-        return Dtos;
+        var dtos = await ConvertCheepsToCheepDtos(cheeps, author);
+        return dtos;
     }
 
 
