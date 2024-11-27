@@ -13,13 +13,13 @@ public class FollowRepository : IFollowRepository
         _context = context;
     }
     
-    public async Task AddFollowing(string follower, string Followed)
+    public async Task AddFollowing(string follower, string followed)
     {
 
         var follow = new Follow()
         {
             Follower = follower,
-            Followed = Followed
+            Followed = followed
         };
         
         await _context.Follows.AddAsync(follow);
