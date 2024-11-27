@@ -134,6 +134,24 @@ public class CheepService : ICheepService
     }
 
 
+    public async Task DeleteFromFollows(string username)
+    {
+        //Delete all relations where user is followed by others
+        var follows = await GetFollowers(username);
+        foreach (var follow in follows)
+        {
+            await RemoveFollowing(follow.Follower, follow.Followed);        
+        } 
+        //Delete all relations where others follow the user
+        follows = await GetFollowed(username);
+        foreach (var follow in follows)
+        {
+            await RemoveFollowing(follow.Follower, follow.Followed);        
+        } 
+        
+    }
+
+
     public async Task<List<CheepDto>> GetAllCheepsFromAuthor(string author)
     {
         var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(author);
