@@ -5,17 +5,79 @@ namespace Chirp.Infrastructure.Chirp.Services;
 
 public interface ICheepService
 {
+    /// <summary>
+    /// This method is for use on the public timeline.
+    /// It returns a list of 0-32 cheeps, ordered from newest to oldest, by any author.
+    /// The first 32*limit cheeps are skipped, to allow pagination
+    /// </summary>
+    /// <param name="limit"> The page number </param>
+    /// <returns> A list of CheepDto objects </returns>
     public Task<List<CheepDto>> GetCheeps(int limit);
+    /// <summary>
+    /// This method is for use on the public timeline.
+    /// It returns a list of 0-32 cheeps, ordered from newest to oldest, by any author.
+    /// The first 32*limit cheeps are skipped, to allow pagination
+    /// This method sets the "following" attribute on the returned cheepdtos correctly, in order to show the correct follow/ unfollow button
+    /// </summary>
+    /// <param name="limit"> The page number </param>
+    /// <param name="follower"> The user who is viewing the timeline </param>
+    /// <returns> A list of CheepDto objects </returns>
     public Task<List<CheepDto>> GetCheeps(int limit, string follower);
+    /// <summary>
+    /// This method is for use on a private timeline.
+    /// It returns a list of 0-32 cheeps, ordered from newest to oldest, by the specified author.
+    /// The first 32*limit cheeps are skipped, to allow pagination
+    /// </summary>
+    /// <param name="page"> The page number </param>
+    /// <param name="author"> The name of the author whose cheeps you want </param>
+    /// <returns> A list of CheepDto objects </returns>
     public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string spectator);
+    /// <summary>
+    /// This method allows adding new cheeps to the database
+    /// </summary>
+    /// <param name="text"> The contents of the cheep </param>
+    /// <param name="name"> The username of the author </param>
+    /// <param name="email"> The email of the author </param>
+    /// <returns> Task </returns>
     public Task AddCheep(string text, string name, string email);
-    public Task<Author> GetAuthorByEmail(string email);
+    /// <summary>
+    /// This method allows for getting an Author object from their username
+    /// </summary>
+    /// <param name="name"> The username of the author </param>
+    /// <returns> The Author object matching the username </returns>
     public Task<Author?> GetAuthorByName(string name);
-    public Task AddAuthor(string name, string email);
+    /// <summary>
+    /// This method allows adding new tuples to the Follow relation
+    /// </summary>
+    /// <param name="follower"> The username of the author that should follow another </param>
+    /// <param name="followed"> The username of the author that should be followed </param>
+    /// <returns> Task </returns>
     public Task AddFollowing(string follower, string followed);
+    /// <summary>
+    /// This method allows removing tuples from the Follow relation
+    /// </summary>
+    /// <param name="follower"> The username of the author that should follow another </param>
+    /// <param name="followed"> The username of the author that should be followed </param>
+    /// <returns> Task </returns>
     public Task RemoveFollowing(string follower, string followed);
+    /// <summary>
+    /// This method allows getting all the users followed by a specified author
+    /// </summary>
+    /// <param name="follower"> The username of the author </param>
+    /// <returns> A list of all follow relations containing the author as follower </returns>
     public Task<List<Follow>> GetFollowed(string follower);
+    /// <summary>
+    /// This method allows getting all cheeps by a specified author
+    /// </summary>
+    /// <param name="author"> The username of the author</param>
+    /// <returns> A list of all cheeps by the author </returns>
     public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
+    /// <summary>
+    /// This method allows getting cheeps for an authors timeline
+    /// </summary>
+    /// <param name="author"> The username of the author </param>
+    /// <param name="page"> The page number </param>
+    /// <returns></returns>
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page, string spectator);
     //TODO: Remove all unused or privately used methods
 }
