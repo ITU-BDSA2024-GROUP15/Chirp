@@ -1,5 +1,6 @@
 ﻿using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
@@ -39,7 +40,7 @@ public class LikeRepository : ILikeRepository
     }
 
 
-    public Task GetLiked(string authorName)
+    public Task<List<Like>> GetLiked(string authorName)
     {
         var query = (from like in _context.Likes
                 where like.AuthorName == authorName

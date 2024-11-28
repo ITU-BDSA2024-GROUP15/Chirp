@@ -82,7 +82,7 @@ public interface ICheepService
     public Task DeleteFromFollows(string username);
     public Task AddLike(string authorName, int cheepId);
     public Task RemoveLike(string authorName, int cheepId);
-    public Task GetLiked(string authorName);
+    public Task<List<Like>> GetLiked(string authorName);
 
 
     public Task<List<Follow>> GetFollowers(string followed);
@@ -274,16 +274,26 @@ public class CheepService : ICheepService
     {
         //Gets a list over which Authors the current author follows
         var follows = await GetFollowed(author);
+        var likes = await GetLiked(author);
         
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
         {
             bool isFollowing = false;
+            bool isLiking = false;
             foreach ( var follow in follows ) // this could be more efficient
             {
                 if ( follow.Followed == cheep.Author.Name )
                 {
                     isFollowing = true;
+                }
+            }
+
+            foreach (var like in likes)
+            {
+                if (like.CheepId == cheep.CheepId)
+                {
+                    isLiking = true;
                 }
             }
                
@@ -293,6 +303,7 @@ public class CheepService : ICheepService
                 Message = cheep.Text,
                 Timestamp = cheep.Timestamp,
                 Follows = isFollowing,
+                Liked = isLiking,
                 Id = cheep.CheepId
             };
             result.Add(dto);
@@ -313,9 +324,9 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task GetLiked(string authorName)
+    public async Task<List<Like>> GetLiked(string authorName)
     {
-        await _iLikeRepository.GetLiked(authorName);
+        return await _iLikeRepository.GetLiked(authorName);
     }
     
     

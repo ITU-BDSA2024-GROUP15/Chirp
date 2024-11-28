@@ -48,7 +48,7 @@
                             @cheep.Timestamp
                             @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
                             {
-                                if (cheep.Liked)
+                                if (!cheep.Liked)
                                 {
                                     <form asp-page-handler="Like" method="post">
                                         <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
@@ -59,7 +59,7 @@
                                 {
                                     <form asp-page-handler="Unlike" method="post">
                                         <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
-                                        <button class="likebutton" type="submit">Like</button>
+                                        <button class="unlikebutton" type="submit">Like</button>
                                     </form>
                                 }
                                 
