@@ -46,7 +46,11 @@
                         @cheep.Message
                         <small>&mdash; 
                             @cheep.Timestamp
-                        
+                            @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
+                            {
+                                <button class="likebutton">Like</button>
+                            }
+                            
                             </small>
                         
                         @{
@@ -69,6 +73,8 @@
                                         <button class="smallbutton">Unfollow</button>
                                     </form>
                                 }
+                                
+                                
                                 
                             }
                         }
