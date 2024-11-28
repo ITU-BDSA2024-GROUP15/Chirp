@@ -17,6 +17,9 @@ public class PublicModel : PageModel
     public string? CheepMessage { get; set; }
     [BindProperty]
     public string? FollowsName { get; set; }
+    
+    //[BindProperty]
+    //public Cheep? LikedCheep { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -103,6 +106,16 @@ public class PublicModel : PageModel
             if (FollowsName != null)
                 await _service.RemoveFollowing(authorName, FollowsName);
 
+        return RedirectToPage("Public");
+    }
+    
+    public async Task<IActionResult> OnPostLike()
+    {
+        Console.WriteLine("Liked");
+         
+        var authorName = User.Identity?.Name;
+        
+        
         return RedirectToPage("Public");
     }
 }

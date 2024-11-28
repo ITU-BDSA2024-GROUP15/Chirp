@@ -48,7 +48,11 @@
                             @cheep.Timestamp
                             @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
                             {
-                                <button class="likebutton">Like</button>
+                                <form asp-page-handler="Like" method="post">
+                                    <input hidden="hidden" name="LikedCheep" value="@cheep"/>
+                                    <button class="likebutton">Like</button>
+                                </form>
+                                
                             }
                             
                             </small>
