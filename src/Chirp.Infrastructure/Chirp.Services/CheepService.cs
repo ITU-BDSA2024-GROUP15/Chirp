@@ -67,11 +67,17 @@ public interface ICheepService
     /// <returns> Task </returns>
     public Task RemoveFollowing(string follower, string followed);
     /// <summary>
-    /// This method allows getting all the users followed by a specified author
+    /// This method allows getting all the names of users followed by a specified author
     /// </summary>
     /// <param name="follower"> The username of the author </param>
     /// <returns> A list of all follow relations containing the author as follower </returns>
     public Task<List<Follow>> GetFollowed(string follower);
+    /// <summary>
+    /// This method allows getting all the names of users followed by a specified author
+    /// </summary>
+    /// <param name="follower"> The username of the author </param>
+    /// <returns> A list of FollowDTOs</returns>
+    public Task<List<FollowDto>> GetFollowedDtos(string follower);
     /// <summary>
     /// This method allows getting all cheeps by a specified author
     /// </summary>
@@ -215,6 +221,23 @@ public class CheepService : ICheepService
     public async Task<List<Follow>> GetFollowed(string follower)
     {
         return await _followRepository.GetFollowed(follower); 
+    }
+
+
+    public async Task<List<FollowDto>> GetFollowedDtos(string follower)
+    {
+        var followedDtos = new List<FollowDto>();
+        var followed = await _followRepository.GetFollowed(follower);
+        foreach (var followee in followed)
+        {
+            var dto = new FollowDto
+            {
+                Followed = followee.Followed,
+                Follower = followee.Follower
+            };
+            followedDtos.Add(dto);
+        }
+        return followedDtos;
     }
 
 
