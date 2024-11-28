@@ -81,7 +81,7 @@ public interface ICheepService
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
     public Task DeleteFromFollows(string username);
     public Task AddLike(string authorName, int cheepId);
-    public Task RemoveCheep(string authorName, int cheepId);
+    public Task RemoveLike(string authorName, int cheepId);
 
 
     public Task<List<Follow>> GetFollowers(string followed);
@@ -291,7 +291,8 @@ public class CheepService : ICheepService
                 Author = cheep.Author.Name,
                 Message = cheep.Text,
                 Timestamp = cheep.Timestamp,
-                Follows = isFollowing
+                Follows = isFollowing,
+                Id = cheep.CheepId
             };
             result.Add(dto);
         }
@@ -305,7 +306,7 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task RemoveCheep(string authorName, int cheepId)
+    public async Task RemoveLike(string authorName, int cheepId)
     {
         await _iLikeRepository.RemoveLike(authorName, cheepId);
     }

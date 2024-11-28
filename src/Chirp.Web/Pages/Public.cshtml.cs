@@ -18,8 +18,8 @@ public class PublicModel : PageModel
     [BindProperty]
     public string? FollowsName { get; set; }
     
-    //[BindProperty]
-    //public Cheep? LikedCheep { get; set; }
+    [BindProperty]
+    public int? LikedCheepId { get; set; }
 
     public PublicModel(ICheepService service)
     {
@@ -111,10 +111,28 @@ public class PublicModel : PageModel
     
     public async Task<IActionResult> OnPostLike()
     {
-        Console.WriteLine("Liked");
+        Console.WriteLine("Liked" + LikedCheepId);
          
         var authorName = User.Identity?.Name;
+
+        if (authorName != null && LikedCheepId != null)
+        {
+            await _service.AddLike(authorName, LikedCheepId.Value);
+        }
         
+        return RedirectToPage("Public");
+    }
+    
+    public async Task<IActionResult> OnPostUnlike()
+    {
+        Console.WriteLine("Unliked" + LikedCheepId);
+         
+        var authorName = User.Identity?.Name;
+
+        if (authorName != null && LikedCheepId != null)
+        {
+            await _service.RemoveLike(authorName, LikedCheepId.Value);
+        }
         
         return RedirectToPage("Public");
     }
