@@ -82,6 +82,7 @@ public interface ICheepService
     public Task DeleteFromFollows(string username);
     public Task AddLike(string authorName, int cheepId);
     public Task RemoveLike(string authorName, int cheepId);
+    public Task GetLiked(string authorName);
 
 
     public Task<List<Follow>> GetFollowers(string followed);
@@ -310,7 +311,12 @@ public class CheepService : ICheepService
     {
         await _iLikeRepository.RemoveLike(authorName, cheepId);
     }
-    
+
+
+    public async Task GetLiked(string authorName)
+    {
+        await _iLikeRepository.GetLiked(authorName);
+    }
     
     
     

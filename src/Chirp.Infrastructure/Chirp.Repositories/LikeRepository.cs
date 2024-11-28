@@ -1,4 +1,5 @@
 ﻿using Chirp.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Chirp.Repositories;
 
@@ -35,5 +36,15 @@ public class LikeRepository : ILikeRepository
             _context.Likes.Remove(like);
             await _context.SaveChangesAsync();
         }
+    }
+
+
+    public Task GetLiked(string authorName)
+    {
+        var query = (from like in _context.Likes
+                where like.AuthorName == authorName
+                    select like);
+        return query.ToListAsync();
+        
     }
 }

@@ -6,4 +6,6 @@ public interface ILikeRepository
 {
     public Task AddLike(string authorName, int cheepId);
     public Task RemoveLike(string authorName, int cheepId);
+
+    public Task GetLiked(string authorName);
 }
