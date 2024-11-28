@@ -351,15 +351,25 @@ public class UnitTests
     }
     
     [Fact]
-    public async Task TestQueryCheepsFromFollow()
+    public async Task TestCanGetAllCheeps()
     {
         var utils = new TestUtilities();
         var context = await utils.CreateInMemoryDb();
         
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+
+        var cheeps = await service.GetAllCheepsFromAuthor("Octavio Wagganer");
         
-        
+        Assert.Equal(15, cheeps.Count);
     }
+
+
+    
+    
+    
     
     
 }

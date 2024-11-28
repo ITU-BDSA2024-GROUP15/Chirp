@@ -4,26 +4,73 @@
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
-
-<h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <p> DISPLAY DATA HERE</p>
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled/>
-                <label asp-for="Username" class="form-label"></label>
-            </div>
-            
-            
-            <p>DOWNLOAD AS ZIP BUTTON</p>
-            <p> DELETE BUTTON</p>
-        </form>
+        <p>Your account contains personal data that you have given us. This page allows you to see or delete that data.</p>
+        <p>
+            Deleting this data will permanently remove your account, and this cannot be recovered.
+        </p>
+        <p>
+            <button>
+                <a class="deletebutton" asp-page="DeletePersonalData">Delete</a>
+            </button>
+        </p>
+    </div>
+    <p>____________________________________________________________________________________________</p>
+<h3>@ViewData["Title"]</h3>
+
+    <div class="col-md-6">
+        <p>Username: @(Model.Author.Name)</p>
+        <p>Email: @(Model.Author.Email)</p>
+        
+        <h3>Following</h3>
+
+
+        @{
+            System.Diagnostics.Debug.Assert(Model.Follows != null, "Model.Follows != null");
+        }
+        @if (Model.Follows.Any())
+        {
+        <ul class="followlist">
+            @foreach (var follow in Model.Follows)
+            {
+            <li>
+                <strong>
+                    <a href="/@follow.Followed">@follow.Followed</a>
+                </strong>
+            </li>
+            }
+        </ul>
+        }
+        else
+        {
+        <em>You're not following anyone.</em>
+        }
+        
+        <h3>Cheeps</h3>
+        @{
+            System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
+        }
+        @if (Model.Cheeps.Any())
+        {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+            <li>
+                <strong>
+                    <a href="/@cheep.Author">@cheep.Author</a>
+                </strong>
+                @cheep.Message
+                <small>&mdash;@cheep.Timestamp</small>
+            </li>
+            }
+        </ul>
+        }
+        else
+        {
+        <em>You have no cheeps so far.</em>
+        }
     </div>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+

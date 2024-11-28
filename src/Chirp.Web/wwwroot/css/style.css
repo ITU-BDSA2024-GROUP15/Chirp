@@ -323,3 +323,15 @@ div.container p{
     font-size: 12px;
 }
 
+ul.followlist li, ul.followlist {
+    list-style: none;
+    padding:0 0 5px 0 ;
+    margin: 0 0 0 0;
+}
+
+.deletebutton{
+    text-decoration: none;
+    color: white;
+}
+
+

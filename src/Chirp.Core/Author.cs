@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Core;
 
+/// <summary>
+/// Author represents a user in the chirp application
+/// Author inherent from IdentityUser where an int is used as the key* 
+/// </summary>
 public class Author : IdentityUser<int>
 {
     
@@ -14,7 +18,5 @@ public class Author : IdentityUser<int>
     [StringLength(100)]
     [Required]
     public new required string Email { get; set; } //TODO make email and name unique 
-    
-    public List<Cheep>? Cheeps { get; set; }
     
 }

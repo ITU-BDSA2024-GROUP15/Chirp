@@ -3,6 +3,9 @@
 using System.ComponentModel.DataAnnotations;
 
 
+/// <summary>
+///Cheep represents the "tweets" in the Chirp application
+/// </summary>
 public class Cheep
 {
     public int CheepId { get; set; }
