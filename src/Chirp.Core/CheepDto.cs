@@ -11,4 +11,6 @@ public class CheepDto
     public DateTime Timestamp { get; set; }
     public required string Author { get; set; }
     public bool Follows { get; set; }
+    public bool Liked { get; set; }
+    public int Id {get; set;}
 }
