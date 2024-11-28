@@ -45,8 +45,9 @@ public class IntegrationTests
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
         IFollowRepository followrepo = new FollowRepository(context);
+        ILikeRepository likerepo = new LikeRepository(context);
 
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
         
         await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
 
@@ -83,7 +84,9 @@ public class IntegrationTests
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
         IFollowRepository followrepo = new FollowRepository(context);
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        ILikeRepository likerepo = new LikeRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
         
         //We first make a user follow another user. Show that the cheeps should now be the sum of their cheeps in their private timeline
         //Octavio Wagganer(15) follow Mellie Yost(7)
@@ -108,7 +111,9 @@ public class IntegrationTests
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
         IFollowRepository followrepo = new FollowRepository(context);
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        ILikeRepository likerepo = new LikeRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
         
         string authorname1 = "Octavio Wagganer";
         string authorname2 = "Mellie Yost";
@@ -129,18 +134,20 @@ public class IntegrationTests
         var context = await utils.CreateInMemoryDb();
         
        
-        IAuthorRepository authorrepo = new AuthorRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
-        ICheepService cheepService = new CheepService(cheeprepo, authorrepo, followrepo);
+        IFollowRepository followrepo = new FollowRepository(context);
+        ILikeRepository likerepo = new LikeRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
         await authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
         await authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
         await followrepo.AddFollowing("erik", "lars");
-        var oldfollows = await cheepService.GetFollowed("erik");
+        var oldfollows = await service.GetFollowed("erik");
         Assert.True(oldfollows.Count == 1);
-        await cheepService.DeleteFromFollows("lars");
+        await service.DeleteFromFollows("lars");
         
-        var newfollows = await cheepService.GetFollowed("erik");
+        var newfollows = await service.GetFollowed("erik");
         
         Assert.True(newfollows.Count == 0);
 

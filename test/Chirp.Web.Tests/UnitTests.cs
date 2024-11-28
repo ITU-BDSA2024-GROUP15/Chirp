@@ -324,8 +324,9 @@ public class UnitTests
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
         IFollowRepository followrepo = new FollowRepository(context);
-        
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        ILikeRepository likerepo = new LikeRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
 
         Author author1 = new Author()
         {
@@ -359,7 +360,9 @@ public class UnitTests
         IAuthorRepository authorrepo = new AuthorRepository(context); 
         ICheepRepository cheeprepo = new CheepRepository(context);
         IFollowRepository followrepo = new FollowRepository(context);
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
+        ILikeRepository likerepo = new LikeRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
 
         var cheeps = await service.GetAllCheepsFromAuthor("Octavio Wagganer");
         
