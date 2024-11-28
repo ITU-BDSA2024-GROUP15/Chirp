@@ -13,12 +13,12 @@ public class LikeRepository : ILikeRepository
     }
     
     
-    public async Task AddLike(string authorName, Cheep cheep)
+    public async Task AddLike(string authorName, int cheepId)
     {
         var like = new Like()
         {
             AuthorName = authorName,
-            CheepId = cheep.CheepId
+            CheepId = cheepId
         };
         
         await _context.Likes.AddAsync(like);
@@ -26,9 +26,9 @@ public class LikeRepository : ILikeRepository
     }
 
 
-    public async Task RemoveLike(string authorName, Cheep cheep)
+    public async Task RemoveLike(string authorName, int cheepId)
     {
-        var like = _context.Likes.FirstOrDefault(l => l.AuthorName == authorName && l.CheepId == cheep.CheepId);
+        var like = _context.Likes.FirstOrDefault(l => l.AuthorName == authorName && l.CheepId == cheepId);
 
         if (like != null)
         {

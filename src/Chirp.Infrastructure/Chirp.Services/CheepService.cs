@@ -80,8 +80,8 @@ public interface ICheepService
     /// <returns></returns>
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
     public Task DeleteFromFollows(string username);
-    public Task AddLike(string authorName, Cheep cheep);
-    public Task RemoveCheep(string authorName, Cheep cheep);
+    public Task AddLike(string authorName, int cheepId);
+    public Task RemoveCheep(string authorName, int cheepId);
 
 
     public Task<List<Follow>> GetFollowers(string followed);
@@ -299,15 +299,15 @@ public class CheepService : ICheepService
     }
 
 
-    public async Task AddLike(string authorName, Cheep cheep)
+    public async Task AddLike(string authorName, int cheepId)
     {
-        await _iLikeRepository.AddLike(authorName, cheep);
+        await _iLikeRepository.AddLike(authorName, cheepId);
     }
 
 
-    public async Task RemoveCheep(string authorName, Cheep cheep)
+    public async Task RemoveCheep(string authorName, int cheepId)
     {
-        await _iLikeRepository.RemoveLike(authorName, cheep);
+        await _iLikeRepository.RemoveLike(authorName, cheepId);
     }
     
     

@@ -4,6 +4,6 @@ namespace Chirp.Infrastructure.Chirp.Repositories;
 
 public interface ILikeRepository
 {
-    public Task AddLike(string authorName, Cheep cheep);
-    public Task RemoveLike(string authorName, Cheep cheep);
+    public Task AddLike(string authorName, int cheepId);
+    public Task RemoveLike(string authorName, int cheepId);
 }
