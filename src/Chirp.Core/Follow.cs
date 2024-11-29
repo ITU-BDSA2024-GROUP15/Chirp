@@ -14,8 +14,8 @@ public class Follow
 
     [Required]
     [StringLength(100)]
-    public required string Follower { get; set; } //AuthorName
+    public required string Follower { get; set; } 
     [Required]
     [StringLength(100)]
-    public required string Followed { get; set; } //FollowsAuthorName
+    public required string Followed { get; set; } 
 }
