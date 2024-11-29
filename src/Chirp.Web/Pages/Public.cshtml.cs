@@ -64,7 +64,7 @@ public class PublicModel : PageModel
         {
             return Page();
         }
-        var author = await _service.GetAuthorByName(authorName);
+        var author = await _service.GetAuthorDtoByName(authorName);
         if ( author == null )
         {
             return Page();
@@ -75,7 +75,7 @@ public class PublicModel : PageModel
             return Page();
         }
 
-        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Name, author.Email);
+        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Username, author.Email);
 
         return RedirectToPage("Public");
     }

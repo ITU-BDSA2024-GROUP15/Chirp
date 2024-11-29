@@ -11,12 +11,12 @@ public class Author : IdentityUser<int>
 {
     
     [StringLength(100)]
-    [RegularExpression(@"^[^\/]*$")] //TODO Backend validation - check if this works
+    [RegularExpression(@"^[^\/]*$")]
     [Required]
     public required string Name { get; set; }
 
     [StringLength(100)]
     [Required]
-    public new required string Email { get; set; } //TODO make email and name unique 
+    public new required string Email { get; set; }
     
 }

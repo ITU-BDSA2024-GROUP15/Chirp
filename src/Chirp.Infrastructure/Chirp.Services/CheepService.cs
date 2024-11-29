@@ -47,6 +47,12 @@ public interface ICheepService
     /// <returns> The Author object matching the username </returns>
     public Task<Author?> GetAuthorByName(string name);
     /// <summary>
+    /// This method allows for getting an AuthorDTO object by their username, for use in razorpages.
+    /// </summary>
+    /// <param name="name"> The username of the author </param>
+    /// <returns> The AuthorDTO matching the username </returns>
+    public Task<AuthorDTO?> GetAuthorDtoByName(string name);
+    /// <summary>
     /// This method allows adding new tuples to the Follow relation
     /// </summary>
     /// <param name="follower"> The username of the author that should follow another </param>
@@ -61,11 +67,17 @@ public interface ICheepService
     /// <returns> Task </returns>
     public Task RemoveFollowing(string follower, string followed);
     /// <summary>
-    /// This method allows getting all the users followed by a specified author
+    /// This method allows getting all the names of users followed by a specified author
     /// </summary>
     /// <param name="follower"> The username of the author </param>
     /// <returns> A list of all follow relations containing the author as follower </returns>
     public Task<List<Follow>> GetFollowed(string follower);
+    /// <summary>
+    /// This method allows getting all the names of users followed by a specified author
+    /// </summary>
+    /// <param name="follower"> The username of the author </param>
+    /// <returns> A list of FollowDTOs</returns>
+    public Task<List<FollowDto>> GetFollowedDtos(string follower);
     /// <summary>
     /// This method allows getting all cheeps by a specified author
     /// </summary>
@@ -126,8 +138,6 @@ public class CheepService : ICheepService
     public async Task<List<CheepDto>> GetCheeps(int page, string follower) //for use when logged in, allows us to display the correct button, either follow or unfollow
     {
            
-        Author? author = await _authorRepository.GetAuthorByName(follower);
-           
         if ( page == 0 )
         {
             page = 1;
@@ -161,6 +171,23 @@ public class CheepService : ICheepService
         return await _authorRepository.GetAuthorByName(name);
         
     }
+    
+    public async Task<AuthorDTO?> GetAuthorDtoByName(string name)
+    {
+        var author = await _authorRepository.GetAuthorByName(name);
+
+        if (author != null)
+        {
+            var dto = new AuthorDTO
+            {
+                Username = author.Name,
+                Email = author.Email
+            };
+        
+            return dto;
+        }
+        return null;
+    }
 
 
     public async Task AddAuthor(string name, string email)
@@ -168,7 +195,7 @@ public class CheepService : ICheepService
         await _authorRepository.CreateAuthor(name, email);
     }
 
-
+    //TODO: This method is unnecessary in the current version of the application, should be removed?
     public async Task AddCheep(string text, string name, string email)
     {
         if ( await GetAuthorByName(name) == null )
@@ -199,6 +226,23 @@ public class CheepService : ICheepService
     public async Task<List<Follow>> GetFollowed(string follower)
     {
         return await _followRepository.GetFollowed(follower); 
+    }
+
+
+    public async Task<List<FollowDto>> GetFollowedDtos(string follower)
+    {
+        var followedDtos = new List<FollowDto>();
+        var followed = await _followRepository.GetFollowed(follower);
+        foreach (var followee in followed)
+        {
+            var dto = new FollowDto
+            {
+                Followed = followee.Followed,
+                Follower = followee.Follower
+            };
+            followedDtos.Add(dto);
+        }
+        return followedDtos;
     }
 
 
