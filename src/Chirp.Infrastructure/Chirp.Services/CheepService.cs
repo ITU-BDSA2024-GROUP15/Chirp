@@ -31,7 +31,7 @@ public interface ICheepService
     /// <param name="page"> The page number </param>
     /// <param name="author"> The name of the author whose cheeps you want </param>
     /// <returns> A list of CheepDto objects </returns>
-    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author);
+    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string username);
     /// <summary>
     /// This method allows adding new cheeps to the database
     /// </summary>
@@ -143,14 +143,14 @@ public class CheepService : ICheepService
         return result;
     }
 
-    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author)
+    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string username)
     {
         if ( page == 0 )
         {
             page = 1;
         }
         var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, author);
-        var result = await ConvertCheepsToCheepDtos(queryresult, author);
+        var result = await ConvertCheepsToCheepDtos(queryresult, username);
         return result;
     }
 
