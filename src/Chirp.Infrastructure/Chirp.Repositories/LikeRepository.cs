@@ -48,4 +48,15 @@ public class LikeRepository : ILikeRepository
         return query.ToListAsync();
         
     }
+
+
+    public Task<int> CountLikes(int cheepId)
+    {
+        var query = (from like in _context.Likes
+                where like.CheepId == cheepId
+                    select cheepId).CountAsync();
+        return query;
+    }
+    
+    
 }

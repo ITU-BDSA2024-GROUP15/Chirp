@@ -13,5 +13,6 @@ public class CheepDto
     public required string Author { get; set; }
     public bool Follows { get; set; }
     public bool Liked { get; set; }
+    public int Likes { get; set; }
     public int Id {get; set;}
 }

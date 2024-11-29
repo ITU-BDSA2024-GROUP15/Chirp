@@ -325,6 +325,7 @@ public class CheepService : ICheepService
         {
             bool isFollowing = false;
             bool isLiking = false;
+            int likesamount = await CountLikes(cheep.CheepId);
             foreach ( var follow in follows ) // this could be more efficient
             {
                 if ( follow.Followed == cheep.Author.Name )
@@ -348,6 +349,7 @@ public class CheepService : ICheepService
                 Timestamp = cheep.Timestamp,
                 Follows = isFollowing,
                 Liked = isLiking,
+                Likes = likesamount,
                 Id = cheep.CheepId
             };
             result.Add(dto);
@@ -371,6 +373,12 @@ public class CheepService : ICheepService
     public async Task<List<Like>> GetLiked(string authorName)
     {
         return await _iLikeRepository.GetLiked(authorName);
+    }
+
+
+    public async Task<int> CountLikes(int cheepId)
+    {
+        return await _iLikeRepository.CountLikes(cheepId);
     }
     
     

@@ -8,4 +8,5 @@ public interface ILikeRepository
     public Task RemoveLike(string authorName, int cheepId);
 
     public Task<List<Like>> GetLiked(string authorName);
+    public Task<int> CountLikes(int cheepId);
 }
