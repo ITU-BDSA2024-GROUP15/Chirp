@@ -96,16 +96,6 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestGetAllCheepsFromTimelineAndFollow()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        ILikeRepository likerepo = new LikeRepository(context);
-
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
-        
         //We first make a user follow another user. Show that the cheeps should now be the sum of their cheeps in their private timeline
         //Octavio Wagganer(15) follow Mellie Yost(7)
 
@@ -123,16 +113,6 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestCheepHasFollowIfAuthorFollows()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        ILikeRepository likerepo = new LikeRepository(context);
-
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
-        
         string authorname1 = "Octavio Wagganer";
         string authorname2 = "Mellie Yost";
 
@@ -148,16 +128,6 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestDeleteFollows()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-       
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        ILikeRepository likerepo = new LikeRepository(context);
-
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
         await authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
         await authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
         await followrepo.AddFollowing("erik", "lars");
