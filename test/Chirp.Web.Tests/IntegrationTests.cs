@@ -6,22 +6,49 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
+using NUnit.Framework;
 using Xunit;
 using Xunit.Abstractions;
+using Assert = Xunit.Assert;
 
 namespace Chirp.Web.Tests;
 
 
-public class IntegrationTests
+public class IntegrationTests : IAsyncLifetime
 {
+
+    private IAuthorRepository authorrepo;
+    private ICheepRepository cheeprepo;
+    private IFollowRepository followrepo;
+    private ILikeRepository likerepo;
+
+    private TestUtilities utils;
+    private CheepDbContext context;
+    
+    private ICheepService service;
+    
+    public async Task InitializeAsync()
+    {
+        utils = new TestUtilities();
+        context = await utils.CreateInMemoryDb();
+        authorrepo = new AuthorRepository(context); 
+        cheeprepo = new CheepRepository(context);
+        followrepo = new FollowRepository(context);
+        likerepo = new LikeRepository(context);
+
+        service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
+    }
+
+
+    public Task DisposeAsync()
+    {
+        return Task.CompletedTask;
+    }
+    
     
     [Fact]
     public async Task TestAddCheep()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context); 
         var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
         Author author = await authorrepo.GetAuthorByName("Mellie Yost");
@@ -40,15 +67,6 @@ public class IntegrationTests
     [Fact]
     public async Task AddCheepCheepServiceNonExistingAuthor()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        ILikeRepository likerepo = new LikeRepository(context);
-
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
-        
         await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
 
         Author author = await authorrepo.GetAuthorByName("NewAuthor");
@@ -152,6 +170,21 @@ public class IntegrationTests
         Assert.True(newfollows.Count == 0);
 
 
+    }
+
+
+    public async Task TestCanGetAmountOfLikes()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+       
+        IAuthorRepository authorrepo = new AuthorRepository(context); 
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IFollowRepository followrepo = new FollowRepository(context);
+        ILikeRepository likerepo = new LikeRepository(context);
+
+        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
     }
     
 }
