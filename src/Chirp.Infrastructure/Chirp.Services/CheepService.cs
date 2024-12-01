@@ -91,10 +91,35 @@ public interface ICheepService
     /// <param name="page"> The page number </param>
     /// <returns></returns>
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
+    /// <summary>
+    /// Used to delete all instances where user is followed by others or follows others
+    /// </summary>
+    /// <param name="username">Name of the author you want to remove from the follow table</param>
+    /// <returns></returns>
     public Task DeleteFromFollows(string username);
+    /// <summary>
+    /// Used to make a author like a cheep
+    /// </summary>
+    /// <param name="authorName">Name of author who likes</param>
+    /// <param name="cheepId">The id of cheep the author likes</param>
+    /// <returns></returns>
     public Task AddLike(string authorName, int cheepId);
+    /// <summary>
+    /// Used to remove a like on a cheep by an author
+    /// </summary>
+    /// <param name="authorName">Name of author</param>
+    /// <param name="cheepId">Id of the cheep</param>
+    /// <returns></returns>
     public Task RemoveLike(string authorName, int cheepId);
+    /// <summary>
+    /// Gets all the likes a author has made
+    /// </summary>
+    /// <param name="authorName">Name of author</param>
+    /// <returns></returns>
     public Task<List<Like>> GetLiked(string authorName);
+
+
+    public Task<int> CountLikes(int cheepId);
 
 
     public Task<List<Follow>> GetFollowers(string followed);
