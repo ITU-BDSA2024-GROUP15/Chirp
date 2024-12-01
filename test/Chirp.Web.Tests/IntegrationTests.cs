@@ -142,19 +142,42 @@ public class IntegrationTests : IAsyncLifetime
 
     }
 
-
-    public async Task TestCanGetAmountOfLikes()
+    [Fact]
+    public async Task TestCountingOfLikesOnCheep()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-       
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        ILikeRepository likerepo = new LikeRepository(context);
+        service.AddLike("Octavio Wagganer", 1);
+        service.AddLike("Mellie Yost", 1);
 
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
+        var likes = await service.CountLikes(1);
+        
+        Assert.Equal(2, likes);
     }
-    
+
+
+    [Fact]
+    public async Task CanRemoveLike()
+    {
+        service.AddLike("Octavio Wagganer", 1);
+        var likes1Amount = await service.CountLikes(1);
+        service.RemoveLike("Octavio Wagganer", 1);
+        var likes2Amount = await service.CountLikes(1);
+        
+        Assert.True(likes1Amount != likes2Amount);
+    }
+
+
+    [Fact]
+    public async Task GetLikesMadeByAuthor()
+    {
+        string authorName = "Octavio Wagganer";
+        
+        await service.AddLike(authorName, 1);
+        await service.AddLike(authorName, 3);
+        await service.AddLike(authorName, 6);
+
+        var likes = await service.GetLiked(authorName);
+        
+        Assert.Equal(3, likes.Count);
+    }
+
 }
