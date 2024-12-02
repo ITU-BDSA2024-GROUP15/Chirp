@@ -20,7 +20,6 @@ public class IntegrationTests : IAsyncLifetime
     private IAuthorRepository authorrepo;
     private ICheepRepository cheeprepo;
     private IFollowRepository followrepo;
-    private ILikeRepository likerepo;
 
     private TestUtilities utils;
     private CheepDbContext context;
@@ -34,9 +33,8 @@ public class IntegrationTests : IAsyncLifetime
         authorrepo = new AuthorRepository(context); 
         cheeprepo = new CheepRepository(context);
         followrepo = new FollowRepository(context);
-        likerepo = new LikeRepository(context);
 
-        service = new CheepService(cheeprepo, authorrepo, followrepo, likerepo);
+        service = new CheepService(cheeprepo, authorrepo, followrepo);
     }
 
 
@@ -166,6 +164,7 @@ public class IntegrationTests : IAsyncLifetime
     }
 
 
+    /*
     [Fact]
     public async Task GetLikesMadeByAuthor()
     {
@@ -175,9 +174,10 @@ public class IntegrationTests : IAsyncLifetime
         await service.AddLike(authorName, 3);
         await service.AddLike(authorName, 6);
 
-        var likes = await service.GetLiked(authorName);
+        var likes = await service.GetCheeps(1, authorName);
         
         Assert.Equal(3, likes.Count);
     }
+    */
 
 }

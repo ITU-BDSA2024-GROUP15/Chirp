@@ -17,7 +17,6 @@ public class UnitTests : IAsyncLifetime
     private ICheepRepository cheepRepository;
     private IAuthorRepository authorRepository;
     private IFollowRepository followRepository;
-    private ILikeRepository likeRepository;
     private ICheepService cheepService;
 
     public async Task InitializeAsync()
@@ -27,8 +26,7 @@ public class UnitTests : IAsyncLifetime
         cheepRepository = new CheepRepository(context);
         authorRepository = new AuthorRepository(context);
         followRepository = new FollowRepository(context);
-        likeRepository = new LikeRepository(context);
-        cheepService = new CheepService(cheepRepository, authorRepository, followRepository, likeRepository);
+        cheepService = new CheepService(cheepRepository, authorRepository, followRepository);
         
     }
 

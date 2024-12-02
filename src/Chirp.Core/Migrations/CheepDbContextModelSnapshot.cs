@@ -97,6 +97,10 @@ namespace Chirp.Core.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Likes")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(160)
@@ -260,7 +264,7 @@ namespace Chirp.Core.Migrations
             modelBuilder.Entity("Chirp.Core.Cheep", b =>
                 {
                     b.HasOne("Chirp.Core.Author", "Author")
-                        .WithMany("Cheeps")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -317,11 +321,6 @@ namespace Chirp.Core.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Chirp.Core.Author", b =>
-                {
-                    b.Navigation("Cheeps");
                 });
 #pragma warning restore 612, 618
         }

@@ -116,7 +116,6 @@ public interface ICheepService
     /// </summary>
     /// <param name="authorName">Name of author</param>
     /// <returns></returns>
-    public Task<List<Like>> GetLiked(string authorName);
 
 
     public Task<int> CountLikes(int cheepId);
@@ -132,15 +131,13 @@ public class CheepService : ICheepService
     private ICheepRepository _cheepRepository;
     private IAuthorRepository _authorRepository;
     private IFollowRepository _followRepository;
-    private ILikeRepository _iLikeRepository;
 
 
-    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository, ILikeRepository likeRepository)
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
         this._cheepRepository = cheepRepository;
         this._authorRepository = authorRepository;
         this._followRepository = followRepository;
-        this._iLikeRepository = likeRepository;
     }
     
     public async Task<List<CheepDto>> GetCheeps(int page)
@@ -343,7 +340,6 @@ public class CheepService : ICheepService
     {
         //Gets a list over which Authors the current author follows
         var follows = await GetFollowed(author);
-        var likes = await GetLiked(author);
         
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
@@ -359,12 +355,9 @@ public class CheepService : ICheepService
                 }
             }
 
-            foreach (var like in likes)
+            if (cheep.Likes.Contains(author))
             {
-                if (like.CheepId == cheep.CheepId)
-                {
-                    isLiking = true;
-                }
+                isLiking = true;
             }
                
             var dto = new CheepDto
@@ -385,25 +378,20 @@ public class CheepService : ICheepService
 
     public async Task AddLike(string authorName, int cheepId)
     {
-        await _iLikeRepository.AddLike(authorName, cheepId);
+        await _cheepRepository.AddLike(authorName, cheepId);
     }
 
 
     public async Task RemoveLike(string authorName, int cheepId)
     {
-        await _iLikeRepository.RemoveLike(authorName, cheepId);
+        await _cheepRepository.RemoveLike(authorName, cheepId);
     }
-
-
-    public async Task<List<Like>> GetLiked(string authorName)
-    {
-        return await _iLikeRepository.GetLiked(authorName);
-    }
+    
 
 
     public async Task<int> CountLikes(int cheepId)
     {
-        return await _iLikeRepository.CountLikes(cheepId);
+        return await _cheepRepository.CountLikes(cheepId);
     }
     
     

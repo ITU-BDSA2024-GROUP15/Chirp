@@ -43,5 +43,10 @@ public interface ICheepRepository
     /// <param name="text">The cheep message</param>
     /// <param name="author">Author of cheep</param>
     public Task AddCheep(string text, Author author);
-   
+
+
+    public Task AddLike(string author, int cheepId);
+    public Task RemoveLike(string author, int cheepId);
+    public Task<int> CountLikes(int cheepId);
+
 }

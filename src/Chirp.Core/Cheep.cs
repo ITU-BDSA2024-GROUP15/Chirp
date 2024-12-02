@@ -16,5 +16,6 @@ public class Cheep
     [Required]
     public required Author Author { get; set; }
     public int AuthorId { get; set; }
+    public List<string> Likes { get; set; } =  new List<string>();
     
 }
