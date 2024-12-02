@@ -41,7 +41,7 @@ public class UserTimelineModel : PageModel
         }
         else
         {
-            Cheeps = await _service.GetCheepsFromAuthor(page, author);
+            Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name);
         }
         
         if ( page == 0 )
@@ -69,13 +69,13 @@ public class UserTimelineModel : PageModel
         {
             return Page();
         }
-        var author = await _service.GetAuthorByName(authorName);
+        var author = await _service.GetAuthorDtoByName(authorName);
         if ( author == null )
         {
             return Page();
         }
 
-        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Name, author.Email);
+        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Username, author.Email);
 
         return RedirectToPage("UserTimeline");
     }

@@ -20,7 +20,7 @@
 <h3>@ViewData["Title"]</h3>
 
     <div class="col-md-6">
-        <p>Username: @(Model.Author.Name)</p>
+        <p>Username: @(Model.Author.Username)</p>
         <p>Email: @(Model.Author.Email)</p>
         
         <h3>Following</h3>
@@ -58,10 +58,15 @@
             {
             <li>
                 <strong>
-                    <a href="/@cheep.Author">@cheep.Author</a>
+                <a href="/@cheep.Author">@cheep.Author</a>
                 </strong>
+
+                <small>
+                    &mdash;
+                    @cheep.Timestamp
+                </small>
+                <br/>
                 @cheep.Message
-                <small>&mdash;@cheep.Timestamp</small>
             </li>
             }
         </ul>
