@@ -335,12 +335,25 @@ ul.followlist li, ul.followlist {
 }
 
 .likebutton {
-    background-color: dimgray;
-    padding: 2px 8px;
+    background-color: cadetblue;
 }
 
 .unlikebutton {
-    background-color: cadetblue;
-    padding: 2px 8px;
+    
+    background-color: dimgray;
+}
+
+.cheeplikeandfollow{
+    display: flex;
+    align-items:flex-end;
+    margin-top: 5px;
+}
+
+.spaceright{
+    padding-right: 5px;
+}
+
+.cheepmessage{
+    margin-top: 5px;
 }
 

@@ -48,37 +48,15 @@
                             @cheep.Timestamp
                         </small>
                         <br/>
-                        @cheep.Message
-                  
-                    <small>
-                        <br/>Likes: @cheep.Likes
-                        @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
-                        {
-                            if (!cheep.Liked)
-                            {
-                                <form asp-page-handler="Like" method="post">
-                                    <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
-                                    <button class="likebutton" type="submit">Like</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <form asp-page-handler="Unlike" method="post">
-                                    <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
-                                    <button class="unlikebutton" type="submit">Like</button>
-                                </form>
-                            }
-
-
-                        }
-
-                    </small>
+                        <div class="cheepmessage">@cheep.Message</div>
+                        <div class ="cheeplikeandfollow">
+                        
                         @{
                             if ( SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
                             {
                                 if ( !cheep.Follows )
                                 {
-                                    <form asp-page-handler="Follow" method="post">
+                                    <form asp-page-handler="Follow" method="post" class = "spaceright">
                                         <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
                                         <button type="submit" asp-page-handler="Follow">Follow</button>
                                     </form>
@@ -86,17 +64,35 @@
                                 }
                                 else
                                 {
-                                        
-                                    <form asp-page-handler="Unfollow" method="post">
+                                    <form asp-page-handler="Unfollow" method="post" class = "spaceright">
                                         <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
                                         <button class="smallbutton">Unfollow</button>
                                     </form>
                                 }
-                                
                             }
                         }
-                        
-                    
+
+                    @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
+                    {
+                    if (!cheep.Liked)
+                    {
+                    <form asp-page-handler="Like" method="post" class = "spaceright">
+                        <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
+                        <button class="likebutton" type="submit">Like</button>
+                    </form>
+                    }
+                    else
+                    {
+                    <form asp-page-handler="Unlike" method="post" class = "spaceright">
+                        <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
+                        <button class="unlikebutton" type="submit">Like</button>
+                    </form>
+                    }
+
+
+                    }
+                        <small>Likes: @cheep.Likes</small>
+                        </div>
                 </li>
             }
         </ul>
