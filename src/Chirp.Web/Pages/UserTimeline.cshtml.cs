@@ -132,7 +132,7 @@ public class UserTimelineModel : PageModel
             await _service.AddLike(authorName, LikedCheepId.Value);
         }
         
-        return RedirectToPage("Public");
+        return RedirectToPage("UserTimeline");
     }
     
     public async Task<IActionResult> OnPostUnlike()
@@ -144,7 +144,7 @@ public class UserTimelineModel : PageModel
             await _service.RemoveLike(authorName, LikedCheepId.Value);
         }
         
-        return RedirectToPage("Public");
+        return RedirectToPage("UserTimeline");
     }
     
 }
