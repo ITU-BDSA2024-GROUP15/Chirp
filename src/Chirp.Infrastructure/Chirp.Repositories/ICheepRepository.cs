@@ -47,6 +47,15 @@ public interface ICheepRepository
 
     public Task AddLike(string author, int cheepId);
     public Task RemoveLike(string author, int cheepId);
+    
+    /// <summary>
+    /// Counts the likes a cheep has
+    /// </summary>
+    /// <param name="cheepId">Id of cheep</param>
+    /// <returns>Amount of likes</returns>
     public Task<int> CountLikes(int cheepId);
+
+
+    public Task DeleteAllLikes(string authors);
 
 }
