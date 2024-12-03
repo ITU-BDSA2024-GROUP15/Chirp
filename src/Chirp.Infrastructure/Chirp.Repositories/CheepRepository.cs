@@ -110,8 +110,7 @@ public class CheepRepository : ICheepRepository
             _context.SaveChanges();
         }
     }
-
-
+    
     public async Task RemoveLike(string author, int cheepId)
     {
         var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
@@ -122,15 +121,24 @@ public class CheepRepository : ICheepRepository
         }
     }
 
-    /// <summary>
-    /// Counts the likes a cheep has
-    /// </summary>
-    /// <param name="cheepId">Id of cheep</param>
-    /// <returns>Amount of likes</returns>
+    
     public async Task<int> CountLikes(int cheepId)
     {
         var likes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
         return likes.Likes.Count;
+    }
+
+
+    public async Task DeleteAllLikes(string author)
+    {
+        //https://stackoverflow.com/questions/1586013/how-to-do-select-all-in-linq-to-sql
+        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).ToListAsync();
+
+        foreach (var likes in likedCheeps)
+        {
+            likes.Likes.Remove(author);
+        }
+        _context.SaveChanges();
     }
     
     

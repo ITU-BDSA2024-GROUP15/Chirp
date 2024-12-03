@@ -123,6 +123,9 @@ public interface ICheepService
 
     public Task<List<Follow>> GetFollowers(string followed);
     //TODO: Remove all unused or privately used methods
+
+
+    public Task DeleteAllLikes(string authorName);
 }
 
 
@@ -393,7 +396,12 @@ public class CheepService : ICheepService
     {
         return await _cheepRepository.CountLikes(cheepId);
     }
-    
-    
-    
+
+
+    public async Task DeleteAllLikes(string authorName)
+    {
+        await _cheepRepository.DeleteAllLikes(authorName);
+    }
+
+
 }

@@ -143,8 +143,8 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestCountingOfLikesOnCheep()
     {
-        service.AddLike("Octavio Wagganer", 1);
-        service.AddLike("Mellie Yost", 1);
+        await service.AddLike("Octavio Wagganer", 1);
+        await service.AddLike("Mellie Yost", 1);
 
         var likes = await service.CountLikes(1);
         
@@ -155,29 +155,26 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task CanRemoveLike()
     {
-        service.AddLike("Octavio Wagganer", 1);
+        await service.AddLike("Octavio Wagganer", 1);
         var likes1Amount = await service.CountLikes(1);
-        service.RemoveLike("Octavio Wagganer", 1);
+        await service.RemoveLike("Octavio Wagganer", 1);
         var likes2Amount = await service.CountLikes(1);
         
         Assert.True(likes1Amount != likes2Amount);
     }
 
 
-    /*
     [Fact]
-    public async Task GetLikesMadeByAuthor()
+    public async Task CanRemoveLikeData()
     {
-        string authorName = "Octavio Wagganer";
+        string author = "Octavio Wagganer";
+        await service.AddLike(author, 1);
+        var likes1Amount = await service.CountLikes(1);
+        await service.DeleteAllLikes(author);
+        var likes2Amount = await service.CountLikes(1);
         
-        await service.AddLike(authorName, 1);
-        await service.AddLike(authorName, 3);
-        await service.AddLike(authorName, 6);
-
-        var likes = await service.GetCheeps(1, authorName);
-        
-        Assert.Equal(3, likes.Count);
+        Assert.True(likes1Amount != likes2Amount);
+        Assert.True(likes2Amount == 0);
     }
-    */
 
 }
