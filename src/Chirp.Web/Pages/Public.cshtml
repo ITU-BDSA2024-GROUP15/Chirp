@@ -39,16 +39,36 @@
             @foreach (var cheep in Model.Cheeps)
             {
                 <li>
+                    <p>
                     <strong>
                         <a href="/@cheep.Author">@cheep.Author</a>
                     </strong>
-
-                    <small>
-                        &mdash;
-                        @cheep.Timestamp
-                    </small>
+                    <small>&mdash;
+                        @cheep.Timestamp</small>
                     <br/>
                     @cheep.Message
+                    
+                    <small>
+                        <br/>Likes: @cheep.Likes
+                        @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
+                        {
+                            if (!cheep.Liked)
+                            {
+                                <form asp-page-handler="Like" method="post">
+                                    <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
+                                    <button class="likebutton" type="submit">Like</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-page-handler="Unlike" method="post">
+                                    <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
+                                    <button class="unlikebutton" type="submit">Like</button>
+                                </form>
+                            }
+                        }
+
+                    </small>
 
                     @{
                         if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)

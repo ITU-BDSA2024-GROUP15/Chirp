@@ -3,6 +3,7 @@ using System;
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Core.Migrations
 {
     [DbContext(typeof(CheepDbContext))]
-    partial class CheepDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241128114955_AddLikeSchema")]
+    partial class AddLikeSchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -96,10 +99,6 @@ namespace Chirp.Core.Migrations
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Likes")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -264,7 +263,7 @@ namespace Chirp.Core.Migrations
             modelBuilder.Entity("Chirp.Core.Cheep", b =>
                 {
                     b.HasOne("Chirp.Core.Author", "Author")
-                        .WithMany()
+                        .WithMany("Cheeps")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -321,6 +320,11 @@ namespace Chirp.Core.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Chirp.Core.Author", b =>
+                {
+                    b.Navigation("Cheeps");
                 });
 #pragma warning restore 612, 618
         }

@@ -334,4 +334,13 @@ ul.followlist li, ul.followlist {
     color: white;
 }
 
+.likebutton {
+    background-color: dimgray;
+    padding: 2px 8px;
+}
+
+.unlikebutton {
+    background-color: cadetblue;
+    padding: 2px 8px;
+}
 

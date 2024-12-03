@@ -99,4 +99,39 @@ public class CheepRepository : ICheepRepository
         await _context.Cheeps.AddAsync(cheep);
         await _context.SaveChangesAsync();
     }
+
+
+    public async Task AddLike(string author, int cheepId)
+    {
+        var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
+        if (currentLikes != null)
+        {
+            currentLikes.Likes.Add(author);
+            _context.SaveChanges();
+        }
+    }
+
+
+    public async Task RemoveLike(string author, int cheepId)
+    {
+        var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
+        if (currentLikes != null && currentLikes.Likes.Contains(author))
+        {
+            currentLikes.Likes.Remove(author);
+            _context.SaveChanges();
+        }
+    }
+
+    /// <summary>
+    /// Counts the likes a cheep has
+    /// </summary>
+    /// <param name="cheepId">Id of cheep</param>
+    /// <returns>Amount of likes</returns>
+    public async Task<int> CountLikes(int cheepId)
+    {
+        var likes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
+        return likes.Likes.Count;
+    }
+    
+    
 }

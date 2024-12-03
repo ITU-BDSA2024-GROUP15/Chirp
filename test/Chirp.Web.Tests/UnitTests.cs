@@ -9,18 +9,41 @@ using Xunit;
 
 namespace Chirp.Web.Tests;
 
-public class UnitTests
+public class UnitTests : IAsyncLifetime
 {
+
+    private TestUtilities utils;
+    private CheepDbContext context;
+    private ICheepRepository cheepRepository;
+    private IAuthorRepository authorRepository;
+    private IFollowRepository followRepository;
+    private ICheepService cheepService;
+
+    public async Task InitializeAsync()
+    {
+        utils = new TestUtilities();
+        context = await utils.CreateInMemoryDb();
+        cheepRepository = new CheepRepository(context);
+        authorRepository = new AuthorRepository(context);
+        followRepository = new FollowRepository(context);
+        cheepService = new CheepService(cheepRepository, authorRepository, followRepository);
+        
+    }
+
+
+    public Task DisposeAsync()
+    {
+        utils.CloseConnection();
+        return Task.CompletedTask;
+    }
+    
+    
     
     //CheepRepository
     [Fact]
     public async Task TestGetCheepsAmount()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        ICheepRepository repository = new CheepRepository(context);        
-        var cheeps = await repository.GetCheeps(0);
+        var cheeps = await cheepRepository.GetCheeps(0);
         Assert.Equal(32,cheeps.Count);
         await utils.CloseConnection();
         
@@ -29,10 +52,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsPage1()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheeps(0);
+        var cheeps = await cheepRepository.GetCheeps(0);
         var cheep = cheeps[0];
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);
         await utils.CloseConnection();
@@ -41,10 +61,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsPage2()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheeps(2);
+        var cheeps = await cheepRepository.GetCheeps(2);
         var cheep = cheeps[0];
         Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Text);  
         await utils.CloseConnection();
@@ -54,10 +71,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsLastPage() 
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheeps(21);
+        var cheeps = await cheepRepository.GetCheeps(21);
         
         Assert.True(cheeps.Count == 17);
         await utils.CloseConnection();
@@ -66,10 +80,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsBeyondLimit() 
     {   
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheeps(32);
+        var cheeps = await cheepRepository.GetCheeps(32);
         
         Assert.True(cheeps.Count == 0);    
         await utils.CloseConnection();
@@ -79,10 +90,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsFromAuthor() 
     {   
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheepsFromAuthor(0, "Jacqualine Gilcoine");
+        var cheeps = await cheepRepository.GetCheepsFromAuthor(0, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         //we know Jacqualine is the first author on the public timeline.
         Assert.True(cheep.Author.Name == "Jacqualine Gilcoine"  && cheeps.Count == 32);
@@ -92,10 +100,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsFromAuthorPage2()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheepsFromAuthor(2, "Jacqualine Gilcoine");
+        var cheeps = await cheepRepository.GetCheepsFromAuthor(2, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
         Assert.Equal("What a relief it was the place examined.", cheep.Text);
@@ -105,10 +110,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsFromAuthorLastPage()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheepsFromAuthor(12, "Jacqualine Gilcoine");
+        var cheeps = await cheepRepository.GetCheepsFromAuthor(12, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
         Assert.True(cheeps.Count == 7 && cheep.Author.Name == "Jacqualine Gilcoine"); 
@@ -118,10 +120,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetCheepsFromAuthorBeyondLimit()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);     
-        var cheeps = await repository.GetCheepsFromAuthor(20, "Jacqualine Gilcoine");
+        var cheeps = await cheepRepository.GetCheepsFromAuthor(20, "Jacqualine Gilcoine");
         
         Assert.True(cheeps.Count == 0);   
         await utils.CloseConnection();
@@ -131,13 +130,10 @@ public class UnitTests
     [Fact]
     public async Task TestCreateAuthor()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        IAuthorRepository repository = new AuthorRepository(context);
 
-        await repository.CreateAuthor("Filifjonken", "fili@mail.com");
+        await authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
         
-        Author author = await repository.GetAuthorByName("Filifjonken");
+        Author author = await authorRepository.GetAuthorByName("Filifjonken");
         
         Assert.True(author.Name == "Filifjonken");   
         await utils.CloseConnection();
@@ -148,10 +144,7 @@ public class UnitTests
     [Fact]
     public async Task TestGetAllCheepsFromAuthor()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        ICheepRepository repository = new CheepRepository(context);
-        var result = ( await repository.GetAllCheepsFromAuthor("Adrian") ).Count;
+        var result = ( await cheepRepository.GetAllCheepsFromAuthor("Adrian") ).Count;
         
         Assert.Equal(1, result);
     }
@@ -160,17 +153,12 @@ public class UnitTests
     [Fact]
     public async Task TestCheepConstraintOnDataModel()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-
-        var cheepsBefore = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-        Author author = await authorrepo.GetAuthorByName("Mellie Yost");
+        var cheepsBefore = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+        Author author = await authorRepository.GetAuthorByName("Mellie Yost");
         var invalidCheep = new String('a', 161);
-        await cheeprepo.AddCheep(invalidCheep, author);
+        await cheepRepository.AddCheep(invalidCheep, author);
         
-        var cheepsAfter = (await cheeprepo.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+        var cheepsAfter = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
 
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
@@ -179,11 +167,6 @@ public class UnitTests
     [Fact]
     public async Task CanAddFolowerToDb() 
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IFollowRepository followrepo = new FollowRepository(context);
-
         Author author1 = new Author()
         {
             Id = 1,
@@ -198,7 +181,7 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await followrepo.AddFollowing(author1.Name, author2.Name);
+        await followRepository.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
@@ -210,11 +193,6 @@ public class UnitTests
     [Fact]
     public async Task CanRemoveFollowerFromDb()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IFollowRepository followrepo = new FollowRepository(context);
-
         Author author1 = new Author()
         {
             Id = 1,
@@ -229,14 +207,14 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await followrepo.AddFollowing(author1.Name, author2.Name);
+        await followRepository.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
         //Check that the Follow has been added
         Assert.NotNull(follow);
 
-        await followrepo.RemoveFollowing(author1.Name, author2.Name);
+        await followRepository.RemoveFollowing(author1.Name, author2.Name);
         
         //Check that the follow has been removed
         var followRemoved = await context.Follows.FirstOrDefaultAsync();
@@ -248,11 +226,6 @@ public class UnitTests
     [Fact]
     public async Task CanGetFollowFromDb()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IFollowRepository followrepo = new FollowRepository(context);
-
         Author author1 = new Author()
         {
             Id = 1,
@@ -267,9 +240,9 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await followrepo.AddFollowing(author1.Name, author2.Name);
+        await followRepository.AddFollowing(author1.Name, author2.Name);
         
-        var follows = await followrepo.GetFollowed(author1.Name);
+        var follows = await followRepository.GetFollowed(author1.Name);
         
         Assert.NotNull(follows);
         Assert.Equal(author2.Name, follows[0].Followed);
@@ -279,11 +252,6 @@ public class UnitTests
     [Fact]
     public async Task CanGetFollowsFromDb()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IFollowRepository followrepo = new FollowRepository(context);
-
         Author author1 = new Author()
         {
             Id = 1,
@@ -305,10 +273,10 @@ public class UnitTests
             Email = "test3@mail.com",
         };
 
-        await followrepo.AddFollowing(author1.Name, author2.Name);
-        await followrepo.AddFollowing(author1.Name, author3.Name);
+        await followRepository.AddFollowing(author1.Name, author2.Name);
+        await followRepository.AddFollowing(author1.Name, author3.Name);
         
-        var follows = await followrepo.GetFollowed(author1.Name);
+        var follows = await followRepository.GetFollowed(author1.Name);
         
         Assert.NotNull(follows);
         Assert.Equal(author2.Name, follows[0].Followed);
@@ -318,15 +286,6 @@ public class UnitTests
     [Fact]
     public async Task CanAddFolowerToDbWithCheepService() 
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
-
         Author author1 = new Author()
         {
             Id = 1,
@@ -341,7 +300,7 @@ public class UnitTests
             Email = "test2@mail.com",
         };
 
-        await service.AddFollowing(author1.Name, author2.Name);
+        await cheepService.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
@@ -353,15 +312,7 @@ public class UnitTests
     [Fact]
     public async Task TestCanGetAllCheeps()
     {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        IAuthorRepository authorrepo = new AuthorRepository(context); 
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IFollowRepository followrepo = new FollowRepository(context);
-        ICheepService service = new CheepService(cheeprepo, authorrepo, followrepo);
-
-        var cheeps = await service.GetAllCheepsFromAuthor("Octavio Wagganer");
+        var cheeps = await cheepService.GetAllCheepsFromAuthor("Octavio Wagganer");
         
         Assert.Equal(15, cheeps.Count);
     }

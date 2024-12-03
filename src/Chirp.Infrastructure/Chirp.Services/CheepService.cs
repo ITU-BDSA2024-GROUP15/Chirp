@@ -91,7 +91,34 @@ public interface ICheepService
     /// <param name="page"> The page number </param>
     /// <returns></returns>
     public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
+    /// <summary>
+    /// Used to delete all instances where user is followed by others or follows others
+    /// </summary>
+    /// <param name="username">Name of the author you want to remove from the follow table</param>
+    /// <returns></returns>
     public Task DeleteFromFollows(string username);
+    /// <summary>
+    /// Used to make a author like a cheep
+    /// </summary>
+    /// <param name="authorName">Name of author who likes</param>
+    /// <param name="cheepId">The id of cheep the author likes</param>
+    /// <returns></returns>
+    public Task AddLike(string authorName, int cheepId);
+    /// <summary>
+    /// Used to remove a like on a cheep by an author
+    /// </summary>
+    /// <param name="authorName">Name of author</param>
+    /// <param name="cheepId">Id of the cheep</param>
+    /// <returns></returns>
+    public Task RemoveLike(string authorName, int cheepId);
+    /// <summary>
+    /// Gets all the likes a author has made
+    /// </summary>
+    /// <param name="authorName">Name of author</param>
+    /// <returns></returns>
+
+
+    public Task<int> CountLikes(int cheepId);
 
 
     public Task<List<Follow>> GetFollowers(string followed);
@@ -318,6 +345,8 @@ public class CheepService : ICheepService
         foreach (var cheep in cheeps)
         {
             bool isFollowing = false;
+            bool isLiking = false;
+            int likesamount = await CountLikes(cheep.CheepId);
             foreach ( var follow in follows ) // this could be more efficient
             {
                 if ( follow.Followed == cheep.Author.Name )
@@ -325,19 +354,45 @@ public class CheepService : ICheepService
                     isFollowing = true;
                 }
             }
+
+            if (cheep.Likes.Contains(author))
+            {
+                isLiking = true;
+            }
                
             var dto = new CheepDto
             {
                 Author = cheep.Author.Name,
                 Message = cheep.Text,
                 Timestamp = cheep.Timestamp,
-                Follows = isFollowing
+                Follows = isFollowing,
+                Liked = isLiking,
+                Likes = likesamount,
+                Id = cheep.CheepId
             };
             result.Add(dto);
         }
         return result;
     }
+
+
+    public async Task AddLike(string authorName, int cheepId)
+    {
+        await _cheepRepository.AddLike(authorName, cheepId);
+    }
+
+
+    public async Task RemoveLike(string authorName, int cheepId)
+    {
+        await _cheepRepository.RemoveLike(authorName, cheepId);
+    }
     
+
+
+    public async Task<int> CountLikes(int cheepId)
+    {
+        return await _cheepRepository.CountLikes(cheepId);
+    }
     
     
     

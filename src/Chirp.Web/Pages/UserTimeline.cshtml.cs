@@ -20,6 +20,9 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public string? FollowsName { get; set; }
     
+    [BindProperty]
+    public int? LikedCheepId { get; set; }
+    
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
@@ -99,11 +102,8 @@ public class UserTimelineModel : PageModel
     
     public async Task<IActionResult> OnPostFollow()
     {
-        Console.WriteLine("Followed");
-        
         var authorName = User.Identity?.Name;
         
-        Console.WriteLine("waaB: " + authorName + FollowsName);
         if (authorName != null)
             if (FollowsName != null)
                 await _service.AddFollowing(authorName, FollowsName);
@@ -113,8 +113,6 @@ public class UserTimelineModel : PageModel
     
     public async Task<IActionResult> OnPostUnfollow()
     {
-        Console.WriteLine("Followed");
-         
         var authorName = User.Identity?.Name;
 
 
@@ -123,6 +121,30 @@ public class UserTimelineModel : PageModel
                 await _service.RemoveFollowing(authorName, FollowsName);
 
         return RedirectToPage("UserTimeline");
+    }
+    
+    public async Task<IActionResult> OnPostLike()
+    {
+        var authorName = User.Identity?.Name;
+
+        if (authorName != null && LikedCheepId != null)
+        {
+            await _service.AddLike(authorName, LikedCheepId.Value);
+        }
+        
+        return RedirectToPage("Public");
+    }
+    
+    public async Task<IActionResult> OnPostUnlike()
+    {
+        var authorName = User.Identity?.Name;
+
+        if (authorName != null && LikedCheepId != null)
+        {
+            await _service.RemoveLike(authorName, LikedCheepId.Value);
+        }
+        
+        return RedirectToPage("Public");
     }
     
 }
