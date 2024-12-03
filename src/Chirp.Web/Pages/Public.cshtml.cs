@@ -83,11 +83,9 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostFollow()
     {
-        Console.WriteLine("Followed");
         
         var authorName = User.Identity?.Name;
         
-        Console.WriteLine("waaB: " + authorName + FollowsName);
         if (authorName != null)
             if (FollowsName != null)
                 await _service.AddFollowing(authorName, FollowsName);
@@ -97,7 +95,6 @@ public class PublicModel : PageModel
     
     public async Task<IActionResult> OnPostUnfollow()
     {
-        Console.WriteLine("Followed");
          
         var authorName = User.Identity?.Name;
 
@@ -111,7 +108,6 @@ public class PublicModel : PageModel
     
     public async Task<IActionResult> OnPostLike()
     {
-        Console.WriteLine("Liked" + LikedCheepId);
          
         var authorName = User.Identity?.Name;
 
@@ -125,7 +121,6 @@ public class PublicModel : PageModel
     
     public async Task<IActionResult> OnPostUnlike()
     {
-        Console.WriteLine("Unliked" + LikedCheepId);
          
         var authorName = User.Identity?.Name;
 
