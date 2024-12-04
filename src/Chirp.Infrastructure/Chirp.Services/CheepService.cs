@@ -120,9 +120,9 @@ public class CheepService : ICheepService
 
     public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
-        this._cheepRepository = cheepRepository;
-        this._authorRepository = authorRepository;
-        this._followRepository = followRepository;
+        _cheepRepository = cheepRepository;
+        _authorRepository = authorRepository;
+        _followRepository = followRepository;
     }
     
     public async Task<List<CheepDto>> GetCheeps(int page)
