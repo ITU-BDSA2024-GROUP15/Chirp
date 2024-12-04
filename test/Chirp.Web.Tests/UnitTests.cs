@@ -330,6 +330,37 @@ public class UnitTests : IAsyncLifetime
             authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
 
     }
+    
+    [Fact]
+    public async Task TestAddCheep()
+    {
+        var cheepsBefore = context.Cheeps.Count();
+        
+        Cheep cheep = new Cheep()
+        {
+            Author = new Author()
+            {
+                Id = context.Authors.Count()+1,
+                Name = "Test1",
+                Email = "test1@mail.com",
+            },
+            AuthorId = context.Authors.Count()+1,
+            CheepId = cheepsBefore+1,
+            Text = "heeej",
+            Timestamp = DateTime.Now
+        };
+        
+        
+        context.Cheeps.Add(cheep);
+        
+        await context.SaveChangesAsync();
+        var cheepsAfter = context.Cheeps.Count();
+        
+
+        
+        Assert.True(cheepsAfter == cheepsBefore+1);
+    }
+    
 
     
     
