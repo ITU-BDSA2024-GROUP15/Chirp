@@ -86,26 +86,24 @@ public interface ICheepService
     /// <returns></returns>
     public Task DeleteFromFollows(string username);
     /// <summary>
-    /// Used to make a author like a cheep
+    /// Used to make an author like a cheep
     /// </summary>
     /// <param name="authorName">Name of author who likes</param>
     /// <param name="cheepId">The id of cheep the author likes</param>
-    /// <returns></returns>
+    /// <returns>Task</returns>
     public Task AddLike(string authorName, int cheepId);
     /// <summary>
     /// Used to remove a like on a cheep by an author
     /// </summary>
     /// <param name="authorName">Name of author</param>
-    /// <param name="cheepId">Id of the cheep</param>
-    /// <returns></returns>
+    /// <param name="cheepId">ID of the cheep</param>
+    /// <returns>Task</returns>
     public Task RemoveLike(string authorName, int cheepId);
     /// <summary>
-    /// Gets all the likes a author has made
+    /// Gets the number of likes for a given cheep
     /// </summary>
-    /// <param name="authorName">Name of author</param>
-    /// <returns></returns>
-
-
+    /// <param name="cheepId">The ID of the cheep in question</param>
+    /// <returns>The amount as an integer</returns>
     public Task<int> CountLikes(int cheepId);
     
     
@@ -208,8 +206,7 @@ public class CheepService : ICheepService
     {
         await _authorRepository.CreateAuthor(name, email);
     }
-
-    //TODO: This method is unnecessary in the current version of the application, should be removed?
+    
     public async Task AddCheep(string text, string name, string email)
     {
         if ( await GetAuthorByName(name) == null )
