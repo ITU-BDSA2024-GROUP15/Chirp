@@ -317,6 +317,19 @@ public class UnitTests : IAsyncLifetime
         Assert.Equal(15, cheeps.Count);
     }
 
+    [Fact]
+    public async Task TestUsernameCannotContainSlash()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
+
+    }
 
     
     
