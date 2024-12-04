@@ -45,12 +45,6 @@ public interface ICheepService
     /// </summary>
     /// <param name="name"> The username of the author </param>
     /// <returns> The Author object matching the username </returns>
-    public Task<Author?> GetAuthorByName(string name);
-    /// <summary>
-    /// This method allows for getting an AuthorDTO object by their username, for use in razorpages.
-    /// </summary>
-    /// <param name="name"> The username of the author </param>
-    /// <returns> The AuthorDTO matching the username </returns>
     public Task<AuthorDTO?> GetAuthorDtoByName(string name);
     /// <summary>
     /// This method allows adding new tuples to the Follow relation
@@ -66,12 +60,6 @@ public interface ICheepService
     /// <param name="followed"> The username of the author that should be followed </param>
     /// <returns> Task </returns>
     public Task RemoveFollowing(string follower, string followed);
-    /// <summary>
-    /// This method allows getting all the names of users followed by a specified author
-    /// </summary>
-    /// <param name="follower"> The username of the author </param>
-    /// <returns> A list of all follow relations containing the author as follower </returns>
-    public Task<List<Follow>> GetFollowed(string follower);
     /// <summary>
     /// This method allows getting all the names of users followed by a specified author
     /// </summary>
@@ -191,6 +179,11 @@ public class CheepService : ICheepService
         
     }
 
+    /// <summary>
+    /// This method allows for getting an AuthorDTO object by their username, for use in razorpages.
+    /// </summary>
+    /// <param name="name"> The username of the author </param>
+    /// <returns> The AuthorDTO matching the username </returns>
     public async Task<Author?> GetAuthorByName(string name)
     {
         return await _authorRepository.GetAuthorByName(name);
@@ -247,7 +240,11 @@ public class CheepService : ICheepService
         await _followRepository.RemoveFollowing(follower, followed);
     }
 
-
+    /// <summary>
+    /// This method allows getting all the names of users followed by a specified author
+    /// </summary>
+    /// <param name="follower"> The username of the author </param>
+    /// <returns> A list of all follow relations containing the author as follower </returns>
     public async Task<List<Follow>> GetFollowed(string follower)
     {
         return await _followRepository.GetFollowed(follower); 
