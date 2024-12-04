@@ -107,12 +107,8 @@ public interface ICheepService
 
 
     public Task<int> CountLikes(int cheepId);
-
-
-    public Task<List<Follow>> GetFollowers(string followed);
-    //TODO: Remove all unused or privately used methods
-
-
+    
+    
     public Task DeleteAllLikes(string authorName);
 }
 
