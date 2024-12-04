@@ -16,18 +16,18 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Author> _userManager;
         private readonly SignInManager<Author> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly ICheepService  _cheepService;
+        private readonly IChirpService  _cheepService;
 
         public DeletePersonalDataModel(
             UserManager<Author> userManager,
             SignInManager<Author> signInManager,
             ILogger<DeletePersonalDataModel> logger,
-            ICheepService iCheepService)
+            IChirpService IChirpService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _cheepService = iCheepService;
+            _cheepService = IChirpService;
         }
 
         /// <summary>

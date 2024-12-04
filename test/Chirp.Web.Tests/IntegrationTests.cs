@@ -24,7 +24,7 @@ public class IntegrationTests : IAsyncLifetime
     private TestUtilities utils;
     private CheepDbContext context;
     
-    private ICheepService service;
+    private IChirpService service;
     
     public async Task InitializeAsync()
     {
@@ -34,7 +34,7 @@ public class IntegrationTests : IAsyncLifetime
         cheeprepo = new CheepRepository(context);
         followrepo = new FollowRepository(context);
 
-        service = new CheepService(cheeprepo, authorrepo, followrepo);
+        service = new ChirpService(cheeprepo, authorrepo, followrepo);
     }
 
 
