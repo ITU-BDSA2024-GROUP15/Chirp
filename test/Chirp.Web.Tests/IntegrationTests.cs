@@ -129,11 +129,11 @@ public class IntegrationTests : IAsyncLifetime
         await authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
         await authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
         await followrepo.AddFollowing("erik", "lars");
-        var oldfollows = await service.GetFollowed("erik");
+        var oldfollows = await service.GetFollowedDtos("erik");
         Assert.True(oldfollows.Count == 1);
         await service.DeleteFromFollows("lars");
         
-        var newfollows = await service.GetFollowed("erik");
+        var newfollows = await service.GetFollowedDtos("erik");
         
         Assert.True(newfollows.Count == 0);
 
