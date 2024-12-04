@@ -233,16 +233,6 @@ public class CheepService : ICheepService
         await _followRepository.RemoveFollowing(follower, followed);
     }
 
-    /// <summary>
-    /// This method allows getting all the names of users followed by a specified author
-    /// </summary>
-    /// <param name="follower"> The username of the author </param>
-    /// <returns> A list of all follow relations containing the author as follower </returns>
-    public async Task<List<Follow>> GetFollowed(string follower)
-    {
-        return await _followRepository.GetFollowed(follower); 
-    }
-
 
     public async Task<List<FollowDto>> GetFollowedDtos(string follower)
     {
@@ -259,24 +249,17 @@ public class CheepService : ICheepService
         }
         return followedDtos;
     }
-
-
-    public async Task<List<Follow>> GetFollowers(string followed)
-    {
-        return await _followRepository.GetFollowers(followed);
-    }
-
-
+    
     public async Task DeleteFromFollows(string username)
     {
         //Delete all relations where user is followed by others
-        var follows = await GetFollowers(username);
+        var follows = await _followRepository.GetFollowers(username);
         foreach (var follow in follows)
         {
             await RemoveFollowing(follow.Follower, follow.Followed);        
         } 
         //Delete all relations where others follow the user
-        follows = await GetFollowed(username);
+        follows = await _followRepository.GetFollowed(username);
         foreach (var follow in follows)
         {
             await RemoveFollowing(follow.Follower, follow.Followed);        
@@ -332,7 +315,7 @@ public class CheepService : ICheepService
     private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, string author)
     {
         //Gets a list over which Authors the current author follows
-        var follows = await GetFollowed(author);
+        var follows = await _followRepository.GetFollowed(author);
         
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
