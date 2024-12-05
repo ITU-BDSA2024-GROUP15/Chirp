@@ -227,8 +227,7 @@ public class ChirpService : IChirpService
         {
             var dto = new FollowDto
             {
-                Followed = followee.Followed,
-                Follower = followee.Follower
+                Followed = followee.Followed
             };
             followedDtos.Add(dto);
         }
