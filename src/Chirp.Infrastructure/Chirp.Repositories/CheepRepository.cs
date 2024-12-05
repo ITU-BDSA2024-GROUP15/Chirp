@@ -22,10 +22,6 @@ public class CheepRepository : ICheepRepository
    
     public async Task<List<Cheep>> GetCheeps(int page)
     {
-        if (page < 1)
-        {
-            throw new ArgumentOutOfRangeException("Page can't be less than 1");
-        }
         var query = (from cheep in _context.Cheeps
                 orderby cheep.Timestamp descending
                 select cheep)
@@ -39,6 +35,11 @@ public class CheepRepository : ICheepRepository
  
     public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string author)
     {
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
+        
         var query = (from cheep in _context.Cheeps
                 where cheep.Author.Name == author
                 orderby cheep.Timestamp descending
@@ -55,6 +56,11 @@ public class CheepRepository : ICheepRepository
     
     public async Task<List<Cheep>> GetAllCheepsFromAuthor(string author)
     {
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
+        
         var query = ( from cheep in _context.Cheeps
                 where cheep.Author.Name == author
                 orderby cheep.Timestamp descending
@@ -67,6 +73,10 @@ public class CheepRepository : ICheepRepository
     
     public async Task<List<Cheep>> GetAllCheepsFromFollowed(string author) //Made with the help of ChatGPT
     {
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
         var query = (from cheep in _context.Cheeps
             where (from follow in _context.Follows
                     where follow.Follower == author
@@ -83,10 +93,14 @@ public class CheepRepository : ICheepRepository
     
     public async Task AddCheep(string text, Author author)
     {
-
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
+        
         if ( text.Length <= 0 || text.Length > 160 )
         {
-            return;
+            throw new ArgumentException("Text must be between 0 and 160 characters");
         }
         int maxId = _context.Cheeps.Max(cheep => cheep.CheepId); 
         
@@ -107,12 +121,14 @@ public class CheepRepository : ICheepRepository
 
     public async Task AddLike(string author, int cheepId)
     {
-        var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
-        if (currentLikes != null)
+        if (author == null)
         {
-            currentLikes.Likes.Add(author);
-            _context.SaveChanges();
+            throw new NullReferenceException("Author can't be null");
         }
+        var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
+        currentLikes.Likes.Add(author);
+        _context.SaveChanges();
+        
     }
     
     public async Task RemoveLike(string author, int cheepId)
