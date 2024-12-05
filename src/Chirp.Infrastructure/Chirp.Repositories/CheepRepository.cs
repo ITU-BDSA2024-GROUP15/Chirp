@@ -148,6 +148,19 @@ public class CheepRepository : ICheepRepository
         }
         _context.SaveChanges();
     }
+
+
+    public async Task<List<Cheep>> GetTopLikedCheeps() //This is not a great way to do it. But Keep It Simple Stupid
+    {
+        //https://stackoverflow.com/questions/5344805/linq-orderby-descending-query
+        var query = (from cheep in _context.Cheeps
+                .OrderByDescending(cheep => cheep.Likes.Count)
+            select cheep).Take(32).Include(c => c.Author);
+        
+        var cheeps = await query.ToListAsync();
+
+        return cheeps;
+    }
     
     
 }

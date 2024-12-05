@@ -70,13 +70,18 @@ public interface ICheepRepository
     /// </summary>
     /// <param name="authorName">The name of the author in question</param>
     /// <returns>A list of cheeps</returns>
-    public Task<List<Cheep>> GetAllLiked(string authorName);
+    public Task<List<Cheep>> GetAllLiked(string author);
+
     /// <summary>
-    /// Removes an author from all lists of authors that like any cheeps.
-    /// Is used to completely wipe an author from the database
+    /// Finds and removes all instances of the authors name from the liked list of cheeps
     /// </summary>
     /// <param name="authorName">The name of the author</param>
     /// <returns>Task</returns>
     public Task DeleteAllLikes(string authorName);
+    /// <summary>
+    /// Gets a list of the 32 most liked cheeps
+    /// </summary>
+    /// <returns>A list of 32 cheeps</returns>
+    public Task<List<Cheep>> GetTopLikedCheeps();
 
 }

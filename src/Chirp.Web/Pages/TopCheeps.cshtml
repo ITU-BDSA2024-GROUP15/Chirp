@@ -1,0 +1,39 @@
+﻿@page "/top-cheeps"
+@using Chirp.Core
+@model Chirp.Web.Pages.TopCheeps
+
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+}
+
+<h1>Top Cheeps</h1>
+
+
+@{
+    System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
+}
+
+@if (Model.Cheeps.Any())
+{
+    {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <strong>
+                        <a href="/@cheep.Author">@cheep.Author</a>
+                    </strong>
+                    <small>&mdash;
+                        @cheep.Timestamp</small>
+                    <br/>
+                    <div class="cheepmessage">@cheep.Message</div>
+                    
+                    <div class = "cheeplikeandfollow">
+                        <small>Likes: @cheep.Likes</small>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+}
