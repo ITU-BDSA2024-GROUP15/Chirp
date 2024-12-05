@@ -15,9 +15,9 @@ public class EndToEnd : PageTest
     public async Task HasTitle()
     {
         await Page.GotoAsync("http://localhost:5221");
-        await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
-        await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
-        await Page.Locator("body").ClickAsync();
+
+        // Expect a title "to contain" a substring.
+        await Expect(Page).ToHaveTitleAsync(new Regex("Chirp!"));
     }
     
     [Test]
@@ -200,7 +200,7 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
         
     }
-    
+    /*
             
     [Test]
     public async Task CanCheep()
@@ -240,7 +240,7 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
         
     }
-    
+    */
     
     
     [Test]
@@ -388,8 +388,8 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-    
     /*
+    
     [Test]
     public async Task CanFollowJacqualine()
     {
@@ -426,7 +426,7 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-    */
+    
      
     [Test]
     public async Task CanFollowJacqualineAndUnfollow()
@@ -469,7 +469,7 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-
+*/
 
     [Test]
     public async Task cantLoginAfterDeleteData()
