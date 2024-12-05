@@ -16,18 +16,18 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Author> _userManager;
         private readonly SignInManager<Author> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly IChirpService  _ChirpService;
+        private readonly IChirpService  _chirpService;
 
         public DeletePersonalDataModel(
             UserManager<Author> userManager,
             SignInManager<Author> signInManager,
             ILogger<DeletePersonalDataModel> logger,
-            IChirpService IChirpService)
+            IChirpService chirpService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _ChirpService = IChirpService;
+            _chirpService = chirpService;
         }
 
         /// <summary>
@@ -89,8 +89,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
             
             
-            await _ChirpService.DeleteFromFollows(user.Name);
-            await _ChirpService.DeleteAllLikes(user.Name);
+            await _chirpService.DeleteFromFollows(user.Name);
+            await _chirpService.DeleteAllLikes(user.Name);
             
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);

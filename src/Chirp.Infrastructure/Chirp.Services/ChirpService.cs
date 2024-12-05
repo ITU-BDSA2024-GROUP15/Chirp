@@ -20,71 +20,72 @@ public interface IChirpService
     /// This method sets the "following" attribute on the returned cheepdtos correctly, in order to show the correct follow/ unfollow button
     /// </summary>
     /// <param name="limit"> The page number </param>
-    /// <param name="follower"> The user who is viewing the timeline </param>
+    /// <param name="followerName"> The user who is viewing the timeline </param>
     /// <returns> A list of CheepDto objects </returns>
-    public Task<List<CheepDto>> GetCheeps(int limit, string follower);
+    public Task<List<CheepDto>> GetCheeps(int limit, string followerName);
     /// <summary>
     /// This method is for use on a private timeline.
     /// It returns a list of 0-32 cheeps, ordered from newest to oldest, by the specified author.
     /// The first 32*limit cheeps are skipped, to allow pagination
     /// </summary>
     /// <param name="page"> The page number </param>
-    /// <param name="author"> The name of the author whose cheeps you want </param>
+    /// <param name="authorName"> The name of the author whose cheeps you want </param>
+    /// <param name="spectatingAuthorName"> The name of the author viewing the cheeps </param>
     /// <returns> A list of CheepDto objects </returns>
-    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string username);
+    public Task<List<CheepDto>> GetCheepsFromAuthor(int page, string authorName, string spectatingAuthorName);
     /// <summary>
     /// This method allows adding new cheeps to the database
     /// </summary>
     /// <param name="text"> The contents of the cheep </param>
-    /// <param name="name"> The username of the author </param>
+    /// <param name="authorName"> The username of the author </param>
     /// <param name="email"> The email of the author </param>
     /// <returns> Task </returns>
-    public Task AddCheep(string text, string name, string email);
+    public Task AddCheep(string text, string authorName, string email);
     /// <summary>
     /// This method allows for getting an Author object from their username
     /// </summary>
-    /// <param name="name"> The username of the author </param>
+    /// <param name="authorName"> The username of the author </param>
     /// <returns> The Author object matching the username </returns>
-    public Task<AuthorDTO?> GetAuthorDtoByName(string name);
+    public Task<AuthorDto?> GetAuthorDtoByName(string authorName);
     /// <summary>
     /// This method allows adding new tuples to the Follow relation
     /// </summary>
-    /// <param name="follower"> The username of the author that should follow another </param>
-    /// <param name="followed"> The username of the author that should be followed </param>
+    /// <param name="followerName"> The username of the author that should follow another </param>
+    /// <param name="followedName"> The username of the author that should be followed </param>
     /// <returns> Task </returns>
-    public Task AddFollowing(string follower, string followed);
+    public Task AddFollowing(string followerName, string followedName);
     /// <summary>
     /// This method allows removing tuples from the Follow relation
     /// </summary>
-    /// <param name="follower"> The username of the author that should follow another </param>
-    /// <param name="followed"> The username of the author that should be followed </param>
+    /// <param name="followerName"> The username of the author that should follow another </param>
+    /// <param name="followedName"> The username of the author that should be followed </param>
     /// <returns> Task </returns>
-    public Task RemoveFollowing(string follower, string followed);
+    public Task RemoveFollowing(string followerName, string followedName);
     /// <summary>
     /// This method allows getting all the names of users followed by a specified author
     /// </summary>
-    /// <param name="follower"> The username of the author </param>
+    /// <param name="followerName"> The username of the author </param>
     /// <returns> A list of FollowDTOs</returns>
-    public Task<List<FollowDto>> GetFollowedDtos(string follower);
+    public Task<List<FollowDto>> GetFollowedDtos(string followerName);
     /// <summary>
     /// This method allows getting all cheeps by a specified author
     /// </summary>
-    /// <param name="author"> The username of the author</param>
+    /// <param name="authorName"> The username of the author</param>
     /// <returns> A list of all cheeps by the author </returns>
-    public Task<List<CheepDto>> GetAllCheepsFromAuthor(string author);
+    public Task<List<CheepDto>> GetAllCheepsFromAuthor(string authorName);
     /// <summary>
     /// This method allows getting cheeps for an authors timeline
     /// </summary>
-    /// <param name="author"> The username of the author </param>
+    /// <param name="authorName"> The username of the author </param>
     /// <param name="page"> The page number </param>
     /// <returns></returns>
-    public Task<List<CheepDto>> GetCheepsForTimeline(string author, int page);
+    public Task<List<CheepDto>> GetCheepsForTimeline(string authorName, int page);
     /// <summary>
     /// Used to delete all instances where user is followed by others or follows others
     /// </summary>
-    /// <param name="username">Name of the author you want to remove from the follow table</param>
+    /// <param name="authorName">Name of the author you want to remove from the follow table</param>
     /// <returns></returns>
-    public Task DeleteFromFollows(string username);
+    public Task DeleteFromFollows(string authorName);
     /// <summary>
     /// Used to make an author like a cheep
     /// </summary>
@@ -154,7 +155,7 @@ public class ChirpService : IChirpService
            return result;
        }
     
-    public async Task<List<CheepDto>> GetCheeps(int page, string follower) //for use when logged in, allows us to display the correct button, either follow or unfollow
+    public async Task<List<CheepDto>> GetCheeps(int page, string followerName) //for use when logged in, allows us to display the correct button, either follow or unfollow
     {
            
         if ( page == 0 )
@@ -163,46 +164,28 @@ public class ChirpService : IChirpService
         }
         var queryresult = await _cheepRepository.GetCheeps(page);
 
-        var result = await ConvertCheepsToCheepDtos(queryresult, follower);
+        var result = await ConvertCheepsToCheepDtos(queryresult, followerName);
         return result;
     }
 
-    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string author, string username)
+    public async Task<List<CheepDto>> GetCheepsFromAuthor(int page, string authorName, string spectatingAuthorName)
     {
         if ( page == 0 )
         {
             page = 1;
         }
-        var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, author);
-        var result = await ConvertCheepsToCheepDtos(queryresult, username);
+        var queryresult = await _cheepRepository.GetCheepsFromAuthor(page, authorName);
+        var result = await ConvertCheepsToCheepDtos(queryresult, spectatingAuthorName);
         return result;
     }
-
-
-    public async Task<Author?> GetAuthorByEmail(string email)
-    {
-       return await _authorRepository.GetAuthorByEmail(email);
-        
-    }
-
-    /// <summary>
-    /// This method allows for getting an AuthorDTO object by their username, for use in razorpages.
-    /// </summary>
-    /// <param name="name"> The username of the author </param>
-    /// <returns> The AuthorDTO matching the username </returns>
-    public async Task<Author?> GetAuthorByName(string name)
-    {
-        return await _authorRepository.GetAuthorByName(name);
-        
-    }
     
-    public async Task<AuthorDTO?> GetAuthorDtoByName(string name)
+    public async Task<AuthorDto?> GetAuthorDtoByName(string authorName)
     {
-        var author = await _authorRepository.GetAuthorByName(name);
+        var author = await _authorRepository.GetAuthorByName(authorName);
 
         if (author != null)
         {
-            var dto = new AuthorDTO
+            var dto = new AuthorDto
             {
                 Username = author.Name,
                 Email = author.Email
@@ -212,20 +195,15 @@ public class ChirpService : IChirpService
         }
         return null;
     }
-
-
-    public async Task AddAuthor(string name, string email)
-    {
-        await _authorRepository.CreateAuthor(name, email);
-    }
     
-    public async Task AddCheep(string text, string name, string email)
+    
+    public async Task AddCheep(string text, string authorName, string email)
     {
-        if ( await GetAuthorByName(name) == null )
+        if ( await _authorRepository.GetAuthorByName(authorName) == null ) //if statement will never be true, but it was a requirement to handle this in this way
         {
-            await AddAuthor(name, email);
+            await _authorRepository.CreateAuthor(authorName, email);
         }
-        var author = await GetAuthorByEmail(email);
+        var author = await _authorRepository.GetAuthorByEmail(email);
         if (author == null)
         {
             return;
@@ -234,68 +212,67 @@ public class ChirpService : IChirpService
     }
 
 
-    public async Task AddFollowing(string follower, string followed)
+    public async Task AddFollowing(string followerName, string followedName)
     {
-        await _followRepository.AddFollowing(follower, followed);
+        await _followRepository.AddFollowing(followerName, followedName);
     }
 
 
-    public async Task RemoveFollowing(string follower, string followed)
+    public async Task RemoveFollowing(string followerName, string followedName)
     {
-        await _followRepository.RemoveFollowing(follower, followed);
+        await _followRepository.RemoveFollowing(followerName, followedName);
     }
 
 
-    public async Task<List<FollowDto>> GetFollowedDtos(string follower)
+    public async Task<List<FollowDto>> GetFollowedDtos(string followerName)
     {
         var followedDtos = new List<FollowDto>();
-        var followed = await _followRepository.GetFollowed(follower);
+        var followed = await _followRepository.GetFollowed(followerName);
         foreach (var followee in followed)
         {
             var dto = new FollowDto
             {
-                Followed = followee.Followed,
-                Follower = followee.Follower
+                Followed = followee.Followed
             };
             followedDtos.Add(dto);
         }
         return followedDtos;
     }
     
-    public async Task DeleteFromFollows(string username)
+    public async Task DeleteFromFollows(string authorName)
     {
         //Delete all relations where user is followed by others
-        var follows = await _followRepository.GetFollowers(username);
+        var follows = await _followRepository.GetFollowers(authorName);
         foreach (var follow in follows)
         {
-            await RemoveFollowing(follow.Follower, follow.Followed);        
+            await _followRepository.RemoveFollowing(follow.Follower, follow.Followed);        
         } 
         //Delete all relations where others follow the user
-        follows = await _followRepository.GetFollowed(username);
+        follows = await _followRepository.GetFollowed(authorName);
         foreach (var follow in follows)
         {
-            await RemoveFollowing(follow.Follower, follow.Followed);        
+            await _followRepository.RemoveFollowing(follow.Follower, follow.Followed);        
         } 
         
     }
 
 
-    public async Task<List<CheepDto>> GetAllCheepsFromAuthor(string author)
+    public async Task<List<CheepDto>> GetAllCheepsFromAuthor(string authorName)
     {
-        var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(author);
-        var dtos = await ConvertCheepsToCheepDtos(cheeps, author);
+        var cheeps = await _cheepRepository.GetAllCheepsFromAuthor(authorName);
+        var dtos = await ConvertCheepsToCheepDtos(cheeps, authorName);
         return dtos;
     }
 
-
-    private async Task<List<CheepDto>> GetAllCheepsForTimeline(string author)
+    //Gets a complete, sorted list of all cheeps that could go on a timeline
+    private async Task<List<CheepDto>> GetAllCheepsForTimeline(string authorName)
     {
         
-        var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(author);
-        var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(author);
+        var cheepsByAuthor = _cheepRepository.GetAllCheepsFromAuthor(authorName);
+        var cheepsByFollowed = _cheepRepository.GetAllCheepsFromFollowed(authorName);
        
-        var cheepsByAuthorDtos = ConvertCheepsToCheepDtos(await cheepsByAuthor, author);
-        var cheepsByFollowedDtos = ConvertCheepsToCheepDtos(await cheepsByFollowed, author);
+        var cheepsByAuthorDtos = ConvertCheepsToCheepDtos(await cheepsByAuthor, authorName);
+        var cheepsByFollowedDtos = ConvertCheepsToCheepDtos(await cheepsByFollowed, authorName);
         await Task.WhenAll(cheepsByAuthorDtos, cheepsByFollowedDtos);
         
         //combine the lists inelegantly
@@ -307,9 +284,9 @@ public class ChirpService : IChirpService
         return result;
         
     }
-    public async Task<List<CheepDto>> GetCheepsForTimeline(string author, int page) //ensures only 32 cheeps are returned
+    public async Task<List<CheepDto>> GetCheepsForTimeline(string authorName, int page) //ensures only 32 cheeps are returned
     {
-        var allDtos = await GetAllCheepsForTimeline(author);
+        var allDtos = await GetAllCheepsForTimeline(authorName);
         var result = new List<CheepDto>();
         var start = ( page - 1 ) * 32;
         if ( start < 0 ) start = 0;
@@ -323,18 +300,23 @@ public class ChirpService : IChirpService
         return result;
     }
 
-
-    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, string author)
+    /// <summary>
+    /// Converts a lists of cheeps to cheepDTOs, automatically setting all fields correctly
+    /// </summary>
+    /// <param name="cheeps"> The list of cheeps to be converted </param>
+    /// <param name="authorName"> The name of the author who will view the cheeps</param>
+    /// <returns> A list of cheepDTOs</returns>
+    private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, string authorName)
     {
         //Gets a list over which Authors the current author follows
-        var follows = await _followRepository.GetFollowed(author);
+        var follows = await _followRepository.GetFollowed(authorName);
         
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
         {
             bool isFollowing = false;
             bool isLiking = false;
-            int likesamount = await CountLikes(cheep.CheepId);
+            int likesamount = await _cheepRepository.CountLikes(cheep.CheepId);
             foreach ( var follow in follows ) // this could be more efficient
             {
                 if ( follow.Followed == cheep.Author.Name )
@@ -343,7 +325,7 @@ public class ChirpService : IChirpService
                 }
             }
 
-            if (cheep.Likes.Contains(author))
+            if (cheep.Likes.Contains(authorName))
             {
                 isLiking = true;
             }

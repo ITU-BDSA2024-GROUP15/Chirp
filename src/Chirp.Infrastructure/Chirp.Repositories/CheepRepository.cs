@@ -33,10 +33,10 @@ public class CheepRepository : ICheepRepository
 
 
  
-    public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string author)
+    public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string authorName)
     {
         var query = (from cheep in _context.Cheeps
-                where cheep.Author.Name == author
+                where cheep.Author.Name == authorName
                 orderby cheep.Timestamp descending
                 select cheep)
             .Include(c => c.Author)
@@ -49,10 +49,10 @@ public class CheepRepository : ICheepRepository
     
     
     
-    public async Task<List<Cheep>> GetAllCheepsFromAuthor(string author)
+    public async Task<List<Cheep>> GetAllCheepsFromAuthor(string authorName)
     {
         var query = ( from cheep in _context.Cheeps
-                where cheep.Author.Name == author
+                where cheep.Author.Name == authorName
                 orderby cheep.Timestamp descending
                 select cheep )
             .Include(c => c.Author);
@@ -61,11 +61,11 @@ public class CheepRepository : ICheepRepository
     }
     
     
-    public async Task<List<Cheep>> GetAllCheepsFromFollowed(string author) //Made with the help of ChatGPT
+    public async Task<List<Cheep>> GetAllCheepsFromFollowed(string authorName) //Made with the help of ChatGPT
     {
         var query = (from cheep in _context.Cheeps
             where (from follow in _context.Follows
-                    where follow.Follower == author
+                    where follow.Follower == authorName
                     select follow.Followed)
                 .Contains(cheep.Author.Name)
             select cheep)
@@ -101,22 +101,22 @@ public class CheepRepository : ICheepRepository
     }
 
 
-    public async Task AddLike(string author, int cheepId)
+    public async Task AddLike(string authorName, int cheepId)
     {
         var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
         if (currentLikes != null)
         {
-            currentLikes.Likes.Add(author);
+            currentLikes.Likes.Add(authorName);
             _context.SaveChanges();
         }
     }
     
-    public async Task RemoveLike(string author, int cheepId)
+    public async Task RemoveLike(string authorName, int cheepId)
     {
         var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
-        if (currentLikes != null && currentLikes.Likes.Contains(author))
+        if (currentLikes != null && currentLikes.Likes.Contains(authorName))
         {
-            currentLikes.Likes.Remove(author);
+            currentLikes.Likes.Remove(authorName);
             _context.SaveChanges();
         }
     }
@@ -128,9 +128,9 @@ public class CheepRepository : ICheepRepository
         return likes!.Likes.Count;
     }
     
-    public async Task<List<Cheep>> GetAllLiked(string author)
+    public async Task<List<Cheep>> GetAllLiked(string authorName)
     {
-        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).Include(c => c.Author).ToListAsync();
+        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(authorName)).Include(c => c.Author).ToListAsync();
         
         return likedCheeps;
         

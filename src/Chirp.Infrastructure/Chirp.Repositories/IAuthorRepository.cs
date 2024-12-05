@@ -10,9 +10,9 @@ public interface IAuthorRepository
     /// <summary>
     /// Gets an Author form a given name.
     /// </summary>
-    /// <param name="name">Name of the Author</param>
+    /// <param name="authorName">Name of the Author</param>
     /// <returns>An Author</returns>
-    public Task<Author?> GetAuthorByName(string name);
+    public Task<Author?> GetAuthorByName(string authorName);
     
     /// <summary>
     /// Gets an Author form a given email.
@@ -24,9 +24,9 @@ public interface IAuthorRepository
     /// <summary>
     /// Creates a new Author
     /// </summary>
-    /// <param name="name">Name of Author</param>
+    /// <param name="authorName">Name of Author</param>
     /// <param name="email">Email of Author</param>
     /// <exception cref="ArgumentException">thrown if name contains illegal characters</exception>
-    public Task CreateAuthor(string name, string email);
+    public Task CreateAuthor(string authorName, string email);
     
 }
