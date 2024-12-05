@@ -454,7 +454,7 @@ public class EndToEnd : PageTest
 */
 
     [Test]
-    public async Task cantLoginAfterDeleteData()
+    public async Task CantLoginAfterDeleteData()
     {
         await Page.GotoAsync("http://localhost:5221/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();

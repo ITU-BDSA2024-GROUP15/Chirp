@@ -46,7 +46,7 @@ public interface IChirpService
     /// </summary>
     /// <param name="authorName"> The username of the author </param>
     /// <returns> The Author object matching the username </returns>
-    public Task<AuthorDTO?> GetAuthorDtoByName(string authorName);
+    public Task<AuthorDto?> GetAuthorDtoByName(string authorName);
     /// <summary>
     /// This method allows adding new tuples to the Follow relation
     /// </summary>
@@ -116,6 +116,11 @@ public interface IChirpService
     
     
     public Task DeleteAllLikes(string authorName);
+    /// <summary>
+    /// Gets a list of the 32 most liked cheeps
+    /// </summary>
+    /// <returns>A list of 32 CheepDTOs</returns>
+    public Task<List<CheepDto>> GetTopLikedCheeps();
 }
 
 
@@ -174,13 +179,13 @@ public class ChirpService : IChirpService
         return result;
     }
     
-    public async Task<AuthorDTO?> GetAuthorDtoByName(string authorName)
+    public async Task<AuthorDto?> GetAuthorDtoByName(string authorName)
     {
         var author = await _authorRepository.GetAuthorByName(authorName);
 
         if (author != null)
         {
-            var dto = new AuthorDTO
+            var dto = new AuthorDto
             {
                 Username = author.Name,
                 Email = author.Email
@@ -227,8 +232,7 @@ public class ChirpService : IChirpService
         {
             var dto = new FollowDto
             {
-                Followed = followee.Followed,
-                Follower = followee.Follower
+                Followed = followee.Followed
             };
             followedDtos.Add(dto);
         }
@@ -371,6 +375,14 @@ public class ChirpService : IChirpService
     public async Task DeleteAllLikes(string authorName)
     {
         await _cheepRepository.DeleteAllLikes(authorName);
+    }
+
+
+    public async Task<List<CheepDto>> GetTopLikedCheeps()
+    {
+        var cheeps = await _cheepRepository.GetTopLikedCheeps();
+        var cheepDtos = await ConvertCheepsToCheepDtos(cheeps, "");
+        return cheepDtos;
     }
 
 

@@ -71,6 +71,6 @@ app.UseSession();
 
 app.MapRazorPages();
 
-app.Run();
+app.Run(); 
 
-public partial class Program {}
+public partial class Program {} 
