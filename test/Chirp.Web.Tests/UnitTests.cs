@@ -6,6 +6,7 @@ using Chirp.Web.Pages;
 using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Chirp.Web.Tests;
 
@@ -56,8 +57,12 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestWhenGetCheepsFromNegativePage()
     {
-        //Act and assert
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => cheepRepository.GetCheeps(-1));
+        //Act
+        var cheeps = await cheepRepository.GetCheeps(-1);
+        var cheep = cheeps[0];
+        
+        //Assert
+        Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text); //returns to page 1
         await utils.CloseConnection();
     }
     
@@ -122,6 +127,15 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
+    public async Task TestGetCheepsFromNullAuthor() 
+    {   
+       
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.GetCheepsFromAuthor(0, null));
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
     public async Task TestGetCheepsFromNonExistingAuthor() 
     {   
         //Act
@@ -131,6 +145,18 @@ public class UnitTests : IAsyncLifetime
         Assert.True(cheeps.Count == 0);
         await utils.CloseConnection();
     }
+    
+    [Fact]
+    public async Task TestGetCheepsFromAuthorNegativePage()
+    {
+        //Act
+        var cheeps = await cheepRepository.GetCheepsFromAuthor(-1, "Jacqualine Gilcoine");
+        var cheep = cheeps[0];
+        
+        //Assert
+        Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);
+        await utils.CloseConnection();
+    }    
     
     [Fact]
     public async Task TestGetCheepsFromAuthorPage2()
@@ -175,23 +201,133 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.Equal(1, result);
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestGetAllCheepsFromNonexistingAuthor()
+    {
+        //Act
+        var result = ( await cheepRepository.GetAllCheepsFromAuthor("migg") ).Count;
+        
+        //Assert
+        Assert.Equal(0, result);
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestGetAllCheepsFromNullAuthor()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.GetAllCheepsFromAuthor(null));
+        await utils.CloseConnection();
+    }
+    
+    
+    [Fact]
+    public async Task TestAddCheepCorrectInput()
+    {
+        //Arrange
+        var cheepsBefore = context.Cheeps.Count();
+        Author author = new Author()
+        {
+            Id = context.Authors.Count() + 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        //Act
+        await cheepRepository.AddCheep("Hejsa", author);
+        var cheepsAfter = context.Cheeps.Count();
+        
+        //Assert
+        Assert.True(cheepsAfter == cheepsBefore+1);
+        await utils.CloseConnection();
     }
 
 
     [Fact]
-    public async Task TestCheepConstraintOnDataModel()
+    public async Task TestAddCheepNullAuthor()
     {
-        //Act
-        var cheepsBefore = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-        Author author = await authorRepository.GetAuthorByName("Mellie Yost");
-        var invalidCheep = new String('a', 161);
-        await cheepRepository.AddCheep(invalidCheep, author);
-        
-        var cheepsAfter = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-        
-        //Assert
-        Assert.Equal(cheepsBefore, cheepsAfter);
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.AddCheep("Hejsa", null));
+        await utils.CloseConnection();
     }
+    
+    [Fact]
+    public async Task TestAddCheepLengthConstraintl()
+    {
+        //Arrange
+        Author author = new Author()
+        {
+            Id = 200,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        var invalidCheep = new String('a', 161);
+        
+        
+        //Assert and act
+        await Assert.ThrowsAsync<ArgumentException>(() => cheepRepository.AddCheep(invalidCheep, author));
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestAddLike()
+    {   
+        
+        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        await cheepRepository.AddLike("Mellie Yost", 2);
+
+        context.SaveChanges();
+        
+        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+        
+        Assert.True(likesAfter == likesBefore +1);
+        await utils.CloseConnection();
+    }
+    
+     
+    [Fact]
+    public async Task TestAddLikeNullAuthor()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.AddLike(null, 2));
+        await utils.CloseConnection();
+    }
+    
+      
+    [Fact]
+    public async Task TestAddLikeNonexistingCheepID()
+    {
+        await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.AddLike("hej", 800000));
+        await utils.CloseConnection();
+    } 
+    
+    //TODO continue looking at unit tests from here
+    
+
+    [Fact]
+
+    public async Task TestRemoveLike()
+    {
+        context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
+        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        
+        await cheepRepository.RemoveLike("Mellie Yost", 2);
+       
+       
+        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+       
+        Assert.True(likesAfter == likesBefore -1);
+        await utils.CloseConnection();
+        
+    }
+    
+    
+    
+    
+    
     
     // ------- Authorrepository --------
     
@@ -218,6 +354,14 @@ public class UnitTests : IAsyncLifetime
         Assert.True(author.Name == "Filifjonken");   
         await utils.CloseConnection();
         
+    }
+    
+    [Fact]
+    public async Task TestUsernameCannotContainSlash()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authorRepository.CreateAuthor("/Haha", "hahaemail@gmail.com"));
     }
     
     //Followrepository
@@ -273,8 +417,7 @@ public class UnitTests : IAsyncLifetime
         //Assert
         Assert.True(followafter == followbefore -1);
     }
-
-
+    
     [Fact]
     public async Task CanGetFollowFromDb()
     {
@@ -299,7 +442,6 @@ public class UnitTests : IAsyncLifetime
         Assert.NotNull(follows);
         Assert.Equal(author2.Name, follows[0].Followed);
     }
-    
     
     [Fact]
     public async Task CanGetFollowsFromDb()
@@ -336,7 +478,7 @@ public class UnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CanAddFolowerToDbWithchirpService() 
+    public async Task CanAddFollowerToDbWithchirpService() 
     {
         Author author1 = new Author()
         {
@@ -361,6 +503,9 @@ public class UnitTests : IAsyncLifetime
 
     }
     
+    
+    
+    
     // ------ Chirpservice -------
     [Fact]
     public async Task TestCanGetAllCheeps()
@@ -369,74 +514,5 @@ public class UnitTests : IAsyncLifetime
         
         Assert.Equal(15, cheeps.Count);
     }
-
-    [Fact]
-    public async Task TestUsernameCannotContainSlash()
-    {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IAuthorRepository authorrepo = new AuthorRepository(context);
-
-        await Assert.ThrowsAsync<ArgumentException>(() =>
-            authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
-
-    }
-    
-    [Fact]
-    public async Task TestAddCheep()
-    {
-        var cheepsBefore = context.Cheeps.Count();
-        
-        Author author = new Author()
-        {
-            Id = context.Authors.Count() + 1,
-            Name = "Test1",
-            Email = "test1@mail.com",
-        };
-        
-        await cheepRepository.AddCheep("Hejsa", author);
-        
-        var cheepsAfter = context.Cheeps.Count();
-        
-        Assert.True(cheepsAfter == cheepsBefore+1);
-    }
-
-
-    [Fact]
-    public async Task TestAddLike()
-    {
-        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
-        await cheepRepository.AddLike("Mellie Yost", 2);
-
-        context.SaveChanges();
-        
-        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
-        
-        Assert.True(likesAfter == likesBefore +1);
-    }
-
-
-    [Fact]
-
-    public async Task TestRemoveLike()
-    {
-        context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
-        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
-        
-       await cheepRepository.RemoveLike("Mellie Yost", 2);
-       
-       
-       var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
-       
-       Assert.True(likesAfter == likesBefore -1);
-        
-    }
-
-    
-    
-    
-    
     
 }
