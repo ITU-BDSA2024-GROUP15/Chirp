@@ -146,7 +146,7 @@ public class EndToEnd : PageTest
         await Page.GetByText("Confirm Password").ClickAsync();
     }
     
-    // long tests
+    // longer tests
         
         
     [Test]
@@ -181,7 +181,7 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
         
     }
-    /*
+
             
     [Test]
     public async Task CanCheep()
@@ -209,11 +209,16 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
+        // cheeps 
         await Page.Locator("#CheepMessage").ClickAsync();
-        await Page.Locator("#CheepMessage").FillAsync("Hello chirp");
+        await Page.Locator("#CheepMessage").FillAsync("Hello Chirp!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
-        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("testUser Hello chirp");
-        
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Hello Chirp!");
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("testUser");
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 0");
+
+
+        // deletes test user
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
         await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
@@ -221,7 +226,6 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
         
     }
-    */
     
     
     [Test]
