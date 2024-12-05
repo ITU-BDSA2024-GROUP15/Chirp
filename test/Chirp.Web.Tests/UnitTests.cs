@@ -170,8 +170,10 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestGetAllCheepsFromAuthor()
     {
+        //Act
         var result = ( await cheepRepository.GetAllCheepsFromAuthor("Adrian") ).Count;
         
+        //Assert
         Assert.Equal(1, result);
     }
 
@@ -179,13 +181,15 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestCheepConstraintOnDataModel()
     {
+        //Act
         var cheepsBefore = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
         Author author = await authorRepository.GetAuthorByName("Mellie Yost");
         var invalidCheep = new String('a', 161);
         await cheepRepository.AddCheep(invalidCheep, author);
         
         var cheepsAfter = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-
+        
+        //Assert
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
     
@@ -219,8 +223,9 @@ public class UnitTests : IAsyncLifetime
     //Followrepository
     
     [Fact]
-    public async Task CanAddFolowerToDb() 
+    public async Task CanAddFollowerToDb() 
     {
+        //Arrange
         Author author1 = new Author()
         {
             Id = 1,
@@ -234,11 +239,12 @@ public class UnitTests : IAsyncLifetime
             Name = "Test2",
             Email = "test2@mail.com",
         };
-
+        
+        //Act
         await followRepository.AddFollowing(author1.Name, author2.Name);
-
         var follow = await context.Follows.FirstOrDefaultAsync();
         
+        //Assert
         Assert.NotNull(follow);
         Assert.Equal(author1.Name, follow.Follower);
 
@@ -247,33 +253,25 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task CanRemoveFollowerFromDb()
     {
-        Author author1 = new Author()
+        //Arrange
+        var author1 = "hej";
+        var author2 = "meddig";
+        var follow = new Follow()
         {
-            Id = 1,
-            Name = "Test1",
-            Email = "test1@mail.com",
+            Follower = author1,
+            Followed = author2
         };
         
-        Author author2 = new Author()
-        {
-            Id = 2,
-            Name = "Test2",
-            Email = "test2@mail.com",
-        };
-
-        await followRepository.AddFollowing(author1.Name, author2.Name);
-
-        var follow = await context.Follows.FirstOrDefaultAsync();
+        await context.Follows.AddAsync(follow);
+        await context.SaveChangesAsync();
+        var followbefore = context.Follows.ToList().Count;
         
-        //Check that the Follow has been added
-        Assert.NotNull(follow);
-
-        await followRepository.RemoveFollowing(author1.Name, author2.Name);
+        //Act
+        await followRepository.RemoveFollowing(author1, author2);
+        var followafter = context.Follows.ToList().Count;
         
-        //Check that the follow has been removed
-        var followRemoved = await context.Follows.FirstOrDefaultAsync();
-        Assert.Null(followRemoved);
-        
+        //Assert
+        Assert.True(followafter == followbefore -1);
     }
 
 
