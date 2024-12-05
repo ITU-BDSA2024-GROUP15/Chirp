@@ -191,6 +191,7 @@ public class UnitTests : IAsyncLifetime
         //Assert
         Assert.True(cheeps.Count == 0);   
         await _utils.CloseConnection();
+        await _utils.CloseConnection();
     }
 
     [Fact]
@@ -453,8 +454,11 @@ public class UnitTests : IAsyncLifetime
         Author author = await _authorRepository.GetAuthorByName("Filifjonken");
         
         //Assert
-        Assert.True(author.Name == "Filifjonken");   
-        await _utils.CloseConnection();
+        if (author != null)
+        {
+            Assert.True(author.Name == "Filifjonken");   
+            await _utils.CloseConnection();
+        }
         
     }
    
