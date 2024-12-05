@@ -21,6 +21,7 @@ public class UnitTests : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        //Arrange
         utils = new TestUtilities();
         context = await utils.CreateInMemoryDb();
         cheepRepository = new CheepRepository(context);
@@ -39,21 +40,35 @@ public class UnitTests : IAsyncLifetime
     
     
     
-    //CheepRepository
+    // ------- CheepRepository --------
     [Fact]
     public async Task TestGetCheepsAmount()
     {
+        //Act
         var cheeps = await cheepRepository.GetCheeps(0);
+        
+        //Assert
         Assert.Equal(32,cheeps.Count);
         await utils.CloseConnection();
         
+    }
+
+    [Fact]
+    public async Task TestWhenGetCheepsFromNegativePage()
+    {
+        //Act and assert
+        Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => cheepRepository.GetCheeps(-1));
+        await utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestGetCheepsPage1()
     {
+        //Act
         var cheeps = await cheepRepository.GetCheeps(0);
         var cheep = cheeps[0];
+        
+        //Assert
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);
         await utils.CloseConnection();
     }
@@ -61,8 +76,11 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestGetCheepsPage2()
     {
+        //Act
         var cheeps = await cheepRepository.GetCheeps(2);
         var cheep = cheeps[0];
+        
+        //Assert
         Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Text);  
         await utils.CloseConnection();
     }
@@ -71,8 +89,10 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestGetCheepsLastPage() 
     {
+        //Act
         var cheeps = await cheepRepository.GetCheeps(21);
         
+        //Assert
         Assert.True(cheeps.Count == 17);
         await utils.CloseConnection();
     }
@@ -80,29 +100,46 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestGetCheepsBeyondLimit() 
     {   
+        //Act
         var cheeps = await cheepRepository.GetCheeps(32);
         
+        //Assert
         Assert.True(cheeps.Count == 0);    
         await utils.CloseConnection();
     }
     
     
     [Fact]
-    public async Task TestGetCheepsFromAuthor() 
+    public async Task TestGetCheepsFromExistingAuthor() 
     {   
+        //Act
         var cheeps = await cheepRepository.GetCheepsFromAuthor(0, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
-        //we know Jacqualine is the first author on the public timeline.
-        Assert.True(cheep.Author.Name == "Jacqualine Gilcoine"  && cheeps.Count == 32);
+        
+        //Assert
+        Assert.True(cheep.Author.Name == "Jacqualine Gilcoine"  && cheeps.Count == 32); //we know Jacqualine is the first author on the public timeline.
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestGetCheepsFromNonExistingAuthor() 
+    {   
+        //Act
+        var cheeps = await cheepRepository.GetCheepsFromAuthor(0, "Eksisterer Ikke");
+        
+        //Assert
+        Assert.True(cheeps.Count == 0);
         await utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestGetCheepsFromAuthorPage2()
     {
+        //Act
         var cheeps = await cheepRepository.GetCheepsFromAuthor(2, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
+        //Assert
         Assert.Equal("What a relief it was the place examined.", cheep.Text);
         await utils.CloseConnection();
     }    
@@ -110,9 +147,11 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestGetCheepsFromAuthorLastPage()
     {
+        //Act
         var cheeps = await cheepRepository.GetCheepsFromAuthor(12, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
+        //Assert
         Assert.True(cheeps.Count == 7 && cheep.Author.Name == "Jacqualine Gilcoine"); 
         await utils.CloseConnection();
     }
@@ -120,26 +159,13 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestGetCheepsFromAuthorBeyondLimit()
     {
+        //Act
         var cheeps = await cheepRepository.GetCheepsFromAuthor(20, "Jacqualine Gilcoine");
         
+        //Assert
         Assert.True(cheeps.Count == 0);   
         await utils.CloseConnection();
     }
-    
-
-    [Fact]
-    public async Task TestCreateAuthor()
-    {
-
-        await authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
-        
-        Author author = await authorRepository.GetAuthorByName("Filifjonken");
-        
-        Assert.True(author.Name == "Filifjonken");   
-        await utils.CloseConnection();
-        
-    }
-
 
     [Fact]
     public async Task TestGetAllCheepsFromAuthor()
@@ -162,7 +188,35 @@ public class UnitTests : IAsyncLifetime
 
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
-
+    
+    // ------- Authorrepository --------
+    
+    [Fact]
+    public async Task TestCreateAuthor()
+    {
+        //Act
+        await authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
+        Author author = await authorRepository.GetAuthorByName("Filifjonken");
+        
+        //Assert
+        Assert.True(author.Name == "Filifjonken");   
+        await utils.CloseConnection();
+        
+    }
+    
+    public async Task TestCreateAlreadyExistingAuthor()
+    {
+        //Act
+        await authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
+        Author author = await authorRepository.GetAuthorByName("Filifjonken");
+        
+        //Assert
+        Assert.True(author.Name == "Filifjonken");   
+        await utils.CloseConnection();
+        
+    }
+    
+    //Followrepository
     
     [Fact]
     public async Task CanAddFolowerToDb() 
@@ -309,6 +363,7 @@ public class UnitTests : IAsyncLifetime
 
     }
     
+    // ------ Chirpservice -------
     [Fact]
     public async Task TestCanGetAllCheeps()
     {
