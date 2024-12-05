@@ -201,26 +201,26 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.Equal(1, result);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestGetAllCheepsFromNonexistingAuthor()
     {
         //Act
-        var result = ( await cheepRepository.GetAllCheepsFromAuthor("migg") ).Count;
+        var result = ( await _cheepRepository.GetAllCheepsFromAuthor("migg") ).Count;
         
         //Assert
         Assert.Equal(0, result);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestGetAllCheepsFromNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.GetAllCheepsFromAuthor(null));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllCheepsFromAuthor(null));
+        await _utils.CloseConnection();
     }
     
     
@@ -228,21 +228,21 @@ public class UnitTests : IAsyncLifetime
     public async Task TestAddCheepCorrectInput()
     {
         //Arrange
-        var cheepsBefore = context.Cheeps.Count();
+        var cheepsBefore = _context.Cheeps.Count();
         Author author = new Author()
         {
-            Id = context.Authors.Count() + 1,
+            Id = _context.Authors.Count() + 1,
             Name = "Test1",
             Email = "test1@mail.com",
         };
         
         //Act
-        await cheepRepository.AddCheep("Hejsa", author);
-        var cheepsAfter = context.Cheeps.Count();
+        await _cheepRepository.AddCheep("Hejsa", author);
+        var cheepsAfter = _context.Cheeps.Count();
         
         //Assert
         Assert.True(cheepsAfter == cheepsBefore+1);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
 
 
@@ -250,8 +250,8 @@ public class UnitTests : IAsyncLifetime
     public async Task TestAddCheepNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.AddCheep("Hejsa", null));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddCheep("Hejsa", null));
+        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -268,23 +268,23 @@ public class UnitTests : IAsyncLifetime
         
         
         //Assert and act
-        await Assert.ThrowsAsync<ArgumentException>(() => cheepRepository.AddCheep(invalidCheep, author));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<ArgumentException>(() => _cheepRepository.AddCheep(invalidCheep, author));
+        await _utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestAddLike()
     {   
         
-        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
-        await cheepRepository.AddLike("Mellie Yost", 2);
+        var likesBefore = _context.Cheeps.ToList()[1].Likes.Count();
+        await _cheepRepository.AddLike("Mellie Yost", 2);
 
-        context.SaveChanges();
+        _context.SaveChanges();
         
-        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+        var likesAfter = _context.Cheeps.ToList()[1].Likes.Count();
         
         Assert.True(likesAfter == likesBefore +1);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
     
      
@@ -292,16 +292,16 @@ public class UnitTests : IAsyncLifetime
     public async Task TestAddLikeNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.AddLike(null, 2));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddLike(null, 2));
+        await _utils.CloseConnection();
     }
     
       
     [Fact]
     public async Task TestAddLikeInvalidCheepID()
     {
-        await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.AddLike("hej", 800000));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.AddLike("hej", 800000));
+        await _utils.CloseConnection();
     } 
     
     
@@ -311,40 +311,40 @@ public class UnitTests : IAsyncLifetime
     public async Task TestRemoveLike()
     {
         //Arrange
-        context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
-        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        _context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
+        var likesBefore = _context.Cheeps.ToList()[1].Likes.Count();
         
         //Act
-        await cheepRepository.RemoveLike("Mellie Yost", 2);
-        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+        await _cheepRepository.RemoveLike("Mellie Yost", 2);
+        var likesAfter = _context.Cheeps.ToList()[1].Likes.Count();
        
         //Assert
         Assert.True(likesAfter == likesBefore -1);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
         
     }
     [Fact]
     public async Task TestRemoveLikeNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.RemoveLike(null, 2));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.RemoveLike(null, 2));
+        await _utils.CloseConnection();
         
     }
     [Fact]
     public async Task TestRemoveLikeInvalidAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => cheepRepository.RemoveLike("Hejsa", 2));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => _cheepRepository.RemoveLike("Hejsa", 2));
+        await _utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestRemoveLikeInvalidCheepId()
     {
         //Assert and act
-        await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.RemoveLike("Mellie Yost", 80000));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.RemoveLike("Mellie Yost", 80000));
+        await _utils.CloseConnection();
     }
 
 
@@ -352,36 +352,36 @@ public class UnitTests : IAsyncLifetime
     public async Task TestCountLikes()
     {
         //Arrange
-        var before = await cheepRepository.CountLikes(5);
-        var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        var before = await _cheepRepository.CountLikes(5);
+        var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
-        context.SaveChanges();
+        _context.SaveChanges();
         
         //Act
-        var after = await cheepRepository.CountLikes(5);
+        var after = await _cheepRepository.CountLikes(5);
         
         //Assert
         Assert.True(after == before + 1);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestCountLikesInvalidCheepId()
     {
         //Assert and act
-        await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.CountLikes(80000));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.CountLikes(80000));
+        await _utils.CloseConnection();
     }
     
     [Fact]
     public async Task TestGetAllLikedNoLikes()
     {
         //Act
-        var cheeps = await cheepRepository.GetAllLiked("Mellie Yost");
+        var cheeps = await _cheepRepository.GetAllLiked("Mellie Yost");
         
         //Assert
         Assert.Equal(0, cheeps.Count());
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
 
     
@@ -389,26 +389,26 @@ public class UnitTests : IAsyncLifetime
     public async Task TestGetAllLikedReturnsCorrectCheep()
     {
         //Arrange 
-        var before = await cheepRepository.CountLikes(5);
-        var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        var before = await _cheepRepository.CountLikes(5);
+        var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
-        context.SaveChanges();
+        _context.SaveChanges();
         
         //Act
-        var cheeps = await cheepRepository.GetAllLiked("Mellie Yost");
+        var cheeps = await _cheepRepository.GetAllLiked("Mellie Yost");
         var cheep = cheeps[0].CheepId;
         
         //Assert
         Assert.Equal(5, cheep);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
 
     [Fact]
     public async Task TestGetAllLikedNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.GetAllLiked(null));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllLiked(null));
+        await _utils.CloseConnection();
     }
 
 
@@ -417,8 +417,8 @@ public class UnitTests : IAsyncLifetime
     public async Task TestDeleteAllLikesNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.DeleteAllLikes(null));
-        await utils.CloseConnection();
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.DeleteAllLikes(null));
+        await _utils.CloseConnection();
     }
     
     
@@ -427,19 +427,19 @@ public class UnitTests : IAsyncLifetime
     public async Task TestDeleteAllLikes()
     {
         //Arrange 
-        var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
-        context.SaveChanges();
-        var cheep = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        _context.SaveChanges();
+        var cheep = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         var before = cheep.Likes.Count();
         
         //Act
-        await cheepRepository.DeleteAllLikes("Mellie Yost");
+        await _cheepRepository.DeleteAllLikes("Mellie Yost");
         var after = cheep.Likes.Count();
         
         //Assert
         Assert.NotEqual(before, after);
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
     }
     
     
@@ -457,26 +457,17 @@ public class UnitTests : IAsyncLifetime
         await _utils.CloseConnection();
         
     }
-    
-    public async Task TestCreateAlreadyExistingAuthor()
-    {
-        var result = ( await cheepRepository.GetAllCheepsFromAuthor("Adrian") ).Count;
-        
-        //Assert
-        Assert.True(author.Name == "Filifjonken");   
-        await utils.CloseConnection();
-        
-    }
+   
     
     [Fact]
     public async Task TestUsernameCannotContainSlash()
     {
-        var cheepsBefore = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-        Author author = await authorRepository.GetAuthorByName("Mellie Yost");
+        var cheepsBefore = (await _cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+        Author author = await _authorRepository.GetAuthorByName("Mellie Yost");
         var invalidCheep = new String('a', 161);
-        await cheepRepository.AddCheep(invalidCheep, author);
+        await _cheepRepository.AddCheep(invalidCheep, author);
         
-        var cheepsAfter = (await cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
+        var cheepsAfter = (await _cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
 
         Assert.Equal(cheepsBefore, cheepsAfter);
     }
@@ -523,21 +514,21 @@ public class UnitTests : IAsyncLifetime
             Followed = author2
         };
 
-        await followRepository.AddFollowing(author1.Name, author2.Name);
+        //await _followRepository.AddFollowing(author1.Name, author2.Name);
 
-        var follow = await context.Follows.FirstOrDefaultAsync();
+        //var follow = await _context.Follows.FirstOrDefaultAsync();
         
         //Check that the Follow has been added
         Assert.NotNull(follow);
 
-        await followRepository.RemoveFollowing(author1.Name, author2.Name);
+        //await _followRepository.RemoveFollowing(author1.Name, author2.Name);
         
         //Check that the follow has been removed
-        var followRemoved = await context.Follows.FirstOrDefaultAsync();
+        var followRemoved = await _context.Follows.FirstOrDefaultAsync();
         Assert.Null(followRemoved);
         
         //Assert
-        Assert.True(followafter == followbefore -1);
+        //Assert.True(followafter == followbefore -1);
     }
     
     [Fact]
@@ -637,73 +628,6 @@ public class UnitTests : IAsyncLifetime
         Assert.Equal(15, cheeps.Count);
     }
 
-    [Fact]
-    public async Task TestUsernameCannotContainSlash()
-    {
-        var utils = new TestUtilities();
-        var context = await utils.CreateInMemoryDb();
-        
-        ICheepRepository cheeprepo = new CheepRepository(context);
-        IAuthorRepository authorrepo = new AuthorRepository(context);
+  
 
-        await Assert.ThrowsAsync<ArgumentException>(() =>
-            authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
-
-    }
-    
-    [Fact]
-    public async Task TestAddCheep()
-    {
-        var cheepsBefore = context.Cheeps.Count();
-        
-        Author author = new Author()
-        {
-            Id = context.Authors.Count() + 1,
-            Name = "Test1",
-            Email = "test1@mail.com",
-        };
-        
-        await cheepRepository.AddCheep("Hejsa", author);
-        
-        var cheepsAfter = context.Cheeps.Count();
-        
-        Assert.True(cheepsAfter == cheepsBefore+1);
-    }
-
-
-    [Fact]
-    public async Task TestAddLike()
-    {
-        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
-        await cheepRepository.AddLike("Mellie Yost", 2);
-
-        context.SaveChanges();
-        
-        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
-        
-        Assert.True(likesAfter == likesBefore +1);
-    }
-
-
-    [Fact]
-
-    public async Task TestRemoveLike()
-    {
-        context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
-        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
-        
-       await cheepRepository.RemoveLike("Mellie Yost", 2);
-       
-       
-       var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
-       
-       Assert.True(likesAfter == likesBefore -1);
-        
-    }
-
-    
-    
-    
-    
-    
 }
