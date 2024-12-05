@@ -366,7 +366,7 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-    /*
+    
     
     [Test]
     public async Task CanFollowJacqualine()
@@ -394,9 +394,13 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
         // asserts follow button is there and presses it 
-        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");        
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");
+
+        await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).First).ToBeVisibleAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First).ToBeVisibleAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
+
         
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
@@ -404,7 +408,6 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-    
      
     [Test]
     public async Task CanFollowJacqualineAndUnfollow()
@@ -447,7 +450,6 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-*/
 
     [Test]
     public async Task CantLoginAfterDeleteData()
