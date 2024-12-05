@@ -105,6 +105,13 @@ public interface IChirpService
     /// <param name="cheepId">The ID of the cheep in question</param>
     /// <returns>The amount as an integer</returns>
     public Task<int> CountLikes(int cheepId);
+
+    /// <summary>
+    /// Gets a list of all cheeps liked by a given author, as CheepDTOs
+    /// </summary>
+    /// <param name="author">The name of the author</param>
+    /// <returns>A list of CheepDTOs</returns>
+    public Task<List<CheepDto>> GetAllLiked(string author);
     
     
     public Task DeleteAllLikes(string authorName);
@@ -370,6 +377,13 @@ public class ChirpService : IChirpService
         return await _cheepRepository.CountLikes(cheepId);
     }
 
+
+    public async Task<List<CheepDto>> GetAllLiked(string author)
+    {
+        var cheeps = await _cheepRepository.GetAllLiked(author);
+        var dtos = await ConvertCheepsToCheepDtos(cheeps, author);
+        return dtos;
+    }
 
     public async Task DeleteAllLikes(string authorName)
     {
