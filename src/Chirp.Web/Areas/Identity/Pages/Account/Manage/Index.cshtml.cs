@@ -16,6 +16,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Author> _userManager;
         private readonly IChirpService _service;
         public List<CheepDto> Cheeps { get; set; }
+        public List<CheepDto> LikedCheeps { get; set; }
         public List<FollowDto> Follows { get; set; }
         
         public AuthorDTO Author { get; set; }
@@ -39,9 +40,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             Author = await _service.GetAuthorDtoByName(_userManager.GetUserName(User) ?? throw new InvalidOperationException());
             if (Author != null)
             {
-                Cheeps = await _service.GetAllCheepsFromAuthor(Author.Username ??
-                                                               throw new
-                                                                   InvalidOperationException());
+                Cheeps = await _service.GetAllCheepsFromAuthor(Author.Username);
+                LikedCheeps = await _service.GetAllLiked(Author.Username);
                 Follows = await _service.GetFollowedDtos(Author.Username);
             }
 
