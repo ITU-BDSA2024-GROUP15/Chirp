@@ -20,7 +20,7 @@ public class TopCheeps : PageModel
     public async Task<ActionResult> OnGet()
     {
 
-        Cheeps = await _chirpService.GetTopLikedCheeps();
+        Cheeps = await _chirpService.GetTopLikedCheeps(); 
        
         return Page();
 
