@@ -127,8 +127,12 @@ public class CheepRepository : ICheepRepository
         }
         
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
-        currentLikes.Likes.Add(author);
-        _context.SaveChanges();
+        if (!currentLikes.Likes.Contains(author))
+        {
+            currentLikes.Likes.Add(author);
+            _context.SaveChanges();
+        }
+        
         
     }
     
@@ -144,10 +148,6 @@ public class CheepRepository : ICheepRepository
         {
             currentLikes.Likes.Remove(author);
             _context.SaveChanges();
-        }
-        else
-        {
-            throw new KeyNotFoundException("Author does not exist");
         }
     }
 
