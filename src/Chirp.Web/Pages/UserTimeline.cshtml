@@ -1,4 +1,4 @@
-﻿@page "/{author}"
+﻿@page "/{authorName}"
 @using Chirp.Core
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Web.Pages.UserTimelineModel
@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("author");
+    var routeName = HttpContext.GetRouteValue("authorName");
 }
 
 <div>
