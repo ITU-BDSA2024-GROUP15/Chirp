@@ -430,20 +430,17 @@ public class UnitTests : IAsyncLifetime
         var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
         context.SaveChanges();
-        var before = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        var cheep = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        var before = cheep.Likes.Count();
         
         //Act
         await cheepRepository.DeleteAllLikes("Mellie Yost");
-        var after = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        var after = cheep.Likes.Count();
         
         //Assert
-        Assert.NotEqual(before.Likes.Count, after.Likes.Count);
+        Assert.NotEqual(before, after);
         await utils.CloseConnection();
     }
-    
-    
-    
-    
     
     
     // ------- Authorrepository --------
