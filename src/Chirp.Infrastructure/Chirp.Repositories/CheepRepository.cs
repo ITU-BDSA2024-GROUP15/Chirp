@@ -125,6 +125,7 @@ public class CheepRepository : ICheepRepository
         {
             throw new NullReferenceException("Author can't be null");
         }
+        
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
         currentLikes.Likes.Add(author);
         _context.SaveChanges();
@@ -133,23 +134,37 @@ public class CheepRepository : ICheepRepository
     
     public async Task RemoveLike(string author, int cheepId)
     {
-        var currentLikes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
-        if (currentLikes != null && currentLikes.Likes.Contains(author))
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
+        
+        var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
+        if (currentLikes.Likes.Contains(author))
         {
             currentLikes.Likes.Remove(author);
             _context.SaveChanges();
+        }
+        else
+        {
+            throw new KeyNotFoundException("Author does not exist");
         }
     }
 
     
     public async Task<int> CountLikes(int cheepId)
     {
-        var likes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
-        return likes!.Likes.Count;
+        var likes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
+        return likes.Likes.Count;
     }
     
     public async Task<List<Cheep>> GetAllLiked(string author)
     {
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
+        
         var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).Include(c => c.Author).ToListAsync();
         
         return likedCheeps;
@@ -159,6 +174,11 @@ public class CheepRepository : ICheepRepository
 
     public async Task DeleteAllLikes(string author)
     {
+        if (author == null)
+        {
+            throw new NullReferenceException("Author can't be null");
+        }
+        
         //https://stackoverflow.com/questions/1586013/how-to-do-select-all-in-linq-to-sql
         var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).ToListAsync();
 
