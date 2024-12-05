@@ -349,7 +349,20 @@ public class UnitTests : IAsyncLifetime
         
         Assert.True(cheepsAfter == cheepsBefore+1);
     }
-    
+
+
+    [Fact]
+    public async Task TestAddLike()
+    {
+        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        var chek = context.Cheeps.ToList()[1].Text;
+        await cheepRepository.AddLike("Mellie Yost", 1);
+        
+        var chek2 = context.Cheeps.ToList()[1].Text;
+        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+        
+        Assert.True(likesAfter != likesBefore);
+    }
 
     
     
