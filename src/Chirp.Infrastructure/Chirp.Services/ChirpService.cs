@@ -173,13 +173,6 @@ public class ChirpService : IChirpService
         var result = await ConvertCheepsToCheepDtos(queryresult, spectatingAuthorName);
         return result;
     }
-
-
-    public async Task<Author?> GetAuthorByEmail(string email)
-    {
-       return await _authorRepository.GetAuthorByEmail(email);
-        
-    }
     
     public async Task<AuthorDTO?> GetAuthorDtoByName(string authorName)
     {
@@ -197,20 +190,15 @@ public class ChirpService : IChirpService
         }
         return null;
     }
-
-
-    public async Task AddAuthor(string authorName, string email)
-    {
-        await _authorRepository.CreateAuthor(authorName, email);
-    }
+    
     
     public async Task AddCheep(string text, string authorName, string email)
     {
-        if ( await _authorRepository.GetAuthorByName(authorName) == null )
+        if ( await _authorRepository.GetAuthorByName(authorName) == null ) //if statement will never be true, but it was a requirement to handle this in this way
         {
-            await AddAuthor(authorName, email);
+            await _authorRepository.CreateAuthor(authorName, email);
         }
-        var author = await GetAuthorByEmail(email);
+        var author = await _authorRepository.GetAuthorByEmail(email);
         if (author == null)
         {
             return;
@@ -253,13 +241,13 @@ public class ChirpService : IChirpService
         var follows = await _followRepository.GetFollowers(authorName);
         foreach (var follow in follows)
         {
-            await RemoveFollowing(follow.Follower, follow.Followed);        
+            await _followRepository.RemoveFollowing(follow.Follower, follow.Followed);        
         } 
         //Delete all relations where others follow the user
         follows = await _followRepository.GetFollowed(authorName);
         foreach (var follow in follows)
         {
-            await RemoveFollowing(follow.Follower, follow.Followed);        
+            await _followRepository.RemoveFollowing(follow.Follower, follow.Followed);        
         } 
         
     }
@@ -272,7 +260,7 @@ public class ChirpService : IChirpService
         return dtos;
     }
 
-
+    //Gets a complete, sorted list of all cheeps that could go on a timeline
     private async Task<List<CheepDto>> GetAllCheepsForTimeline(string authorName)
     {
         
@@ -324,7 +312,7 @@ public class ChirpService : IChirpService
         {
             bool isFollowing = false;
             bool isLiking = false;
-            int likesamount = await CountLikes(cheep.CheepId);
+            int likesamount = await _cheepRepository.CountLikes(cheep.CheepId);
             foreach ( var follow in follows ) // this could be more efficient
             {
                 if ( follow.Followed == cheep.Author.Name )
