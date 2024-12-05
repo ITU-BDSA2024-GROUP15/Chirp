@@ -3,7 +3,7 @@ using Chirp.Infrastructure.Chirp.Repositories;
 
 namespace Chirp.Infrastructure.Chirp.Services;
 
-public interface ICheepService
+public interface IChirpService
 {
     /// <summary>
     /// This method is for use on the public timeline.
@@ -111,14 +111,14 @@ public interface ICheepService
 }
 
 
-public class CheepService : ICheepService
+public class ChirpService : IChirpService
 {
     private ICheepRepository _cheepRepository;
     private IAuthorRepository _authorRepository;
     private IFollowRepository _followRepository;
 
 
-    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
+    public ChirpService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;

@@ -11,7 +11,7 @@ namespace Chirp.Web.Pages;
 public class UserTimelineModel : PageModel
 {
     
-    private readonly ICheepService _service;
+    private readonly IChirpService _service;
     public int PageNumber { get; set; }
     [BindProperty]
     [Required]
@@ -23,7 +23,7 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public int? LikedCheepId { get; set; }
     
-    public UserTimelineModel(ICheepService service)
+    public UserTimelineModel(IChirpService service)
     {
         _service = service;
     }
