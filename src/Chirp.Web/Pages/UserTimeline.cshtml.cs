@@ -49,6 +49,10 @@ public class UserTimelineModel : PageModel
             {
                 Cheeps = await _service.GetCheepsFromAuthor(page, authorName, spectatingAuthorName);
             }
+            else
+            {
+                Cheeps = await _service.GetCheepsFromAuthor(page, authorName, "");
+            }
         }
         
         if ( page == 0  || page < 0)
