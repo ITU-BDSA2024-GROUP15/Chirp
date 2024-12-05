@@ -8,7 +8,7 @@ namespace Chirp.Web.Pages;
 
 public class PublicModel : PageModel
 {
-    private readonly ICheepService _service;
+    private readonly IChirpService _service;
     public List<CheepDto>? Cheeps { get; set; }
     public int PageNumber { get; set; }
     [BindProperty]
@@ -21,7 +21,7 @@ public class PublicModel : PageModel
     [BindProperty]
     public int? LikedCheepId { get; set; }
 
-    public PublicModel(ICheepService service)
+    public PublicModel(IChirpService service)
     {
         _service = service;
     }
@@ -40,7 +40,7 @@ public class PublicModel : PageModel
         }
         
         
-        if ( page == 0 )
+        if ( page == 0  || page < 0)
         {
             PageNumber = 1;
         }

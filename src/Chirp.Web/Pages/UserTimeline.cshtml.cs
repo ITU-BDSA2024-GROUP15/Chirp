@@ -11,7 +11,7 @@ namespace Chirp.Web.Pages;
 public class UserTimelineModel : PageModel
 {
     
-    private readonly ICheepService _service;
+    private readonly IChirpService _service;
     public int PageNumber { get; set; }
     [BindProperty]
     [Required]
@@ -23,7 +23,7 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public int? LikedCheepId { get; set; }
     
-    public UserTimelineModel(ICheepService service)
+    public UserTimelineModel(IChirpService service)
     {
         _service = service;
     }
@@ -47,7 +47,7 @@ public class UserTimelineModel : PageModel
             Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name);
         }
         
-        if ( page == 0 )
+        if ( page == 0  || page < 0)
         {
             PageNumber = 1;
         }
@@ -132,7 +132,7 @@ public class UserTimelineModel : PageModel
             await _service.AddLike(authorName, LikedCheepId.Value);
         }
         
-        return RedirectToPage("Public");
+        return RedirectToPage("UserTimeline");
     }
     
     public async Task<IActionResult> OnPostUnlike()
@@ -144,7 +144,7 @@ public class UserTimelineModel : PageModel
             await _service.RemoveLike(authorName, LikedCheepId.Value);
         }
         
-        return RedirectToPage("Public");
+        return RedirectToPage("UserTimeline");
     }
     
 }

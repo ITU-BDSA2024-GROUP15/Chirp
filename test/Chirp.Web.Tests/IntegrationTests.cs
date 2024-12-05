@@ -24,7 +24,7 @@ public class IntegrationTests : IAsyncLifetime
     private TestUtilities utils;
     private CheepDbContext context;
     
-    private ICheepService service;
+    private IChirpService service;
     
     public async Task InitializeAsync()
     {
@@ -34,7 +34,7 @@ public class IntegrationTests : IAsyncLifetime
         cheeprepo = new CheepRepository(context);
         followrepo = new FollowRepository(context);
 
-        service = new CheepService(cheeprepo, authorrepo, followrepo);
+        service = new ChirpService(cheeprepo, authorrepo, followrepo);
     }
 
 
@@ -63,7 +63,7 @@ public class IntegrationTests : IAsyncLifetime
 
     
     [Fact]
-    public async Task AddCheepCheepServiceNonExistingAuthor()
+    public async Task AddCheepchirpServiceNonExistingAuthor()
     {
         await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
 
@@ -113,11 +113,11 @@ public class IntegrationTests : IAsyncLifetime
         await authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
         await authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
         await followrepo.AddFollowing("erik", "lars");
-        var oldfollows = await service.GetFollowed("erik");
+        var oldfollows = await service.GetFollowedDtos("erik");
         Assert.True(oldfollows.Count == 1);
         await service.DeleteFromFollows("lars");
         
-        var newfollows = await service.GetFollowed("erik");
+        var newfollows = await service.GetFollowedDtos("erik");
         
         Assert.True(newfollows.Count == 0);
 

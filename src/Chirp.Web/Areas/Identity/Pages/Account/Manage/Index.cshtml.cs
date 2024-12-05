@@ -14,14 +14,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     public class IndexModel : PageModel
     {
         private readonly UserManager<Author> _userManager;
-        private readonly ICheepService _service;
+        private readonly IChirpService _service;
         public List<CheepDto> Cheeps { get; set; }
         public List<FollowDto> Follows { get; set; }
         
         public AuthorDTO Author { get; set; }
 
         public IndexModel(
-            ICheepService service, UserManager<Author> userManager)
+            IChirpService service, UserManager<Author> userManager)
         {
            _service = service;
            _userManager = userManager;

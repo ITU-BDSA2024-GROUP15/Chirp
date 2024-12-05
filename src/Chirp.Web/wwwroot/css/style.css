@@ -335,12 +335,12 @@ ul.followlist li, ul.followlist {
 }
 
 .likebutton {
-    background-color: cadetblue;
+    background-color: dimgray;
 }
 
 .unlikebutton {
     
-    background-color: dimgray;
+    background-color: cadetblue ;
 }
 
 .cheeplikeandfollow{
