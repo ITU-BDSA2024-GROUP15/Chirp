@@ -228,12 +228,12 @@ public class EndToEnd : PageTest
     public async Task ViewOtherUsersTimelineLoggedin()
     {
         await Page.GotoAsync("http://localhost:5221/");
-        
+        // logs in
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register", Exact = true }).ClickAsync();
         await Page.GetByPlaceholder("Username").ClickAsync();
         await Page.GetByPlaceholder("Username").FillAsync("testUser");
-        await Page.GetByPlaceholder("Username").ClickAsync();
-        await Page.GetByPlaceholder("Username").FillAsync("testUser");
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
         await Page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
         await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
         await Page.GetByLabel("Confirm Password").ClickAsync();
@@ -252,10 +252,10 @@ public class EndToEnd : PageTest
         
         // clicks on Wendell Ballans username and shows their timeline
         await Page.GetByRole(AriaRole.Link, new() { Name = "Wendell Ballan" }).ClickAsync();
-        await Page.GetByRole(AriaRole.Heading, new() { Name = "Wendell Ballan's Timeline" }).ClickAsync();
-        await Page.GetByText("Wendell Ballan As I turned up").ClickAsync();
+        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Wendell Ballan's Timeline" })).ToBeVisibleAsync();
+        await Page.GetByText("As I turned up one by one,").ClickAsync();
 
-                
+        // logs out 
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
         await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
