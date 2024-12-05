@@ -18,13 +18,13 @@ public class FollowRepository : IFollowRepository
     }
     
     
-    public async Task AddFollowing(string follower, string followed)
+    public async Task AddFollowing(string followerName, string followedName)
     {
 
         var follow = new Follow()
         {
-            Follower = follower,
-            Followed = followed
+            Follower = followerName,
+            Followed = followedName
         };
         
         await _context.Follows.AddAsync(follow);
@@ -33,11 +33,11 @@ public class FollowRepository : IFollowRepository
 
 
    
-    public async Task RemoveFollowing(string follower, string follwed)
+    public async Task RemoveFollowing(string followerName, string follwedName)
     {
         //lambda expression inspiration:https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
         //We first find the follow that we want to remove
-        var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == follower && follow.Followed == follwed);
+        var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == followerName && follow.Followed == follwedName);
 
         if ( follow != null )
         {
@@ -49,20 +49,20 @@ public class FollowRepository : IFollowRepository
 
 
     
-    public async Task<List<Follow>> GetFollowed(string follower)
+    public async Task<List<Follow>> GetFollowed(string followerName)
     {
         var query = (from follow in _context.Follows
-            where follow.Follower == follower
+            where follow.Follower == followerName
             select follow);
         var result = await query.ToListAsync();
         return result;
 
     }
     
-    public async Task<List<Follow>> GetFollowers(string followed)
+    public async Task<List<Follow>> GetFollowers(string followedName)
     {
         var query = (from follow in _context.Follows
-            where follow.Followed == followed
+            where follow.Followed == followedName
             select follow);
         var result = await query.ToListAsync();
         return result;
