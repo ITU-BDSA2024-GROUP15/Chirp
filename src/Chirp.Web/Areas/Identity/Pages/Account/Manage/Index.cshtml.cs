@@ -19,7 +19,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         public List<CheepDto> LikedCheeps { get; set; }
         public List<FollowDto> Follows { get; set; }
         
-        public AuthorDTO Author { get; set; }
+        public AuthorDto Author { get; set; }
 
         public IndexModel(
             IChirpService service, UserManager<Author> userManager)
