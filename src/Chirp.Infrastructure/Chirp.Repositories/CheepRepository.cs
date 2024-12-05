@@ -22,6 +22,10 @@ public class CheepRepository : ICheepRepository
    
     public async Task<List<Cheep>> GetCheeps(int page)
     {
+        if (page < 1)
+        {
+            throw new ArgumentOutOfRangeException("Page can't be less than 1");
+        }
         var query = (from cheep in _context.Cheeps
                 orderby cheep.Timestamp descending
                 select cheep)
