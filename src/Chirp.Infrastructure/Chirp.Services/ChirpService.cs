@@ -46,7 +46,7 @@ public interface IChirpService
     /// </summary>
     /// <param name="authorName"> The username of the author </param>
     /// <returns> The Author object matching the username </returns>
-    public Task<AuthorDTO?> GetAuthorDtoByName(string authorName);
+    public Task<AuthorDto?> GetAuthorDtoByName(string authorName);
     /// <summary>
     /// This method allows adding new tuples to the Follow relation
     /// </summary>
@@ -174,13 +174,13 @@ public class ChirpService : IChirpService
         return result;
     }
     
-    public async Task<AuthorDTO?> GetAuthorDtoByName(string authorName)
+    public async Task<AuthorDto?> GetAuthorDtoByName(string authorName)
     {
         var author = await _authorRepository.GetAuthorByName(authorName);
 
         if (author != null)
         {
-            var dto = new AuthorDTO
+            var dto = new AuthorDto
             {
                 Username = author.Name,
                 Email = author.Email
@@ -227,8 +227,7 @@ public class ChirpService : IChirpService
         {
             var dto = new FollowDto
             {
-                Followed = followee.Followed,
-                Follower = followee.Follower
+                Followed = followee.Followed
             };
             followedDtos.Add(dto);
         }
