@@ -148,6 +148,18 @@ public class CheepRepository : ICheepRepository
         }
         _context.SaveChanges();
     }
+
+
+    public async Task<List<Cheep>> GetTopLikedCheeps(string author)
+    {
+        //https://stackoverflow.com/questions/5344805/linq-orderby-descending-query
+        var query = (from cheep in _context.Cheeps
+            .OrderByDescending(cheep => cheep.Likes.Count) select cheep).Take(32);
+        
+        var cheeps = await query.ToListAsync();
+
+        return cheeps;
+    }
     
     
 }
