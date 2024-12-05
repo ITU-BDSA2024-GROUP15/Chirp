@@ -433,7 +433,6 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
         // asserts follow button is there and presses it 
-        // asserts follow button is there and presses it 
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
