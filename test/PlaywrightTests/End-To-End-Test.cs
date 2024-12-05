@@ -329,9 +329,6 @@ public class EndToEnd : PageTest
         
         ///
         
-        
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Button).ClickAsync();
-        await Page.Locator("li").Filter(new() { HasText = "Mellie Yost But what was" }).GetByRole(AriaRole.Button).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
         await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
