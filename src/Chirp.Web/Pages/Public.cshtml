@@ -94,7 +94,17 @@
     }
 
     <div class="pagination">
-        <a href="?page=@(Model.PageNumber > 1 ? Model.PageNumber - 1 : 1)"><</a>
+        @{
+            if (Model.PageNumber > 1)
+            {
+                <a href="?page=@(Model.PageNumber > 1 ? Model.PageNumber - 1 : 1)">&lt</a>
+            }
+        }
         <h3>@Model.PageNumber</h3>
-        <a href="?page=@(Model.PageNumber + 1)">></a>
+        @{
+            if (Model.Cheeps.Count >= 32)
+            {
+                <a href="?page=@(Model.PageNumber + 1)">></a>
+            }
+        }
     </div>

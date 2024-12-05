@@ -40,7 +40,7 @@ public class PublicModel : PageModel
         }
         
         
-        if ( page == 0 )
+        if ( page == 0  || page < 0)
         {
             PageNumber = 1;
         }
