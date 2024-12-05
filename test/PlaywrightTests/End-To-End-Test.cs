@@ -398,7 +398,7 @@ public class EndToEnd : PageTest
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
 
-        
+        // log out
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
         await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
@@ -433,13 +433,13 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
         // asserts follow button is there and presses it 
-        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");        
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Button).ClickAsync();
-        // asserts unfollow button is there and presses it 
-        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
-        await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Button).ClickAsync();
+        // asserts follow button is there and presses it 
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");
+        
         
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
