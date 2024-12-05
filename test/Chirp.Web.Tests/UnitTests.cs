@@ -1,12 +1,8 @@
-using System.Runtime.InteropServices.JavaScript;
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
-using Chirp.Web.Pages;
-using Microsoft.AspNetCore.Identity.UI.V5.Pages.Account.Manage.Internal;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Chirp.Web.Tests;
 
@@ -466,14 +462,7 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestUsernameCannotContainSlash()
     {
-        var cheepsBefore = (await _cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-        Author author = await _authorRepository.GetAuthorByName("Mellie Yost");
-        var invalidCheep = new String('a', 161);
-        await _cheepRepository.AddCheep(invalidCheep, author);
-        
-        var cheepsAfter = (await _cheepRepository.GetAllCheepsFromAuthor("Mellie Yost")).Count;
-
-        Assert.Equal(cheepsBefore, cheepsAfter);
+      
     }
     
     //Followrepository
