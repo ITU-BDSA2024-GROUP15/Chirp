@@ -63,7 +63,7 @@ public class IntegrationTests : IAsyncLifetime
 
     
     [Fact]
-    public async Task AddCheepCheepServiceNonExistingAuthor()
+    public async Task AddCheepchirpServiceNonExistingAuthor()
     {
         await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
 

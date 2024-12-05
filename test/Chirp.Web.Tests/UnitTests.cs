@@ -17,7 +17,7 @@ public class UnitTests : IAsyncLifetime
     private ICheepRepository cheepRepository;
     private IAuthorRepository authorRepository;
     private IFollowRepository followRepository;
-    private IChirpService cheepService;
+    private IChirpService chirpService;
 
     public async Task InitializeAsync()
     {
@@ -26,7 +26,7 @@ public class UnitTests : IAsyncLifetime
         cheepRepository = new CheepRepository(context);
         authorRepository = new AuthorRepository(context);
         followRepository = new FollowRepository(context);
-        cheepService = new ChirpService(cheepRepository, authorRepository, followRepository);
+        chirpService = new ChirpService(cheepRepository, authorRepository, followRepository);
         
     }
 
@@ -284,7 +284,7 @@ public class UnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CanAddFolowerToDbWithCheepService() 
+    public async Task CanAddFolowerToDbWithchirpService() 
     {
         Author author1 = new Author()
         {
@@ -300,7 +300,7 @@ public class UnitTests : IAsyncLifetime
             Email = "test2@mail.com",
         };
 
-        await cheepService.AddFollowing(author1.Name, author2.Name);
+        await chirpService.AddFollowing(author1.Name, author2.Name);
 
         var follow = await context.Follows.FirstOrDefaultAsync();
         
@@ -312,7 +312,7 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestCanGetAllCheeps()
     {
-        var cheeps = await cheepService.GetAllCheepsFromAuthor("Octavio Wagganer");
+        var cheeps = await chirpService.GetAllCheepsFromAuthor("Octavio Wagganer");
         
         Assert.Equal(15, cheeps.Count);
     }
