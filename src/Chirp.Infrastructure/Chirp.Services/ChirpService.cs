@@ -45,12 +45,6 @@ public interface IChirpService
     /// </summary>
     /// <param name="name"> The username of the author </param>
     /// <returns> The Author object matching the username </returns>
-    public Task<Author?> GetAuthorByName(string name);
-    /// <summary>
-    /// This method allows for getting an AuthorDTO object by their username, for use in razorpages.
-    /// </summary>
-    /// <param name="name"> The username of the author </param>
-    /// <returns> The AuthorDTO matching the username </returns>
     public Task<AuthorDTO?> GetAuthorDtoByName(string name);
     /// <summary>
     /// This method allows adding new tuples to the Follow relation
@@ -66,12 +60,6 @@ public interface IChirpService
     /// <param name="followed"> The username of the author that should be followed </param>
     /// <returns> Task </returns>
     public Task RemoveFollowing(string follower, string followed);
-    /// <summary>
-    /// This method allows getting all the names of users followed by a specified author
-    /// </summary>
-    /// <param name="follower"> The username of the author </param>
-    /// <returns> A list of all follow relations containing the author as follower </returns>
-    public Task<List<Follow>> GetFollowed(string follower);
     /// <summary>
     /// This method allows getting all the names of users followed by a specified author
     /// </summary>
@@ -98,33 +86,27 @@ public interface IChirpService
     /// <returns></returns>
     public Task DeleteFromFollows(string username);
     /// <summary>
-    /// Used to make a author like a cheep
+    /// Used to make an author like a cheep
     /// </summary>
     /// <param name="authorName">Name of author who likes</param>
     /// <param name="cheepId">The id of cheep the author likes</param>
-    /// <returns></returns>
+    /// <returns>Task</returns>
     public Task AddLike(string authorName, int cheepId);
     /// <summary>
     /// Used to remove a like on a cheep by an author
     /// </summary>
     /// <param name="authorName">Name of author</param>
-    /// <param name="cheepId">Id of the cheep</param>
-    /// <returns></returns>
+    /// <param name="cheepId">ID of the cheep</param>
+    /// <returns>Task</returns>
     public Task RemoveLike(string authorName, int cheepId);
     /// <summary>
-    /// Gets all the likes a author has made
+    /// Gets the number of likes for a given cheep
     /// </summary>
-    /// <param name="authorName">Name of author</param>
-    /// <returns></returns>
-
-
+    /// <param name="cheepId">The ID of the cheep in question</param>
+    /// <returns>The amount as an integer</returns>
     public Task<int> CountLikes(int cheepId);
-
-
-    public Task<List<Follow>> GetFollowers(string followed);
-    //TODO: Remove all unused or privately used methods
-
-
+    
+    
     public Task DeleteAllLikes(string authorName);
 }
 
@@ -138,9 +120,9 @@ public class ChirpService : IChirpService
 
     public ChirpService(ICheepRepository cheepRepository, IAuthorRepository authorRepository, IFollowRepository followRepository)
     {
-        this._cheepRepository = cheepRepository;
-        this._authorRepository = authorRepository;
-        this._followRepository = followRepository;
+        _cheepRepository = cheepRepository;
+        _authorRepository = authorRepository;
+        _followRepository = followRepository;
     }
     
     public async Task<List<CheepDto>> GetCheeps(int page)
@@ -191,6 +173,11 @@ public class ChirpService : IChirpService
         
     }
 
+    /// <summary>
+    /// This method allows for getting an AuthorDTO object by their username, for use in razorpages.
+    /// </summary>
+    /// <param name="name"> The username of the author </param>
+    /// <returns> The AuthorDTO matching the username </returns>
     public async Task<Author?> GetAuthorByName(string name)
     {
         return await _authorRepository.GetAuthorByName(name);
@@ -219,8 +206,7 @@ public class ChirpService : IChirpService
     {
         await _authorRepository.CreateAuthor(name, email);
     }
-
-    //TODO: This method is unnecessary in the current version of the application, should be removed?
+    
     public async Task AddCheep(string text, string name, string email)
     {
         if ( await GetAuthorByName(name) == null )
@@ -248,12 +234,6 @@ public class ChirpService : IChirpService
     }
 
 
-    public async Task<List<Follow>> GetFollowed(string follower)
-    {
-        return await _followRepository.GetFollowed(follower); 
-    }
-
-
     public async Task<List<FollowDto>> GetFollowedDtos(string follower)
     {
         var followedDtos = new List<FollowDto>();
@@ -269,24 +249,17 @@ public class ChirpService : IChirpService
         }
         return followedDtos;
     }
-
-
-    public async Task<List<Follow>> GetFollowers(string followed)
-    {
-        return await _followRepository.GetFollowers(followed);
-    }
-
-
+    
     public async Task DeleteFromFollows(string username)
     {
         //Delete all relations where user is followed by others
-        var follows = await GetFollowers(username);
+        var follows = await _followRepository.GetFollowers(username);
         foreach (var follow in follows)
         {
             await RemoveFollowing(follow.Follower, follow.Followed);        
         } 
         //Delete all relations where others follow the user
-        follows = await GetFollowed(username);
+        follows = await _followRepository.GetFollowed(username);
         foreach (var follow in follows)
         {
             await RemoveFollowing(follow.Follower, follow.Followed);        
@@ -342,7 +315,7 @@ public class ChirpService : IChirpService
     private async Task<List<CheepDto>> ConvertCheepsToCheepDtos(List<Cheep> cheeps, string author)
     {
         //Gets a list over which Authors the current author follows
-        var follows = await GetFollowed(author);
+        var follows = await _followRepository.GetFollowed(author);
         
         var result = new List<CheepDto>();
         foreach (var cheep in cheeps)
