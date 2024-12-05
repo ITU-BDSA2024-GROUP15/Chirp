@@ -66,6 +66,7 @@
                     @cheep.Timestamp
                 </small>
                 <div class="cheepmessage">@cheep.Message</div>
+                <small>Likes: @cheep.Likes</small>
             </li>
             }
         </ul>
@@ -73,6 +74,35 @@
         else
         {
         <em>You have no cheeps so far.</em>
+        }
+
+        <h3>Liked Cheeps</h3>
+        @{
+        System.Diagnostics.Debug.Assert(Model.LikedCheeps != null, "Model.Cheeps != null");
+        }
+        @if (Model.LikedCheeps.Any())
+        {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.LikedCheeps)
+            {
+            <li>
+                <strong>
+                    <a href="/@cheep.Author">@cheep.Author</a>
+                </strong>
+
+                <small>
+                    &mdash;
+                    @cheep.Timestamp
+                </small>
+                <div class="cheepmessage">@cheep.Message</div>
+                <small>Likes: @cheep.Likes</small>
+            </li>
+            }
+        </ul>
+        }
+        else
+        {
+        <em>You have not liked any cheeps so far.</em>
         }
     </div>
 </div>

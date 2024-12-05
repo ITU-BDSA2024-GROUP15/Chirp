@@ -129,7 +129,15 @@ public class CheepRepository : ICheepRepository
     public async Task<int> CountLikes(int cheepId)
     {
         var likes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
-        return likes.Likes.Count;
+        return likes!.Likes.Count;
+    }
+    
+    public async Task<List<Cheep>> GetAllLiked(string author)
+    {
+        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).Include(c => c.Author).ToListAsync();
+        
+        return likedCheeps;
+        
     }
 
 

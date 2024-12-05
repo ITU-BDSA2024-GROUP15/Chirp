@@ -47,7 +47,7 @@ public class UserTimelineModel : PageModel
             Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name);
         }
         
-        if ( page == 0 )
+        if ( page == 0  || page < 0)
         {
             PageNumber = 1;
         }
