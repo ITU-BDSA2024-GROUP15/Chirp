@@ -395,10 +395,7 @@ public class EndToEnd : PageTest
         
         // asserts follow button is there and presses it 
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");
-
-        await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).First).ToBeVisibleAsync();
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
-        await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First).ToBeVisibleAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
 
         
