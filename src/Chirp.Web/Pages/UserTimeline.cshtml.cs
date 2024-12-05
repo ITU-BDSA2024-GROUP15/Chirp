@@ -35,16 +35,20 @@ public class UserTimelineModel : PageModel
     //TODO: ensure you can unfollow others
     
     
-    public async Task<ActionResult> OnGet([FromQuery] int page, string author)
+    public async Task<ActionResult> OnGet([FromQuery] int page, string authorName)
     {
         //Add so get cheeps from author also gets the cheeps that the author is following
-        if (User.Identity != null && User.Identity.Name == author)
+        if (User.Identity != null && User.Identity.Name == authorName)
         {
-            Cheeps = await _service.GetCheepsForTimeline(author, page); 
+            Cheeps = await _service.GetCheepsForTimeline(authorName, page); 
         }
         else
         {
-            Cheeps = await _service.GetCheepsFromAuthor(page, author, User.Identity.Name);
+            var spectatingAuthorName = User.Identity?.Name;
+            if (spectatingAuthorName != null)
+            {
+                Cheeps = await _service.GetCheepsFromAuthor(page, authorName, spectatingAuthorName);
+            }
         }
         
         if ( page == 0  || page < 0)

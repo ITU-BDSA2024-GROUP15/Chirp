@@ -19,10 +19,10 @@ public class AuthorRepository : IAuthorRepository
     }
     
     
-    public async Task<Author?> GetAuthorByName(string name)
+    public async Task<Author?> GetAuthorByName(string authorName)
     {
         var query = (from author in _context.Authors
-            where author.Name == name
+            where author.Name == authorName
             select author);
         var result = await query.ToListAsync();
         
@@ -45,15 +45,15 @@ public class AuthorRepository : IAuthorRepository
         {
             return null;
         }
-        return result[0];
+          return result[0];
     }
 
     
-    public async Task CreateAuthor(string name, string email)
+    public async Task CreateAuthor(string authorName, string email)
     {
 
         //Extra check for input validation
-        if ( name.Contains('/') || name.Contains('\\') )
+        if ( authorName.Contains('/') || authorName.Contains('\\') )
         {
             throw new ArgumentException();
         }
@@ -65,7 +65,7 @@ public class AuthorRepository : IAuthorRepository
         var newAuthor = new Author()
         {
             Id = maxId + 1,
-            Name = name,
+            Name = authorName,
             Email = email
         };
         
