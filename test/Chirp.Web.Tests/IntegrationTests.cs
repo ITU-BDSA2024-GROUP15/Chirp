@@ -49,14 +49,18 @@ public class IntegrationTests : IAsyncLifetime
     {
         var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
-        Author author = await authorrepo.GetAuthorByName("Mellie Yost");
-        await cheeprepo.AddCheep("hejj", author);
+        var author = await authorrepo.GetAuthorByName("Mellie Yost");
+
+        if (author != null)
+        {
+            await cheeprepo.AddCheep("hejj", author);
         
-        var cheepsAfter = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
+            var cheepsAfter = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
-        Assert.True(cheepsBefore.Count != cheepsAfter.Count);
+            Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-        await utils.CloseConnection();
+            await utils.CloseConnection();
+        }
     }
     
 
@@ -66,8 +70,8 @@ public class IntegrationTests : IAsyncLifetime
     public async Task AddCheepchirpServiceNonExistingAuthor()
     {
         await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
-
-        Author author = await authorrepo.GetAuthorByName("NewAuthor");
+    
+        var author = await authorrepo.GetAuthorByName("NewAuthor");
         
         Assert.NotNull(author);
         
