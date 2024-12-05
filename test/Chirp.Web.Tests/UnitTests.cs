@@ -16,6 +16,8 @@ public class UnitTests : IAsyncLifetime
     private IFollowRepository _followRepository;
     private IChirpService _chirpService;
 
+    
+    
     public async Task InitializeAsync()
     {
         //Arrange
@@ -36,6 +38,8 @@ public class UnitTests : IAsyncLifetime
     }
     
     
+    
+    //TODO find out if it is ok to supress null warnings
     
     // ------- CheepRepository --------
     [Fact]
@@ -86,7 +90,6 @@ public class UnitTests : IAsyncLifetime
         await _utils.CloseConnection();
     }
     
-    
     [Fact]
     public async Task TestGetCheepsLastPage() 
     {
@@ -109,7 +112,6 @@ public class UnitTests : IAsyncLifetime
         await _utils.CloseConnection();
     }
     
-    
     [Fact]
     public async Task TestGetCheepsFromExistingAuthor() 
     {   
@@ -127,7 +129,7 @@ public class UnitTests : IAsyncLifetime
     {   
        
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetCheepsFromAuthor(0, null));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetCheepsFromAuthor(0, null!));
         await _utils.CloseConnection();
     }
     
@@ -216,10 +218,9 @@ public class UnitTests : IAsyncLifetime
     public async Task TestGetAllCheepsFromNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllCheepsFromAuthor(null));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllCheepsFromAuthor(null!));
         await _utils.CloseConnection();
     }
-    
     
     [Fact]
     public async Task TestAddCheepCorrectInput()
@@ -241,13 +242,12 @@ public class UnitTests : IAsyncLifetime
         Assert.True(cheepsAfter == cheepsBefore+1);
         await _utils.CloseConnection();
     }
-
-
+    
     [Fact]
     public async Task TestAddCheepNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddCheep("Hejsa", null));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddCheep("Hejsa", null!));
         await _utils.CloseConnection();
     }
     
@@ -284,25 +284,21 @@ public class UnitTests : IAsyncLifetime
         await _utils.CloseConnection();
     }
     
-     
     [Fact]
     public async Task TestAddLikeNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddLike(null, 2));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddLike(null!, 2));
         await _utils.CloseConnection();
     }
     
-      
     [Fact]
-    public async Task TestAddLikeInvalidCheepID()
+    public async Task TestAddLikeInvalidCheepId()
     {
         await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.AddLike("hej", 800000));
         await _utils.CloseConnection();
     } 
     
-    
-
     [Fact]
 
     public async Task TestRemoveLike()
@@ -324,15 +320,23 @@ public class UnitTests : IAsyncLifetime
     public async Task TestRemoveLikeNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.RemoveLike(null, 2));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.RemoveLike(null!, 2));
         await _utils.CloseConnection();
         
     }
     [Fact]
     public async Task TestRemoveLikeInvalidAuthor()
     {
-        //Assert and act
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => _cheepRepository.RemoveLike("Hejsa", 2));
+       //Arrange
+       var cheep = _context.Cheeps.ToList()[1];
+       cheep.Likes.Add("Mellie Yost");
+       var before = cheep.Likes.Count();
+       //Act
+       await _cheepRepository.RemoveLike("TestAuthor", cheep.CheepId);
+       var after = cheep.Likes.Count();
+       
+       //Assert
+       Assert.Equal(before, after);
         await _utils.CloseConnection();
     }
     
@@ -343,8 +347,7 @@ public class UnitTests : IAsyncLifetime
         await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.RemoveLike("Mellie Yost", 80000));
         await _utils.CloseConnection();
     }
-
-
+    
     [Fact]
     public async Task TestCountLikes()
     {
@@ -377,16 +380,14 @@ public class UnitTests : IAsyncLifetime
         var cheeps = await _cheepRepository.GetAllLiked("Mellie Yost");
         
         //Assert
-        Assert.Equal(0, cheeps.Count());
+        Assert.Empty(cheeps);
         await _utils.CloseConnection();
     }
-
     
     [Fact]
     public async Task TestGetAllLikedReturnsCorrectCheep()
     {
         //Arrange 
-        var before = await _cheepRepository.CountLikes(5);
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
         _context.SaveChanges();
@@ -404,22 +405,18 @@ public class UnitTests : IAsyncLifetime
     public async Task TestGetAllLikedNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllLiked(null));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllLiked(null!));
         await _utils.CloseConnection();
     }
-
-
-
+    
     [Fact]
     public async Task TestDeleteAllLikesNullAuthor()
     {
         //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.DeleteAllLikes(null));
+        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.DeleteAllLikes(null!));
         await _utils.CloseConnection();
     }
     
-    
-       
     [Fact]
     public async Task TestDeleteAllLikes()
     {
@@ -440,6 +437,9 @@ public class UnitTests : IAsyncLifetime
     }
     
     
+    
+    // TODO continue from here
+    
     // ------- Authorrepository --------
     
     [Fact]
@@ -447,7 +447,7 @@ public class UnitTests : IAsyncLifetime
     {
         //Act
         await _authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
-        Author author = await _authorRepository.GetAuthorByName("Filifjonken");
+        var author = await _authorRepository.GetAuthorByName("Filifjonken");
         
         //Assert
         if (author != null)
@@ -462,10 +462,16 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestUsernameCannotContainSlash()
     {
-      
+       //Act and assert
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            _authorRepository.CreateAuthor("/Haha", "hahaemail@gmail.com"));
     }
     
-    //Followrepository
+    
+    
+    
+    
+    // ----  Followrepository ----
     
     [Fact]
     public async Task CanAddFollowerToDb() 
@@ -620,7 +626,4 @@ public class UnitTests : IAsyncLifetime
         
         Assert.Equal(15, cheeps.Count);
     }
-
-  
-
 }
