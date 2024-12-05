@@ -355,13 +355,30 @@ public class UnitTests : IAsyncLifetime
     public async Task TestAddLike()
     {
         var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
-        var chek = context.Cheeps.ToList()[1].Text;
-        await cheepRepository.AddLike("Mellie Yost", 1);
+        await cheepRepository.AddLike("Mellie Yost", 2);
+
+        context.SaveChanges();
         
-        var chek2 = context.Cheeps.ToList()[1].Text;
         var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
         
-        Assert.True(likesAfter != likesBefore);
+        Assert.True(likesAfter == likesBefore +1);
+    }
+
+
+    [Fact]
+
+    public async Task TestRemoveLike()
+    {
+        context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
+        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        
+       await cheepRepository.RemoveLike("Mellie Yost", 2);
+       
+       
+       var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+       
+       Assert.True(likesAfter == likesBefore -1);
+        
     }
 
     
