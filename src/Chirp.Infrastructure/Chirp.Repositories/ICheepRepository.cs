@@ -65,4 +65,6 @@ public interface ICheepRepository
 
     public Task DeleteAllLikes(string authors);
 
+    public Task<List<Cheep>> GetTopLikedCheeps();
+
 }

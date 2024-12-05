@@ -115,6 +115,8 @@ public interface IChirpService
     
     
     public Task DeleteAllLikes(string authorName);
+
+    public Task<List<CheepDto>> GetTopLikedCheeps();
 }
 
 
@@ -388,6 +390,14 @@ public class ChirpService : IChirpService
     public async Task DeleteAllLikes(string authorName)
     {
         await _cheepRepository.DeleteAllLikes(authorName);
+    }
+
+
+    public async Task<List<CheepDto>> GetTopLikedCheeps()
+    {
+        var cheeps = await _cheepRepository.GetTopLikedCheeps();
+        var cheepDtos = await ConvertCheepsToCheepDtos(cheeps, "");
+        return cheepDtos;
     }
 
 

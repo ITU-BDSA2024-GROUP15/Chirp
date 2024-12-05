@@ -1,21 +1,39 @@
 ﻿@page "/topcheeps"
 @using Chirp.Core
 @model Chirp.Web.Pages.TopCheeps
-@inject SignInManager<Author> SignInManager 
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
 }
 
-<!DOCTYPE html>
+<h1>Top Cheeps</h1>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
-</div>
-</body>
-</html>
+
+@{
+    System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
+}
+
+@if (Model.Cheeps.Any())
+{
+    {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <strong>
+                        <a href="/@cheep.Author">@cheep.Author</a>
+                    </strong>
+                    <small>&mdash;
+                        @cheep.Timestamp</small>
+                    <br/>
+                    <div class="cheepmessage">@cheep.Message</div>
+                    
+                    <div class = "cheeplikeandfollow">
+                        <small>Likes: @cheep.Likes</small>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+}
