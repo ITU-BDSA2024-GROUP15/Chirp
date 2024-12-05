@@ -43,13 +43,23 @@ public interface ICheepRepository
     /// <param name="text">The cheep message</param>
     /// <param name="author">Author of cheep</param>
     public Task AddCheep(string text, Author author);
-
-
+    /// <summary>
+    /// Allows an author be added to the list of authors that have liked a cheep
+    /// </summary>
+    /// <param name="authorName">The name of the author</param>
+    /// <param name="cheepId">The ID of the cheep</param>
+    /// <returns>Task</returns>
     public Task AddLike(string authorName, int cheepId);
+    /// <summary>
+    /// Removes an author from the list of authors that have liked a cheep
+    /// </summary>
+    /// <param name="authorName"> The name of the author</param>
+    /// <param name="cheepId">The ID of the cheep</param>
+    /// <returns></returns>
     public Task RemoveLike(string authorName, int cheepId);
     
     /// <summary>
-    /// Counts the likes a cheep has
+    /// Counts the amount of likes a cheep has
     /// </summary>
     /// <param name="cheepId">Id of cheep</param>
     /// <returns>Amount of likes</returns>
@@ -61,8 +71,12 @@ public interface ICheepRepository
     /// <param name="authorName">The name of the author in question</param>
     /// <returns>A list of cheeps</returns>
     public Task<List<Cheep>> GetAllLiked(string authorName);
-
-
+    /// <summary>
+    /// Removes an author from all lists of authors that like any cheeps.
+    /// Is used to completely wipe an author from the database
+    /// </summary>
+    /// <param name="authorName">The name of the author</param>
+    /// <returns>Task</returns>
     public Task DeleteAllLikes(string authorName);
 
 }
