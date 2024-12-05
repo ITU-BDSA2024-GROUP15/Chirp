@@ -21,8 +21,7 @@ public class TopCheeps : PageModel
     {
 
         Cheeps = await _chirpService.GetTopLikedCheeps();
-        Console.WriteLine("AAAA:" + Cheeps.Count);
-        
+       
         return Page();
 
     }
