@@ -127,6 +127,14 @@ public class CheepRepository : ICheepRepository
         var likes = await _context.Cheeps.FirstOrDefaultAsync(cheep =>cheep.CheepId == cheepId);
         return likes.Likes.Count;
     }
+    
+    public async Task<List<Cheep>> GetAllLiked(string author)
+    {
+        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).ToListAsync();
+        
+        return likedCheeps;
+        
+    }
 
 
     public async Task DeleteAllLikes(string author)
