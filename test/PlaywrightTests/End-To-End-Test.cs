@@ -123,17 +123,33 @@ public class EndToEnd : PageTest
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
     }
 
-
-
-        [Test] 
-        public async Task CanSeeOtherUsersTimeline() 
-        {
+    [Test] 
+    public async Task CanSeeOtherUsersTimeline() 
+    { 
         await Page.GotoAsync("http://localhost:5221/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Mellie Yost" }).ClickAsync();
         await Page.GetByText("Mellie Yost But what was").ClickAsync();
         await Page.GetByText("Mellie Yost's Timeline Mellie").ClickAsync();
+    } 
+    
+    [Test]
+    public async Task CanSeeRegisterPage()
+    {
+        await Page.GotoAsync("http://localhost:5221");
+
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Register", Exact = true }).ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Create a new account." }).ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Use another service to" }).ClickAsync();
+        await Page.GetByText("Username").ClickAsync();
+        await Page.GetByText("Email").ClickAsync();
+        await Page.GetByText("Password", new() { Exact = true }).ClickAsync();
+        await Page.GetByText("Confirm Password").ClickAsync();
     }
     
+    // long tests
+        
+        
     [Test]
     public async Task MakeTestAccount() // username = testUser    Password = Test123!    email: test@testmail.com
     {
