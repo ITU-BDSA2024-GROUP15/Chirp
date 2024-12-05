@@ -336,27 +336,16 @@ public class UnitTests : IAsyncLifetime
     {
         var cheepsBefore = context.Cheeps.Count();
         
-        Cheep cheep = new Cheep()
+        Author author = new Author()
         {
-            Author = new Author()
-            {
-                Id = context.Authors.Count()+1,
-                Name = "Test1",
-                Email = "test1@mail.com",
-            },
-            AuthorId = context.Authors.Count()+1,
-            CheepId = cheepsBefore+1,
-            Text = "heeej",
-            Timestamp = DateTime.Now
+            Id = context.Authors.Count() + 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
         };
         
+        await cheepRepository.AddCheep("Hejsa", author);
         
-        context.Cheeps.Add(cheep);
-        
-        await context.SaveChangesAsync();
         var cheepsAfter = context.Cheeps.Count();
-        
-
         
         Assert.True(cheepsAfter == cheepsBefore+1);
     }
