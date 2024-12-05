@@ -17,24 +17,24 @@ namespace Chirp.Web.Tests;
 public class IntegrationTests : IAsyncLifetime
 {
 
-    private IAuthorRepository authorrepo;
-    private ICheepRepository cheeprepo;
-    private IFollowRepository followrepo;
+    private IAuthorRepository _authorrepo;
+    private ICheepRepository _cheeprepo;
+    private IFollowRepository _followrepo;
 
-    private TestUtilities utils;
-    private CheepDbContext context;
+    private TestUtilities _utils;
+    private CheepDbContext _context;
     
-    private IChirpService service;
+    private IChirpService _service;
     
     public async Task InitializeAsync()
     {
-        utils = new TestUtilities();
-        context = await utils.CreateInMemoryDb();
-        authorrepo = new AuthorRepository(context); 
-        cheeprepo = new CheepRepository(context);
-        followrepo = new FollowRepository(context);
+        _utils = new TestUtilities();
+        _context = await _utils.CreateInMemoryDb();
+        _authorrepo = new AuthorRepository(_context); 
+        _cheeprepo = new CheepRepository(_context);
+        _followrepo = new FollowRepository(_context);
 
-        service = new ChirpService(cheeprepo, authorrepo, followrepo);
+        _service = new ChirpService(_cheeprepo, _authorrepo, _followrepo);
     }
 
 
@@ -47,19 +47,19 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestAddCheep()
     {
-        var cheepsBefore = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
+        var cheepsBefore = await _cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
-        var author = await authorrepo.GetAuthorByName("Mellie Yost");
+        var author = await _authorrepo.GetAuthorByName("Mellie Yost");
 
         if (author != null)
         {
-            await cheeprepo.AddCheep("hejj", author);
+            await _cheeprepo.AddCheep("hejj", author);
         
-            var cheepsAfter = await cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
+            var cheepsAfter = await _cheeprepo.GetCheepsFromAuthor(0, "Mellie Yost");
         
             Assert.True(cheepsBefore.Count != cheepsAfter.Count);
         
-            await utils.CloseConnection();
+            await _utils.CloseConnection();
         }
     }
     
@@ -69,13 +69,13 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task AddCheepchirpServiceNonExistingAuthor()
     {
-        await service.AddCheep("testest", "NewAuthor", "@newauthor.com");
+        await _service.AddCheep("testest", "NewAuthor", "@newauthor.com");
     
-        var author = await authorrepo.GetAuthorByName("NewAuthor");
+        var author = await _authorrepo.GetAuthorByName("NewAuthor");
         
         Assert.NotNull(author);
         
-        await utils.CloseConnection();
+        await _utils.CloseConnection();
         
     }
     
@@ -88,8 +88,8 @@ public class IntegrationTests : IAsyncLifetime
         string authorname1 = "Octavio Wagganer";
         string authorname2 = "Mellie Yost";
 
-        await service.AddFollowing(authorname1, authorname2);
-        var cheeps = await service.GetCheepsForTimeline(authorname1, 1);
+        await _service.AddFollowing(authorname1, authorname2);
+        var cheeps = await _service.GetCheepsForTimeline(authorname1, 1);
         
         Assert.Equal(22, cheeps.Count());
 
@@ -102,9 +102,9 @@ public class IntegrationTests : IAsyncLifetime
         string authorname1 = "Octavio Wagganer";
         string authorname2 = "Mellie Yost";
 
-        await service.AddFollowing(authorname1, authorname2);
+        await _service.AddFollowing(authorname1, authorname2);
 
-        var cheeps = await service.GetCheepsForTimeline(authorname1, 1);
+        var cheeps = await _service.GetCheepsForTimeline(authorname1, 1);
         var cheep = cheeps.First();
         
         Assert.True(cheep.Follows);
@@ -114,14 +114,14 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestDeleteFollows()
     {
-        await authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
-        await authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
-        await followrepo.AddFollowing("erik", "lars");
-        var oldfollows = await service.GetFollowedDtos("erik");
+        await _authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
+        await _authorrepo.CreateAuthor("lars", "bahaemail@gmail.com");
+        await _followrepo.AddFollowing("erik", "lars");
+        var oldfollows = await _service.GetFollowedDtos("erik");
         Assert.True(oldfollows.Count == 1);
-        await service.DeleteFromFollows("lars");
+        await _service.DeleteFromFollows("lars");
         
-        var newfollows = await service.GetFollowedDtos("erik");
+        var newfollows = await _service.GetFollowedDtos("erik");
         
         Assert.True(newfollows.Count == 0);
 
@@ -131,10 +131,10 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task TestCountingOfLikesOnCheep()
     {
-        await service.AddLike("Octavio Wagganer", 1);
-        await service.AddLike("Mellie Yost", 1);
+        await _service.AddLike("Octavio Wagganer", 1);
+        await _service.AddLike("Mellie Yost", 1);
 
-        var likes = await service.CountLikes(1);
+        var likes = await _service.CountLikes(1);
         
         Assert.Equal(2, likes);
     }
@@ -143,10 +143,10 @@ public class IntegrationTests : IAsyncLifetime
     [Fact]
     public async Task CanRemoveLike()
     {
-        await service.AddLike("Octavio Wagganer", 1);
-        var likes1Amount = await service.CountLikes(1);
-        await service.RemoveLike("Octavio Wagganer", 1);
-        var likes2Amount = await service.CountLikes(1);
+        await _service.AddLike("Octavio Wagganer", 1);
+        var likes1Amount = await _service.CountLikes(1);
+        await _service.RemoveLike("Octavio Wagganer", 1);
+        var likes2Amount = await _service.CountLikes(1);
         
         Assert.True(likes1Amount != likes2Amount);
     }
@@ -156,10 +156,10 @@ public class IntegrationTests : IAsyncLifetime
     public async Task CanRemoveLikeData()
     {
         string author = "Octavio Wagganer";
-        await service.AddLike(author, 1);
-        var likes1Amount = await service.CountLikes(1);
-        await service.DeleteAllLikes(author);
-        var likes2Amount = await service.CountLikes(1);
+        await _service.AddLike(author, 1);
+        var likes1Amount = await _service.CountLikes(1);
+        await _service.DeleteAllLikes(author);
+        var likes2Amount = await _service.CountLikes(1);
         
         Assert.True(likes1Amount != likes2Amount);
         Assert.True(likes2Amount == 0);
