@@ -115,7 +115,10 @@ public interface IChirpService
     
     
     public Task DeleteAllLikes(string authorName);
-
+    /// <summary>
+    /// Gets a list of the 32 most liked cheeps
+    /// </summary>
+    /// <returns>A list of 32 CheepDTOs</returns>
     public Task<List<CheepDto>> GetTopLikedCheeps();
 }
 

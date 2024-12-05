@@ -62,9 +62,16 @@ public interface ICheepRepository
     /// <returns>A list of cheeps</returns>
     public Task<List<Cheep>> GetAllLiked(string author);
 
-
-    public Task DeleteAllLikes(string authors);
-
+    /// <summary>
+    /// Finds and removes all instances of the authors name from the liked list of cheeps
+    /// </summary>
+    /// <param name="authorName"></param>
+    /// <returns></returns>
+    public Task DeleteAllLikes(string authorName);
+    /// <summary>
+    /// Gets a list of the 32 most liked cheeps
+    /// </summary>
+    /// <returns>A list of 32 cheeps</returns>
     public Task<List<Cheep>> GetTopLikedCheeps();
 
 }
