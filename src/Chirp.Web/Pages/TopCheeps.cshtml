@@ -1,33 +1,14 @@
-﻿@page "/{authorName}"
+﻿@page "/top-cheeps"
 @using Chirp.Core
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model Chirp.Web.Pages.UserTimelineModel
-@inject SignInManager<Author> SignInManager   
+@model Chirp.Web.Pages.TopCheeps
+@inject SignInManager<Author> SignInManager
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("authorName");
 }
 
-<div>
-    @if (SignInManager.IsSignedIn(User) )
-    {
-        <div class="cheepbox">
-            <h3>Send cheep:</h3>
-            <form method="post">
-                <input type="text"  asp-for="CheepMessage">
-                <div class="container">
-                    <input type="submit" value="Share">
-                    <p>Max 160 characters</p>
-                </div>
-            </form>
-        </div>
-    }
-</div>
-
-
-<div>
-    <h2> @routeName's Timeline </h2>
+<h1>Top Cheeps</h1>
 
 
     @{
@@ -117,4 +98,4 @@
         }
         }
     </div>
-</div>
+    

@@ -5,7 +5,7 @@ namespace Chirp.Core;
 
 /// <summary>
 /// Author represents a user in the chirp application
-/// Author inherent from IdentityUser where an int is used as the key* 
+/// Author inherits from IdentityUser where an int is used as the key* 
 /// </summary>
 public class Author : IdentityUser<int>
 {

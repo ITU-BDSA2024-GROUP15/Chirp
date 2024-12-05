@@ -33,15 +33,15 @@ public class CheepRepository : ICheepRepository
 
 
  
-    public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string author)
+    public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string authorName)
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         
         var query = (from cheep in _context.Cheeps
-                where cheep.Author.Name == author
+                where cheep.Author.Name == authorName
                 orderby cheep.Timestamp descending
                 select cheep)
             .Include(c => c.Author)
@@ -54,15 +54,15 @@ public class CheepRepository : ICheepRepository
     
     
     
-    public async Task<List<Cheep>> GetAllCheepsFromAuthor(string author)
+    public async Task<List<Cheep>> GetAllCheepsFromAuthor(string authorName)
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         
         var query = ( from cheep in _context.Cheeps
-                where cheep.Author.Name == author
+                where cheep.Author.Name == authorName
                 orderby cheep.Timestamp descending
                 select cheep )
             .Include(c => c.Author);
@@ -71,15 +71,15 @@ public class CheepRepository : ICheepRepository
     }
     
     
-    public async Task<List<Cheep>> GetAllCheepsFromFollowed(string author) //Made with the help of ChatGPT
+    public async Task<List<Cheep>> GetAllCheepsFromFollowed(string authorName) //Made with the help of ChatGPT
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         var query = (from cheep in _context.Cheeps
             where (from follow in _context.Follows
-                    where follow.Follower == author
+                    where follow.Follower == authorName
                     select follow.Followed)
                 .Contains(cheep.Author.Name)
             select cheep)
@@ -119,34 +119,34 @@ public class CheepRepository : ICheepRepository
     }
 
 
-    public async Task AddLike(string author, int cheepId)
+    public async Task AddLike(string authorName, int cheepId)
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
-        if (!currentLikes.Likes.Contains(author))
+        if (!currentLikes.Likes.Contains(authorName))
         {
-            currentLikes.Likes.Add(author);
+            currentLikes.Likes.Add(authorName);
             _context.SaveChanges();
         }
         
         
     }
     
-    public async Task RemoveLike(string author, int cheepId)
+    public async Task RemoveLike(string authorName, int cheepId)
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
-        if (currentLikes.Likes.Contains(author))
+        if (currentLikes.Likes.Contains(authorName))
         {
-            currentLikes.Likes.Remove(author);
+            currentLikes.Likes.Remove(authorName);
             _context.SaveChanges();
         }
     }
@@ -158,35 +158,48 @@ public class CheepRepository : ICheepRepository
         return likes.Likes.Count;
     }
     
-    public async Task<List<Cheep>> GetAllLiked(string author)
+    public async Task<List<Cheep>> GetAllLiked(string authorName)
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         
-        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).Include(c => c.Author).ToListAsync();
+        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(authorName)).Include(c => c.Author).ToListAsync();
         
         return likedCheeps;
         
     }
 
 
-    public async Task DeleteAllLikes(string author)
+    public async Task DeleteAllLikes(string authorName)
     {
-        if (author == null)
+        if (authorName == null)
         {
             throw new NullReferenceException("Author can't be null");
         }
         
         //https://stackoverflow.com/questions/1586013/how-to-do-select-all-in-linq-to-sql
-        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(author)).ToListAsync();
+        var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(authorName)).ToListAsync();
 
         foreach (var likes in likedCheeps)
         {
-            likes.Likes.Remove(author);
+            likes.Likes.Remove(authorName);
         }
         _context.SaveChanges();
+    }
+
+
+    public async Task<List<Cheep>> GetTopLikedCheeps(int page) //This is not a great way to do it. But Keep It Simple Stupid
+    {
+        //https://stackoverflow.com/questions/5344805/linq-orderby-descending-query
+        var query = (from cheep in _context.Cheeps
+                .OrderByDescending(cheep => cheep.Likes.Count)
+            select cheep).Skip((page -1) * 32).Take(32).Include(c => c.Author);
+        
+        var cheeps = await query.ToListAsync();
+
+        return cheeps;
     }
     
     
