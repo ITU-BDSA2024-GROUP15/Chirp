@@ -81,7 +81,8 @@ public interface ICheepRepository
     /// <summary>
     /// Gets a list of the 32 most liked cheeps
     /// </summary>
+    /// <param name="page">The page number</param>
     /// <returns>A list of 32 cheeps</returns>
-    public Task<List<Cheep>> GetTopLikedCheeps();
+    public Task<List<Cheep>> GetTopLikedCheeps(int page);
 
 }

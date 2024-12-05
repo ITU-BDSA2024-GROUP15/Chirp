@@ -110,17 +110,19 @@ public interface IChirpService
     /// <summary>
     /// Gets a list of all cheeps liked by a given author, as CheepDTOs
     /// </summary>
-    /// <param name="author">The name of the author</param>
+    /// <param name="authorName">The name of the author</param>
     /// <returns>A list of CheepDTOs</returns>
-    public Task<List<CheepDto>> GetAllLiked(string author);
+    public Task<List<CheepDto>> GetAllLiked(string authorName);
     
     
     public Task DeleteAllLikes(string authorName);
     /// <summary>
     /// Gets a list of the 32 most liked cheeps
     /// </summary>
+    /// /// <param name="authorName">The name of the author</param>
+    /// /// <param name="page">The page number</param>
     /// <returns>A list of 32 CheepDTOs</returns>
-    public Task<List<CheepDto>> GetTopLikedCheeps();
+    public Task<List<CheepDto>> GetTopLikedCheeps(string authorName, int page);
 }
 
 
@@ -365,10 +367,10 @@ public class ChirpService : IChirpService
     }
 
 
-    public async Task<List<CheepDto>> GetAllLiked(string author)
+    public async Task<List<CheepDto>> GetAllLiked(string authorName)
     {
-        var cheeps = await _cheepRepository.GetAllLiked(author);
-        var dtos = await ConvertCheepsToCheepDtos(cheeps, author);
+        var cheeps = await _cheepRepository.GetAllLiked(authorName);
+        var dtos = await ConvertCheepsToCheepDtos(cheeps, authorName);
         return dtos;
     }
 
@@ -378,10 +380,10 @@ public class ChirpService : IChirpService
     }
 
 
-    public async Task<List<CheepDto>> GetTopLikedCheeps()
+    public async Task<List<CheepDto>> GetTopLikedCheeps(string authorName, int page)
     {
-        var cheeps = await _cheepRepository.GetTopLikedCheeps();
-        var cheepDtos = await ConvertCheepsToCheepDtos(cheeps, "");
+        var cheeps = await _cheepRepository.GetTopLikedCheeps(page);
+        var cheepDtos = await ConvertCheepsToCheepDtos(cheeps, authorName);
         return cheepDtos;
     }
 
