@@ -72,9 +72,8 @@ public class EndToEnd : PageTest
     public async Task JacqualineCheepAboutStarbucksExists()
     {
         await Page.GotoAsync("http://localhost:5221/Jacqualine%20Gilcoine");
-        await Page.Locator("p").Filter(new() { HasText = "Jacqualine Gilcoine Starbuck" }).GetByRole(AriaRole.Link).ClickAsync();
-        await Page.GetByText("Jacqualine Gilcoine Starbuck").ClickAsync();
-
+        await Page.GetByText("Starbuck now is what we hear").ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Starbuck now is what we hear the worst.");
     }
     
     [Test]
@@ -128,8 +127,8 @@ public class EndToEnd : PageTest
     { 
         await Page.GotoAsync("http://localhost:5221/");
         await Page.GetByRole(AriaRole.Link, new() { Name = "Mellie Yost" }).ClickAsync();
-        await Page.GetByText("Mellie Yost But what was").ClickAsync();
-        await Page.GetByText("Mellie Yost's Timeline Mellie").ClickAsync();
+        await Page.GetByText("But what was behind the").ClickAsync();
+        await Page.GetByRole(AriaRole.Heading, new() { Name = "Mellie Yost's Timeline" }).ClickAsync();
     } 
     
     [Test]
