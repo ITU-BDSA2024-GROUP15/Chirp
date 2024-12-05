@@ -317,6 +317,69 @@ public class UnitTests : IAsyncLifetime
         Assert.Equal(15, cheeps.Count);
     }
 
+    [Fact]
+    public async Task TestUsernameCannotContainSlash()
+    {
+        var utils = new TestUtilities();
+        var context = await utils.CreateInMemoryDb();
+        
+        ICheepRepository cheeprepo = new CheepRepository(context);
+        IAuthorRepository authorrepo = new AuthorRepository(context);
+
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            authorrepo.CreateAuthor("/Haha", "hahaemail@gmail.com"));
+
+    }
+    
+    [Fact]
+    public async Task TestAddCheep()
+    {
+        var cheepsBefore = context.Cheeps.Count();
+        
+        Author author = new Author()
+        {
+            Id = context.Authors.Count() + 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        await cheepRepository.AddCheep("Hejsa", author);
+        
+        var cheepsAfter = context.Cheeps.Count();
+        
+        Assert.True(cheepsAfter == cheepsBefore+1);
+    }
+
+
+    [Fact]
+    public async Task TestAddLike()
+    {
+        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        await cheepRepository.AddLike("Mellie Yost", 2);
+
+        context.SaveChanges();
+        
+        var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+        
+        Assert.True(likesAfter == likesBefore +1);
+    }
+
+
+    [Fact]
+
+    public async Task TestRemoveLike()
+    {
+        context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
+        var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
+        
+       await cheepRepository.RemoveLike("Mellie Yost", 2);
+       
+       
+       var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
+       
+       Assert.True(likesAfter == likesBefore -1);
+        
+    }
 
     
     
