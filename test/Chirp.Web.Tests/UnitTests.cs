@@ -298,30 +298,147 @@ public class UnitTests : IAsyncLifetime
     
       
     [Fact]
-    public async Task TestAddLikeNonexistingCheepID()
+    public async Task TestAddLikeInvalidCheepID()
     {
         await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.AddLike("hej", 800000));
         await utils.CloseConnection();
     } 
     
-    //TODO continue looking at unit tests from here
     
 
     [Fact]
 
     public async Task TestRemoveLike()
     {
+        //Arrange
         context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
         var likesBefore = context.Cheeps.ToList()[1].Likes.Count();
         
+        //Act
         await cheepRepository.RemoveLike("Mellie Yost", 2);
-       
-       
         var likesAfter = context.Cheeps.ToList()[1].Likes.Count();
        
+        //Assert
         Assert.True(likesAfter == likesBefore -1);
         await utils.CloseConnection();
         
+    }
+    [Fact]
+    public async Task TestRemoveLikeNullAuthor()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.RemoveLike(null, 2));
+        await utils.CloseConnection();
+        
+    }
+    [Fact]
+    public async Task TestRemoveLikeInvalidAuthor()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<KeyNotFoundException>(() => cheepRepository.RemoveLike("Hejsa", 2));
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestRemoveLikeInvalidCheepId()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.RemoveLike("Mellie Yost", 80000));
+        await utils.CloseConnection();
+    }
+
+
+    [Fact]
+    public async Task TestCountLikes()
+    {
+        //Arrange
+        var before = await cheepRepository.CountLikes(5);
+        var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        currentLikes.Likes.Add("Mellie Yost");
+        context.SaveChanges();
+        
+        //Act
+        var after = await cheepRepository.CountLikes(5);
+        
+        //Assert
+        Assert.True(after == before + 1);
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestCountLikesInvalidCheepId()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<InvalidOperationException>(() => cheepRepository.CountLikes(80000));
+        await utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestGetAllLikedNoLikes()
+    {
+        //Act
+        var cheeps = await cheepRepository.GetAllLiked("Mellie Yost");
+        
+        //Assert
+        Assert.Equal(0, cheeps.Count());
+        await utils.CloseConnection();
+    }
+
+    
+    [Fact]
+    public async Task TestGetAllLikedReturnsCorrectCheep()
+    {
+        //Arrange 
+        var before = await cheepRepository.CountLikes(5);
+        var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        currentLikes.Likes.Add("Mellie Yost");
+        context.SaveChanges();
+        
+        //Act
+        var cheeps = await cheepRepository.GetAllLiked("Mellie Yost");
+        var cheep = cheeps[0].CheepId;
+        
+        //Assert
+        Assert.Equal(5, cheep);
+        await utils.CloseConnection();
+    }
+
+    [Fact]
+    public async Task TestGetAllLikedNullAuthor()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.GetAllLiked(null));
+        await utils.CloseConnection();
+    }
+
+
+
+    [Fact]
+    public async Task TestDeleteAllLikesNullAuthor()
+    {
+        //Assert and act
+        await Assert.ThrowsAsync<NullReferenceException>(() => cheepRepository.DeleteAllLikes(null));
+        await utils.CloseConnection();
+    }
+    
+    
+       
+    [Fact]
+    public async Task TestDeleteAllLikes()
+    {
+        //Arrange 
+        var currentLikes = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        currentLikes.Likes.Add("Mellie Yost");
+        context.SaveChanges();
+        var before = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        
+        //Act
+        await cheepRepository.DeleteAllLikes("Mellie Yost");
+        var after = await context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        
+        //Assert
+        Assert.NotEqual(before.Likes.Count, after.Likes.Count);
+        await utils.CloseConnection();
     }
     
     
