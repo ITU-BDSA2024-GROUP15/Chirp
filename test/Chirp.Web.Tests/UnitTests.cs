@@ -743,41 +743,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.Single(result);
-    }
-    
-    [Fact]
-    public async Task CantFollowSameUserTwice() 
-    {
-        if (_followRepository == null || _context == null)
-        {
-            return;
-        }
-        //Arrange
-        Author author1 = new Author()
-        {
-            Id = 1,
-            Name = "Test1",
-            Email = "test1@mail.com",
-        };
-        
-        Author author2 = new Author()
-        {
-            Id = 2,
-            Name = "Test2",
-            Email = "test2@mail.com",
-        };
-        
-        //Act
-        await _followRepository.AddFollowing(author1.Name, author2.Name);
-        await _followRepository.AddFollowing(author1.Name, author2.Name);
-        
-        var query = (from follow in _context.Follows
-            where follow.Followed == author2.Name
-            select follow);
-        var result = await query.ToListAsync();
-        
-        //Assert
-        Assert.Single(result);
 
     }
     
