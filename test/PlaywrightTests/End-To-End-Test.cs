@@ -556,7 +556,7 @@ public class EndToEnd : PageTest
         
         // likes a cheep and confirms like goes up 
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 0");
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01-08-2023 13:17:39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 1");
         
         // deletes account
