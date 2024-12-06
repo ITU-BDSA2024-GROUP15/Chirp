@@ -907,4 +907,19 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
     
+    [Test]
+    public async Task CanGoFromPage1ToPage2AndBackUserTimeline()
+    {
+        await Page.GotoAsync("http://localhost:5221/");
+        
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01-08-2023 13:17:39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Link).ClickAsync();
+        await Expect(Page.Locator("body")).ToContainTextAsync("1");
+        await Page.GetByRole(AriaRole.Link, new() { Name = ">" }).ClickAsync();
+        await Expect(Page.Locator("body")).ToContainTextAsync("2");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "<" }).ClickAsync();
+        await Expect(Page.Locator("body")).ToContainTextAsync("1");
+        
+    }
+    
+    
 }
