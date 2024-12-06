@@ -12,7 +12,7 @@ public class TopCheeps : TimelineModel
     
     public TopCheeps(IChirpService service) : base(service)
     {
-        
+        IsTopList = true;
     }
     
     public async Task<ActionResult> OnGet([FromQuery] int page)

@@ -24,6 +24,8 @@ public class TimelineModel : PageModel
     
     public string? PageName { get; set; }
     
+    public bool IsTopList { get; set; }
+    
     public TimelineModel(IChirpService service)
     {
         Service = service;
@@ -50,7 +52,10 @@ public class TimelineModel : PageModel
         }
 
         if (CheepMessage != null) await Service.AddCheep(CheepMessage, author.Username, author.Email);
-
+        if (IsTopList)
+        {
+            return RedirectToPage("Public");    
+        }
         return RedirectToPage(PageName);
     }
     
