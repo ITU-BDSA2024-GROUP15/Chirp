@@ -825,7 +825,83 @@ public class UnitTests : IAsyncLifetime
         
         Assert.Equal(15, cheeps.Count);
     }
+
     
+
+    [Fact]
+    public async Task TestGetCheepsPageOne()
+    {
+        if (_chirpService == null)
+        {
+            return;
+        }
+
+        var cheeps = await _chirpService.GetCheeps(1);
+        Assert.Equal(32, cheeps.Count);
+
+    }
+    
+    
+
+    [Fact]
+    public async Task TestGetAuthorDtoByNameReturnsNullWhenNotFound()
+    {
+        if (_chirpService == null)
+        {
+            return;
+        }
+
+        var author = await _chirpService.GetAuthorDtoByName(null!);
+        Assert.Null(author);
+
+    }
+        
+
+    
+    [Fact]
+    public async Task TestGetAuthorDtoByNameReturnsAuthorDTO()
+    {
+        if (_chirpService == null)
+        {
+            return;
+        }
+
+        var author = await _chirpService.GetAuthorDtoByName("Octavio Wagganer");
+        // add assert
+
+    }
+    
+    [Fact]
+    public async Task TestPage0IsPage1()
+    {
+        if (_chirpService == null)
+        {
+            return;
+        }
+
+        var cheepsPage0 = await _chirpService.GetCheeps(0);
+        var cheepsPage1 = await _chirpService.GetCheeps(1);
+        
+        Assert.Equivalent(cheepsPage0,cheepsPage1);
+    }
+    
+    [Fact]
+    public async Task TestPage1IsNotPage1()
+    {
+        if (_chirpService == null)
+        {
+            return;
+        }
+
+        var cheepsPage1 = await _chirpService.GetCheeps(1);
+        var cheepsPage2 = await _chirpService.GetCheeps(2);
+   
+        Assert.False(cheepsPage1.Equals(cheepsPage2));
+    }
+
+    
+    
+
     [Fact]
     public async Task CanAddFollowerToDbWithchirpService() 
     {
