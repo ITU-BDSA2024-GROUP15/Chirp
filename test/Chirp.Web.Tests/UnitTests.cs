@@ -708,7 +708,6 @@ public class UnitTests : IAsyncLifetime
         //Assert
         Assert.NotNull(follow);
         Assert.Equal(author1.Name, follow.Follower);
-
     }
     
     [Fact]
@@ -744,7 +743,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.Single(result);
-
     }
     
     [Fact]
