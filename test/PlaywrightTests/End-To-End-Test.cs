@@ -810,9 +810,17 @@ public class EndToEnd : PageTest
         
         await Expect(Page.Locator("h3")).ToContainTextAsync("1");
         await Page.GetByRole(AriaRole.Link, new() { Name = ">" }).ClickAsync();
-        await Expect(Page.Locator("h3")).ToContainTextAsync("2");
-        await Page.GetByRole(AriaRole.Link, new() { Name = "<" }).ClickAsync();
+        await Expect(Page.Locator("h3")).ToContainTextAsync("2"); 
     }
     
-    
+    [Test]
+    public async Task CanGoFromPage2ToPage1()
+    {
+        await Page.GotoAsync("http://localhost:5221?Page=2");
+
+        await Expect(Page.Locator("h3")).ToContainTextAsync("2");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "<" }).ClickAsync();
+        await Expect(Page.Locator("h3")).ToContainTextAsync("1");
+        
+    }
 }
