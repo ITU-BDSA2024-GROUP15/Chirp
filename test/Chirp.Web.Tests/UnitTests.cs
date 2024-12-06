@@ -53,8 +53,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.Equal(32,cheeps.Count);
-        await _utils.CloseConnection();
-        
     }
 
     [Fact]
@@ -64,13 +62,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheeps(-1);
         var cheep = cheeps[0];
         
         //Assert
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text); //returns to page 1
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -80,13 +78,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheeps(0);
         var cheep = cheeps[0];
         
         //Assert
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -96,13 +94,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheeps(2);
         var cheep = cheeps[0];
         
         //Assert
         Assert.Equal("In the morning of the wind, some few splintered planks, of what present avail to him.", cheep.Text);  
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -112,12 +110,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheeps(21);
         
         //Assert
         Assert.True(cheeps.Count == 17);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -126,12 +124,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheeps(32);
         
         //Assert
         Assert.True(cheeps.Count == 0);    
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -141,13 +139,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(0, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
         //Assert
         Assert.True(cheep.Author.Name == "Jacqualine Gilcoine"  && cheeps.Count == 32); //we know Jacqualine is the first author on the public timeline.
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -156,12 +154,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(0, "Eksisterer Ikke");
         
         //Assert
         Assert.True(cheeps.Count == 0);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -171,13 +169,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(-1, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
         //Assert
         Assert.Equal("Starbuck now is what we hear the worst.", cheep.Text);
-        await _utils.CloseConnection();
     }    
     
     [Fact]
@@ -187,13 +185,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(2, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
         //Assert
         Assert.Equal("What a relief it was the place examined.", cheep.Text);
-        await _utils.CloseConnection();
     }    
     
     [Fact]
@@ -203,13 +201,13 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(12, "Jacqualine Gilcoine");
         var cheep = cheeps[0];
         
         //Assert
         Assert.True(cheeps.Count == 7 && cheep.Author.Name == "Jacqualine Gilcoine"); 
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -219,13 +217,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(20, "Jacqualine Gilcoine");
         
         //Assert
         Assert.True(cheeps.Count == 0);   
-        await _utils.CloseConnection();
-        await _utils.CloseConnection();
     }
 
     [Fact]
@@ -235,12 +232,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var result = ( await _cheepRepository.GetAllCheepsFromAuthor("Adrian") ).Count;
         
         //Assert
         Assert.Equal(1, result);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -250,12 +247,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var result = ( await _cheepRepository.GetAllCheepsFromAuthor("migg") ).Count;
         
         //Assert
         Assert.Equal(0, result);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -280,7 +277,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.True(cheepsAfter == cheepsBefore+1);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -299,10 +295,8 @@ public class UnitTests : IAsyncLifetime
         };
         var invalidCheep = new String('a', 161);
         
-        
         //Assert and act
         await Assert.ThrowsAsync<ArgumentException>(() => _cheepRepository.AddCheep(invalidCheep, author));
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -312,15 +306,17 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
-        var likesBefore = _context.Cheeps.ToList()[1].Likes.Count();
-        await _cheepRepository.AddLike("Mellie Yost", 2);
-
-        await _context.SaveChangesAsync();
         
+        //Arrange
+        var likesBefore = _context.Cheeps.ToList()[1].Likes.Count();
+        
+        //Act
+        await _cheepRepository.AddLike("Mellie Yost", 2);
+        await _context.SaveChangesAsync();
         var likesAfter = _context.Cheeps.ToList()[1].Likes.Count();
         
+        //Assert
         Assert.True(likesAfter == likesBefore +1);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -330,8 +326,9 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
+        //Act and assert
         await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.AddLike("hej", 800000));
-        await _utils.CloseConnection();
     } 
     
     [Fact]
@@ -342,6 +339,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Arrange
         _context.Cheeps.ToList()[1].Likes.Add("Mellie Yost");
         var likesBefore = _context.Cheeps.ToList()[1].Likes.Count();
@@ -352,8 +350,6 @@ public class UnitTests : IAsyncLifetime
        
         //Assert
         Assert.True(likesAfter == likesBefore -1);
-        await _utils.CloseConnection();
-        
     }
     
     [Fact]
@@ -363,17 +359,17 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Arrange
-       var cheep = _context.Cheeps.ToList()[1];
-       cheep.Likes.Add("Mellie Yost");
-       var before = cheep.Likes.Count();
-       //Act
-       await _cheepRepository.RemoveLike("TestAuthor", cheep.CheepId);
-       var after = cheep.Likes.Count();
+        var cheep = _context.Cheeps.ToList()[1];
+        cheep.Likes.Add("Mellie Yost");
+        var before = cheep.Likes.Count();
+        //Act
+        await _cheepRepository.RemoveLike("TestAuthor", cheep.CheepId);
+        var after = cheep.Likes.Count();
        
-       //Assert
-       Assert.Equal(before, after);
-        await _utils.CloseConnection();
+        //Assert
+        Assert.Equal(before, after);
     }
     
     [Fact]
@@ -383,9 +379,9 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Assert and act
         await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.RemoveLike("Mellie Yost", 80000));
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -395,6 +391,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Arrange
         var before = await _cheepRepository.CountLikes(5);
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
@@ -406,7 +403,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.True(after == before + 1);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -416,9 +412,9 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Assert and act
         await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.CountLikes(80000));
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -428,12 +424,12 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var cheeps = await _cheepRepository.GetAllLiked("Mellie Yost");
         
         //Assert
         Assert.Empty(cheeps);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -443,6 +439,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Arrange 
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
@@ -454,7 +451,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.Equal(5, cheep);
-        await _utils.CloseConnection();
     }
     
     
@@ -465,6 +461,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Arrange 
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
@@ -478,7 +475,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.NotEqual(before, after);
-        await _utils.CloseConnection();
     }
 
 
@@ -506,7 +502,6 @@ public class UnitTests : IAsyncLifetime
         //Assert
         Assert.Equal(5, topcheep.CheepId);
         Assert.Equal(1, secondtopcheep.CheepId);
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -533,7 +528,6 @@ public class UnitTests : IAsyncLifetime
         //Assert
         Assert.Equal(5, topcheep.CheepId);
         Assert.Equal(1, secondtopcheep.CheepId);
-        await _utils.CloseConnection();
     }
     
     
@@ -541,8 +535,7 @@ public class UnitTests : IAsyncLifetime
    
     
     // ------- Author Repository --------
-
-
+    
     [Fact]
     public async Task TestGetAuthorByNameExistingName()
     {
@@ -550,6 +543,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var result = await _authorRepository.GetAuthorByName("Mellie Yost");
         
@@ -565,6 +559,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var result = await _authorRepository.GetAuthorByName("TestName");
         
@@ -579,6 +574,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var result = await _authorRepository.GetAuthorByEmail("Malcolm-Janski@gmail.com");
         
@@ -594,6 +590,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act
         var result = await _authorRepository.GetAuthorByEmail("TestEmail");
         
@@ -619,9 +616,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.True(result[0].Name == "Filifjonken");   
-        await _utils.CloseConnection();
-        
-        
     }
     
     [Fact]
@@ -640,11 +634,8 @@ public class UnitTests : IAsyncLifetime
             select author);
         var result = query.ToList();
         
-        
-        
         //Assert
         Assert.True(result.Count == 1);   // only 1 user with name filifjonken exists
-        await _utils.CloseConnection();
     }
     
     [Fact]
@@ -666,9 +657,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.True(result.Count == 2);
-        await _utils.CloseConnection();
-        
-        
     }
    
     
@@ -679,6 +667,7 @@ public class UnitTests : IAsyncLifetime
         {
             return;
         }
+        
         //Act and assert
         await Assert.ThrowsAsync<ArgumentException>(() =>
             _authorRepository.CreateAuthor("/Haha", "hahaemail@gmail.com"));
