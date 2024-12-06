@@ -621,7 +621,7 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestCreateDuplicateAuthorName()
     {
-        if (_authorRepository == null || _utils == null)
+        if (_authorRepository == null || _utils == null || _context == null)
         {
             return;
         }
@@ -641,7 +641,7 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestCreateDuplicateAuthorEmail()
     {
-        if (_authorRepository == null || _utils == null)
+        if (_authorRepository == null || _utils == null || _context == null)
         {
             return;
         }
@@ -677,7 +677,7 @@ public class UnitTests : IAsyncLifetime
     
     
     
-    // ----  Followrepository ----
+    // ----  FollowRepository ----
     
     [Fact]
     public async Task CanAddFollowerToDb() 
