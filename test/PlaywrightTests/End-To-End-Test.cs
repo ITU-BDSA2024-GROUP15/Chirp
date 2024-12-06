@@ -803,5 +803,16 @@ public class EndToEnd : PageTest
     }
     
     
+    [Test]
+    public async Task CanGoFromPage1ToPage2()
+    {
+        await Page.GotoAsync("http://localhost:5221/");
+        
+        await Expect(Page.Locator("h3")).ToContainTextAsync("1");
+        await Page.GetByRole(AriaRole.Link, new() { Name = ">" }).ClickAsync();
+        await Expect(Page.Locator("h3")).ToContainTextAsync("2");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "<" }).ClickAsync();
+    }
+    
     
 }
