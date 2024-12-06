@@ -331,8 +331,7 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
-        ///
-        
+
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
         await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
@@ -491,7 +490,7 @@ public class EndToEnd : PageTest
 
 
     [Test]
-    public async Task canLoginAndSeeLikeButton()
+    public async Task CanLoginAndSeeLikeButton()
     {
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
@@ -530,7 +529,7 @@ public class EndToEnd : PageTest
 
 
     [Test]
-    public async Task canLikeJacqualinesCheep()
+    public async Task CanLikeJacqualinesCheep()
     { 
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
@@ -569,7 +568,7 @@ public class EndToEnd : PageTest
     
     
     [Test]
-    public async Task canLikeJacqualinesCheepThenUnlike()
+    public async Task CanLikeJacqualinesCheepThenUnlike()
     {
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
@@ -611,7 +610,7 @@ public class EndToEnd : PageTest
     }
     
     [Test]
-    public async Task canLikeFromUserTimeline()
+    public async Task CanLikeFromUserTimeline()
     { 
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
@@ -657,7 +656,7 @@ public class EndToEnd : PageTest
     }
     
         [Test]
-    public async Task canLikeAndUnlikeFromUserTimeline()
+    public async Task CanLikeAndUnlikeFromUserTimeline()
     { 
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
@@ -708,7 +707,7 @@ public class EndToEnd : PageTest
     
     
     [Test]
-    public async Task canFollowThenLikeFromPersonalTimeline()
+    public async Task CanFollowThenLikeFromPersonalTimeline()
     {
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
@@ -755,7 +754,7 @@ public class EndToEnd : PageTest
     
     
         [Test]
-    public async Task canFollowThenLikeFromPersonalTimelineAndUnlike()
+    public async Task CanFollowThenLikeFromPersonalTimelineAndUnlike()
     {
         await Page.GotoAsync("http://localhost:5221/");
         // registers + logs in   
