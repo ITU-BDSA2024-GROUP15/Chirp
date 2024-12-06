@@ -163,32 +163,32 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var author = CreateUser();
 
-                user.Email = Input.Email;
-                user.Name = Input.Name;
+                author.Email = Input.Email;
+                author.Name = Input.Name;
 
-                await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(author, Input.Name, CancellationToken.None);
+                await _emailStore.SetEmailAsync(author, Input.Email, CancellationToken.None);
 
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(author);
                 if (result.Succeeded)
                 {
-                    result = await _userManager.AddLoginAsync(user, info);
+                    result = await _userManager.AddLoginAsync(author, info);
                     if (result.Succeeded)
                     {
-                        var claim = new Claim("Username", user.Name);
-                        await _userManager.AddClaimAsync(user, claim);
+                        var claim = new Claim("Username", author.Name);
+                        await _userManager.AddClaimAsync(author, claim);
                         
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var authorName = await _userManager.GetUserIdAsync(author);
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(author);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
                             pageHandler: null,
-                            values: new { area = "Identity", userId, code },
+                            values: new { area = "Identity", authorName, code },
                             protocol: Request.Scheme);
 
                         if (callbackUrl != null)
@@ -201,7 +201,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                             return RedirectToPage("./RegisterConfirmation", new { Input.Email });
                         }
 
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                        await _signInManager.SignInAsync(author, isPersistent: false, info.LoginProvider);
                         return LocalRedirect(returnUrl);
                     }
                 }
