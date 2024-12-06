@@ -30,8 +30,18 @@ public class TimelineModel : PageModel
     {
         Service = service;
     }
-    //TODO: Make an unget that handles the common page logic
-    
+
+    public Task HandlePageNumber()
+    {
+        if ( PageNumber <= 0)
+        {
+            PageNumber = 1;
+        }
+
+        return Task.CompletedTask;
+    }
+
+
     public async Task<IActionResult> OnPost()
     {
         //We check if any validation rules has exceeded

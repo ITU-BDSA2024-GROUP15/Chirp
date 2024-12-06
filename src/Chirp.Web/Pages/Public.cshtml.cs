@@ -16,23 +16,15 @@ public class PublicModel : TimelineModel
     {
         
         var authorName = User.Identity?.Name;
+        PageNumber = page;
+        await HandlePageNumber();
         if ( authorName == null )
         {
-            Cheeps = await Service.GetCheeps(page);
+            Cheeps = await Service.GetCheeps(PageNumber);
         }
         else
         {
-            Cheeps = await Service.GetCheeps(page, authorName);
-        }
-        
-        
-        if ( page == 0  || page < 0)
-        {
-            PageNumber = 1;
-        }
-        else
-        {
-            PageNumber = page;
+            Cheeps = await Service.GetCheeps(PageNumber, authorName);
         }
         return Page();
     }

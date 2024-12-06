@@ -14,32 +14,26 @@ public class UserTimelineModel : TimelineModel
        
     public async Task<ActionResult> OnGet([FromQuery] int page, string authorName)
     {
+        PageNumber = page;
+        await HandlePageNumber();
         //Add so get cheeps from author also gets the cheeps that the author is following
         if (User.Identity != null && User.Identity.Name == authorName)
         {
-            Cheeps = await Service.GetCheepsForTimeline(authorName, page); 
+            Cheeps = await Service.GetCheepsForTimeline(authorName, PageNumber); 
         }
         else
         {
             var spectatingAuthorName = User.Identity?.Name;
             if (spectatingAuthorName != null)
             {
-                Cheeps = await Service.GetCheepsFromAuthor(page, authorName, spectatingAuthorName);
+                Cheeps = await Service.GetCheepsFromAuthor(PageNumber, authorName, spectatingAuthorName);
             }
             else
             {
-                Cheeps = await Service.GetCheepsFromAuthor(page, authorName, "");
+                Cheeps = await Service.GetCheepsFromAuthor(PageNumber, authorName, "");
             }
         }
         
-        if ( page == 0  || page < 0)
-        {
-            PageNumber = 1;
-        }
-        else
-        {
-            PageNumber = page;
-        }
         return Page();
     }
     

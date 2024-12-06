@@ -18,22 +18,14 @@ public class TopCheeps : TimelineModel
     public async Task<ActionResult> OnGet([FromQuery] int page)
     {
         var authorname = User.Identity?.Name;
+        PageNumber = page;
+        await HandlePageNumber();
         if (authorname != null)
         {
-            Cheeps = await Service.GetTopLikedCheeps(authorname, page);     
-        }
-        
-        if ( page == 0  || page < 0)
-        {
-            PageNumber = 1;
-        }
-        else
-        {
-            PageNumber = page;
+            Cheeps = await Service.GetTopLikedCheeps(authorname, PageNumber);     
         }
         
         return Page();
-
     }
     
 }
