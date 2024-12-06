@@ -541,24 +541,133 @@ public class UnitTests : IAsyncLifetime
    
     
     // ------- Author Repository --------
+
+
+    [Fact]
+    public async Task TestGetAuthorByNameExistingName()
+    {
+        if (_authorRepository == null)
+        {
+            return;
+        }
+        //Act
+        var result = await _authorRepository.GetAuthorByName("Mellie Yost");
+        
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal("Mellie Yost", result.Name);
+    }
     
     [Fact]
+    public async Task TestGetAuthorByNameNonExistingName()
+    {
+        if (_authorRepository == null)
+        {
+            return;
+        }
+        //Act
+        var result = await _authorRepository.GetAuthorByName("TestName");
+        
+        //Assert
+        Assert.Null(result);
+    }
+    
+    [Fact]
+    public async Task TestGetAuthorByEmailExistingEmail()
+    {
+        if (_authorRepository == null)
+        {
+            return;
+        }
+        //Act
+        var result = await _authorRepository.GetAuthorByEmail("Malcolm-Janski@gmail.com");
+        
+        //Assert
+        Assert.NotNull(result);
+        Assert.Equal("Malcolm Janski", result.Name);
+    }
+    
+    [Fact]
+    public async Task TestGetAuthorByNameNonExistingEmail()
+    {
+        if (_authorRepository == null)
+        {
+            return;
+        }
+        //Act
+        var result = await _authorRepository.GetAuthorByEmail("TestEmail");
+        
+        //Assert
+        Assert.Null(result);
+    }
+
+
+    [Fact]
     public async Task TestCreateAuthor()
+    {
+        if (_authorRepository == null || _utils == null || _context == null)
+        {
+            return;
+        }
+        
+        //Act
+        await _authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
+        var query = (from author in _context.Authors
+            where author.Name == "Filifjonken"
+            select author);
+        var result = query.ToList();
+        
+        //Assert
+        Assert.True(result[0].Name == "Filifjonken");   
+        await _utils.CloseConnection();
+        
+        
+    }
+    
+    [Fact]
+    public async Task TestCreateDuplicateAuthorName()
     {
         if (_authorRepository == null || _utils == null)
         {
             return;
         }
+        
         //Act
+        await _authorRepository.CreateAuthor("Filifjonken", "test@mail.com");
         await _authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
-        var author = await _authorRepository.GetAuthorByName("Filifjonken");
+        var query = (from author in _context.Authors
+            where author.Name == "Filifjonken"
+            select author);
+        var result = query.ToList();
+        
+        
         
         //Assert
-        if (author != null)
+        Assert.True(result.Count == 1);   // only 1 user with name filifjonken exists
+        await _utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestCreateDuplicateAuthorEmail()
+    {
+        if (_authorRepository == null || _utils == null)
         {
-            Assert.True(author.Name == "Filifjonken");   
-            await _utils.CloseConnection();
+            return;
         }
+        
+        //Act
+        await _authorRepository.CreateAuthor("LilleMy", "fili@mail.com");
+        await _authorRepository.CreateAuthor("Filifjonken", "fili@mail.com");
+        
+        var query = (from author in _context.Authors
+            where author.Email == "fili@mail.com"
+            select author);
+        var result = await query.ToListAsync();
+        
+        //Assert
+        Assert.True(result.Count == 2);
+        await _utils.CloseConnection();
+        
         
     }
    
@@ -616,6 +725,10 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task CanRemoveFollowerFromDb()
     {
+        if (_context == null)
+        {
+            return;
+        }
         //Arrange
         var author1 = "hej";
         var author2 = "meddig";
