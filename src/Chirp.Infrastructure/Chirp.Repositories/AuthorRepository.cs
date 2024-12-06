@@ -45,7 +45,7 @@ public class AuthorRepository : IAuthorRepository
         {
             return null;
         }
-          return result[0];
+        return result[0];
     }
 
     
@@ -58,6 +58,12 @@ public class AuthorRepository : IAuthorRepository
             throw new ArgumentException();
         }
        
+        //Check if authorName already exists
+        if (await GetAuthorByName(authorName) != null)
+        {
+            return;
+        }
+        
         //Should get id for new author 1 bigger than the current max 
         int maxId = _context.Authors.Max(author => author.Id);
         
