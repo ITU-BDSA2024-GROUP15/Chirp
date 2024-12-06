@@ -621,7 +621,7 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestCreateDuplicateAuthorName()
     {
-        if (_authorRepository == null || _utils == null)
+        if (_authorRepository == null || _utils == null || _context == null)
         {
             return;
         }
@@ -641,7 +641,7 @@ public class UnitTests : IAsyncLifetime
     [Fact]
     public async Task TestCreateDuplicateAuthorEmail()
     {
-        if (_authorRepository == null || _utils == null)
+        if (_authorRepository == null || _utils == null || _context == null)
         {
             return;
         }
@@ -677,7 +677,7 @@ public class UnitTests : IAsyncLifetime
     
     
     
-    // ----  Followrepository ----
+    // ----  FollowRepository ----
     
     [Fact]
     public async Task CanAddFollowerToDb() 
@@ -708,16 +708,51 @@ public class UnitTests : IAsyncLifetime
         //Assert
         Assert.NotNull(follow);
         Assert.Equal(author1.Name, follow.Follower);
-
     }
-
+    
     [Fact]
-    public async Task CanRemoveFollowerFromDb()
+    public async Task CantFollowSameUserTwice() 
     {
-        if (_context == null)
+        if (_followRepository == null || _context == null)
         {
             return;
         }
+        //Arrange
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+        
+        //Act
+        await _followRepository.AddFollowing(author1.Name, author2.Name);
+        await _followRepository.AddFollowing(author1.Name, author2.Name);
+        
+        var query = (from follow in _context.Follows
+            where follow.Followed == author2.Name
+            select follow);
+        var result = await query.ToListAsync();
+        
+        //Assert
+        Assert.Single(result);
+    }
+    
+    [Fact]
+    public async Task CanRemoveFollowerFromDb()
+    {
+        if (_context == null || _followRepository == null)
+        {
+            return;
+        }
+        
         //Arrange
         var author1 = "hej";
         var author2 = "meddig";
@@ -726,91 +761,88 @@ public class UnitTests : IAsyncLifetime
             Follower = author1,
             Followed = author2
         };
-
-        //await _followRepository.AddFollowing(author1.Name, author2.Name);
-
-        //var follow = await _context.Follows.FirstOrDefaultAsync();
-        
+        _context.Follows.Add(follow);
+        await _context.SaveChangesAsync();
+      
+        var followBefore = _context.Follows.Count();
         //Check that the Follow has been added
         Assert.NotNull(follow);
 
-        //await _followRepository.RemoveFollowing(author1.Name, author2.Name);
+        await _followRepository.RemoveFollowing(author1, author2);
+        
         
         //Check that the follow has been removed
-        var followRemoved = await _context.Follows.FirstOrDefaultAsync();
-        Assert.Null(followRemoved);
+        var followAfter = _context.Follows.Count();
         
         //Assert
-        //Assert.True(followafter == followbefore -1);
+        Assert.True(followAfter == followBefore - 1);
     }
     
     [Fact]
     public async Task CanGetFollowFromDb()
     {
-        if (_followRepository == null)
+        if (_followRepository == null || _context == null)
         {
             return;
         }
-        Author author1 = new Author()
+        
+        //Arrange
+        var author1 = "Test1";
+        var author2 = "Test2";
+        
+        var follow = new Follow()
         {
-            Id = 1,
-            Name = "Test1",
-            Email = "test1@mail.com",
+            Follower = author1,
+            Followed = author2
         };
         
-        Author author2 = new Author()
-        {
-            Id = 2,
-            Name = "Test2",
-            Email = "test2@mail.com",
-        };
-
-        await _followRepository.AddFollowing(author1.Name, author2.Name);
+        _context.Follows.Add(follow);
+        await _context.SaveChangesAsync();
         
-        var follows = await _followRepository.GetFollowed(author1.Name);
+        //Act
+        var follows = await _followRepository.GetFollowed(author1);
         
+        //Assert
         Assert.NotNull(follows);
-        Assert.Equal(author2.Name, follows[0].Followed);
+        Assert.Equal(author2, follows[0].Followed);
     }
     
     [Fact]
     public async Task CanGetFollowsFromDb()
     {
-        if (_followRepository == null)
+        if (_followRepository == null || _context == null)
         {
             return;
         }
         
-        Author author1 = new Author()
+        //Arrange
+        var author1 = "Test1";
+        var author2 = "Test2";
+        var author3 = "Test3";
+        
+        var follow1 = new Follow()
         {
-            Id = 1,
-            Name = "Test1",
-            Email = "test1@mail.com",
+            Follower = author1,
+            Followed = author2
+        };
+        var follow2 = new Follow()
+        {
+            Follower = author1,
+            Followed = author3
         };
         
-        Author author2 = new Author()
-        {
-            Id = 2,
-            Name = "Test2",
-            Email = "test2@mail.com",
-        };
+        _context.Follows.Add(follow1);
+        _context.Follows.Add(follow2);
+        await _context.SaveChangesAsync();
         
-        Author author3 = new Author()
-        {
-            Id = 3,
-            Name = "Test3",
-            Email = "test3@mail.com",
-        };
-
-        await _followRepository.AddFollowing(author1.Name, author2.Name);
-        await _followRepository.AddFollowing(author1.Name, author3.Name);
-        
-        var follows = await _followRepository.GetFollowed(author1.Name);
+        var follows = await _followRepository.GetFollowed(author1);
         
         Assert.NotNull(follows);
-        Assert.Equal(author2.Name, follows[0].Followed);
-        Assert.Equal(author3.Name, follows[1].Followed);
+        Assert.Equal(author2, follows[0].Followed);
+        Assert.Equal(author3, follows[1].Followed);
     }
+    
+    
     
     
     // ------ Chirpservice -------
