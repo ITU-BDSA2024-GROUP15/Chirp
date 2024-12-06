@@ -594,10 +594,12 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
-        // likes a cheep and confirms like goes up 
+        // likes a cheep and confirms like count goes up  
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 0");
         await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 1");
+        
+        // unlikes cheep and confirms it goes back to 0 likes
         await Page.GetByRole(AriaRole.Button, new() { Name = "Unlike" }).ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 0");
         
@@ -609,5 +611,50 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
     
+    [Test]
+    public async Task canFollowThenLikeFromPersonalTimeline()
+    {
+        await Page.GotoAsync("http://localhost:5221/");
+        // registers + logs in   
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register", Exact = true }).ClickAsync();
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("testUser");
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
+        await Page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
+        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
+        await Page.GetByLabel("Confirm Password").ClickAsync();
+        await Page.GetByLabel("Confirm Password").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Page.GetByPlaceholder("password").ClickAsync();
+        await Page.GetByPlaceholder("password").FillAsync("Test123!");
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("testUser");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
+        
+        // follows chirp account and goes to personal timeline
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+        
+        // likes a cheep and confirms like count goes up 
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 0");
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
+        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 1");
+        
+        // deletes account
+        await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
+        await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
+        await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
+        
+        
+        
+        
+    }
     
 }
