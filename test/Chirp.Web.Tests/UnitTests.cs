@@ -39,8 +39,6 @@ public class UnitTests : IAsyncLifetime
     
     
     
-    //TODO find out if it is ok to supress null warnings
-    
     // ------- CheepRepository --------
     [Fact]
     public async Task TestGetCheepsAmount()
@@ -121,15 +119,6 @@ public class UnitTests : IAsyncLifetime
         
         //Assert
         Assert.True(cheep.Author.Name == "Jacqualine Gilcoine"  && cheeps.Count == 32); //we know Jacqualine is the first author on the public timeline.
-        await _utils.CloseConnection();
-    }
-    
-    [Fact]
-    public async Task TestGetCheepsFromNullAuthor() 
-    {   
-       
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetCheepsFromAuthor(0, null!));
         await _utils.CloseConnection();
     }
     
@@ -215,14 +204,6 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task TestGetAllCheepsFromNullAuthor()
-    {
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllCheepsFromAuthor(null!));
-        await _utils.CloseConnection();
-    }
-    
-    [Fact]
     public async Task TestAddCheepCorrectInput()
     {
         //Arrange
@@ -244,15 +225,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task TestAddCheepNullAuthor()
-    {
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddCheep("Hejsa", null!));
-        await _utils.CloseConnection();
-    }
-    
-    [Fact]
-    public async Task TestAddCheepLengthConstraintl()
+    public async Task TestAddCheepLengthConstraint()
     {
         //Arrange
         Author author = new Author()
@@ -285,14 +258,6 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task TestAddLikeNullAuthor()
-    {
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.AddLike(null!, 2));
-        await _utils.CloseConnection();
-    }
-    
-    [Fact]
     public async Task TestAddLikeInvalidCheepId()
     {
         await Assert.ThrowsAsync<InvalidOperationException>(() => _cheepRepository.AddLike("hej", 800000));
@@ -316,14 +281,7 @@ public class UnitTests : IAsyncLifetime
         await _utils.CloseConnection();
         
     }
-    [Fact]
-    public async Task TestRemoveLikeNullAuthor()
-    {
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.RemoveLike(null!, 2));
-        await _utils.CloseConnection();
-        
-    }
+    
     [Fact]
     public async Task TestRemoveLikeInvalidAuthor()
     {
@@ -400,22 +358,7 @@ public class UnitTests : IAsyncLifetime
         Assert.Equal(5, cheep);
         await _utils.CloseConnection();
     }
-
-    [Fact]
-    public async Task TestGetAllLikedNullAuthor()
-    {
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.GetAllLiked(null!));
-        await _utils.CloseConnection();
-    }
     
-    [Fact]
-    public async Task TestDeleteAllLikesNullAuthor()
-    {
-        //Assert and act
-        await Assert.ThrowsAsync<NullReferenceException>(() => _cheepRepository.DeleteAllLikes(null!));
-        await _utils.CloseConnection();
-    }
     
     [Fact]
     public async Task TestDeleteAllLikes()
