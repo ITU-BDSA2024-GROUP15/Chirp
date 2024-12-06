@@ -371,7 +371,7 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
     
-    /*
+    
     [Test]
     public async Task CanFollowJacqualine()
     {
@@ -399,7 +399,7 @@ public class EndToEnd : PageTest
         
         // asserts follow button is there and presses it 
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Follow");
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01-08-2023 13:17:36 The train pulled up at his" }).GetByRole(AriaRole.Button).First.ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unfollow");
 
         // log out
@@ -409,7 +409,6 @@ public class EndToEnd : PageTest
         await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
     }
-    */
      
     [Test]
     public async Task CanFollowJacqualineAndUnfollow()
@@ -427,8 +426,6 @@ public class EndToEnd : PageTest
         await Page.GetByLabel("Confirm Password").FillAsync("Test123!");
         await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
-        
-        
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Page.GetByPlaceholder("password").ClickAsync();
         await Page.GetByPlaceholder("password").FillAsync("Test123!");
