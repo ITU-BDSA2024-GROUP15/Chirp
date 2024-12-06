@@ -1,6 +1,5 @@
 ﻿using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Build.Framework;
@@ -9,7 +8,7 @@ namespace Chirp.Web.Pages.Shared;
 
 public class TimelineModel : PageModel
 {
-    private readonly IChirpService _service;
+    protected readonly IChirpService Service;
     public int PageNumber { get; set; }
     [BindProperty]
     [Required]
@@ -27,7 +26,7 @@ public class TimelineModel : PageModel
     
     public TimelineModel(IChirpService service)
     {
-        _service = service;
+        Service = service;
     }
     
     
@@ -44,13 +43,13 @@ public class TimelineModel : PageModel
         {
             return Page();
         }
-        var author = await _service.GetAuthorDtoByName(authorName);
+        var author = await Service.GetAuthorDtoByName(authorName);
         if ( author == null )
         {
             return Page();
         }
 
-        if (CheepMessage != null) await _service.AddCheep(CheepMessage, author.Username, author.Email);
+        if (CheepMessage != null) await Service.AddCheep(CheepMessage, author.Username, author.Email);
 
         return RedirectToPage(PageName);
     }
@@ -62,7 +61,7 @@ public class TimelineModel : PageModel
         
         if (authorName != null)
             if (FollowsName != null)
-                await _service.AddFollowing(authorName, FollowsName);
+                await Service.AddFollowing(authorName, FollowsName);
 
         return RedirectToPage(PageName);
     }
@@ -74,7 +73,7 @@ public class TimelineModel : PageModel
 
         if (authorName != null)
             if (FollowsName != null)
-                await _service.RemoveFollowing(authorName, FollowsName);
+                await Service.RemoveFollowing(authorName, FollowsName);
 
         return RedirectToPage(PageName);
     }
@@ -85,7 +84,7 @@ public class TimelineModel : PageModel
 
         if (authorName != null && LikedCheepId != null)
         {
-            await _service.AddLike(authorName, LikedCheepId.Value);
+            await Service.AddLike(authorName, LikedCheepId.Value);
         }
         
         return RedirectToPage(PageName);
@@ -97,7 +96,7 @@ public class TimelineModel : PageModel
 
         if (authorName != null && LikedCheepId != null)
         {
-            await _service.RemoveLike(authorName, LikedCheepId.Value);
+            await Service.RemoveLike(authorName, LikedCheepId.Value);
         }
         
         return RedirectToPage(PageName);
