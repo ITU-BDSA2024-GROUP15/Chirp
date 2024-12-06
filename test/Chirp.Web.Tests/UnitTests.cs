@@ -480,10 +480,65 @@ public class UnitTests : IAsyncLifetime
         Assert.NotEqual(before, after);
         await _utils.CloseConnection();
     }
+
+
+    [Fact]
+    public async Task TestGetTopLikedCheeps()
+    {
+        if (_context == null || _cheepRepository == null || _utils == null)
+        {
+            return;
+        }
+        
+        //Arrange 
+        var cheep1 = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        cheep1.Likes.Add("Mellie Yost");
+        cheep1.Likes.Add("Adrian");
+        var cheep2 = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 1);
+        cheep2.Likes.Add("Mellie Yost");
+        _context.SaveChanges();
+        
+        //Act
+        var result = await _cheepRepository.GetTopLikedCheeps(1);
+        var topcheep = result[0];
+        var secondtopcheep = result[1];
+        
+        //Assert
+        Assert.Equal(5, topcheep.CheepId);
+        Assert.Equal(1, secondtopcheep.CheepId);
+        await _utils.CloseConnection();
+    }
+    
+    [Fact]
+    public async Task TestGetTopLikedCheepsNegativePage()
+    {
+        if (_context == null || _cheepRepository == null || _utils == null)
+        {
+            return;
+        }
+        
+        //Arrange 
+        var cheep1 = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
+        cheep1.Likes.Add("Mellie Yost");
+        cheep1.Likes.Add("Adrian");
+        var cheep2 = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 1);
+        cheep2.Likes.Add("Mellie Yost");
+        _context.SaveChanges();
+        
+        //Act
+        var result = await _cheepRepository.GetTopLikedCheeps(-10);
+        var topcheep = result[0];
+        var secondtopcheep = result[1];
+        
+        //Assert
+        Assert.Equal(5, topcheep.CheepId);
+        Assert.Equal(1, secondtopcheep.CheepId);
+        await _utils.CloseConnection();
+    }
     
     
     
-    // TODO continue from here
+   
     
     // ------- Authorrepository --------
     
