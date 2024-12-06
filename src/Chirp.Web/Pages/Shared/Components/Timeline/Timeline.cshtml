@@ -1,6 +1,7 @@
 ﻿@using Chirp.Core
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Web.Pages.Shared.TimelineModel
+
 @inject SignInManager<Author> SignInManager
 
 <div>
@@ -20,7 +21,6 @@
     }
 </div>
 
-    <h2> Public Timeline </h2>
 
     @{
         System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
