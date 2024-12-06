@@ -35,11 +35,6 @@ public class CheepRepository : ICheepRepository
  
     public async Task<List<Cheep>> GetCheepsFromAuthor(int page, string authorName)
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         var query = (from cheep in _context.Cheeps
                 where cheep.Author.Name == authorName
                 orderby cheep.Timestamp descending
@@ -56,11 +51,6 @@ public class CheepRepository : ICheepRepository
     
     public async Task<List<Cheep>> GetAllCheepsFromAuthor(string authorName)
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         var query = ( from cheep in _context.Cheeps
                 where cheep.Author.Name == authorName
                 orderby cheep.Timestamp descending
@@ -73,10 +63,6 @@ public class CheepRepository : ICheepRepository
     
     public async Task<List<Cheep>> GetAllCheepsFromFollowed(string authorName) //Made with the help of ChatGPT
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
         var query = (from cheep in _context.Cheeps
             where (from follow in _context.Follows
                     where follow.Follower == authorName
@@ -93,11 +79,6 @@ public class CheepRepository : ICheepRepository
     
     public async Task AddCheep(string text, Author author)
     {
-        if (author == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         if ( text.Length <= 0 || text.Length > 160 )
         {
             throw new ArgumentException("Text must be between 0 and 160 characters");
@@ -121,11 +102,6 @@ public class CheepRepository : ICheepRepository
 
     public async Task AddLike(string authorName, int cheepId)
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
         if (!currentLikes.Likes.Contains(authorName))
         {
@@ -138,11 +114,6 @@ public class CheepRepository : ICheepRepository
     
     public async Task RemoveLike(string authorName, int cheepId)
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == cheepId);
         if (currentLikes.Likes.Contains(authorName))
         {
@@ -160,11 +131,6 @@ public class CheepRepository : ICheepRepository
     
     public async Task<List<Cheep>> GetAllLiked(string authorName)
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(authorName)).Include(c => c.Author).ToListAsync();
         
         return likedCheeps;
@@ -174,11 +140,6 @@ public class CheepRepository : ICheepRepository
 
     public async Task DeleteAllLikes(string authorName)
     {
-        if (authorName == null)
-        {
-            throw new NullReferenceException("Author can't be null");
-        }
-        
         //https://stackoverflow.com/questions/1586013/how-to-do-select-all-in-linq-to-sql
         var likedCheeps = await _context.Cheeps.Where(cheep => cheep.Likes.Contains(authorName)).ToListAsync();
 
