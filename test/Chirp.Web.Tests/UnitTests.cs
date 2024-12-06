@@ -315,7 +315,7 @@ public class UnitTests : IAsyncLifetime
         var likesBefore = _context.Cheeps.ToList()[1].Likes.Count();
         await _cheepRepository.AddLike("Mellie Yost", 2);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         var likesAfter = _context.Cheeps.ToList()[1].Likes.Count();
         
@@ -399,7 +399,7 @@ public class UnitTests : IAsyncLifetime
         var before = await _cheepRepository.CountLikes(5);
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         //Act
         var after = await _cheepRepository.CountLikes(5);
@@ -446,7 +446,7 @@ public class UnitTests : IAsyncLifetime
         //Arrange 
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         //Act
         var cheeps = await _cheepRepository.GetAllLiked("Mellie Yost");
@@ -468,7 +468,7 @@ public class UnitTests : IAsyncLifetime
         //Arrange 
         var currentLikes = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         currentLikes.Likes.Add("Mellie Yost");
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         var cheep = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 5);
         var before = cheep.Likes.Count();
         
@@ -496,7 +496,7 @@ public class UnitTests : IAsyncLifetime
         cheep1.Likes.Add("Adrian");
         var cheep2 = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 1);
         cheep2.Likes.Add("Mellie Yost");
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         //Act
         var result = await _cheepRepository.GetTopLikedCheeps(1);
@@ -523,7 +523,7 @@ public class UnitTests : IAsyncLifetime
         cheep1.Likes.Add("Adrian");
         var cheep2 = await _context.Cheeps.FirstAsync(cheep =>cheep.CheepId == 1);
         cheep2.Likes.Add("Mellie Yost");
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         
         //Act
         var result = await _cheepRepository.GetTopLikedCheeps(-10);
@@ -540,7 +540,7 @@ public class UnitTests : IAsyncLifetime
     
    
     
-    // ------- Authorrepository --------
+    // ------- Author Repository --------
     
     [Fact]
     public async Task TestCreateAuthor()
