@@ -20,24 +20,28 @@ public class FollowRepository : IFollowRepository
     
     public async Task AddFollowing(string followerName, string followedName)
     {
-
-        var follow = new Follow()
+        var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == followerName && follow.Followed == followedName);
+        if (follow != null) //we must ensure it is not already in the database
+        {
+            return;
+        }
+        var newFollow = new Follow()
         {
             Follower = followerName,
             Followed = followedName
         };
         
-        await _context.Follows.AddAsync(follow);
+        await _context.Follows.AddAsync(newFollow);
         await _context.SaveChangesAsync();
     }
 
 
    
-    public async Task RemoveFollowing(string followerName, string follwedName)
+    public async Task RemoveFollowing(string followerName, string followedName)
     {
         //lambda expression inspiration:https://stackoverflow.com/questions/30928566/how-to-delete-a-row-from-database-using-lambda-linq
         //We first find the follow that we want to remove
-        var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == followerName && follow.Followed == follwedName);
+        var follow = _context.Follows.FirstOrDefault(follow => follow.Follower == followerName && follow.Followed == followedName);
 
         if ( follow != null )
         {
