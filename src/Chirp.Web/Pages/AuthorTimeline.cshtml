@@ -1,0 +1,12 @@
+﻿@page "/{authorName}"
+@model Chirp.Web.Pages.UserTimelineModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+    var routeName = HttpContext.GetRouteValue("authorName");
+}
+
+<h2> @routeName's Timeline </h2>
+
+@await Component.InvokeAsync("Timeline", new {model = this.Model})
+
