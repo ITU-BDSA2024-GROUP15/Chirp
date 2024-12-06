@@ -1,120 +1,12 @@
 ﻿@page "/{authorName}"
-@using Chirp.Core
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Web.Pages.UserTimelineModel
-@inject SignInManager<Author> SignInManager   
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("authorName");
 }
 
-<div>
-    @if (SignInManager.IsSignedIn(User) )
-    {
-        <div class="cheepbox">
-            <h3>Send cheep:</h3>
-            <form method="post">
-                <input type="text"  asp-for="CheepMessage">
-                <div class="container">
-                    <input type="submit" value="Share">
-                    <p>Max 160 characters</p>
-                </div>
-            </form>
-        </div>
-    }
-</div>
+<h2> @routeName's Timeline </h2>
 
+@await Component.InvokeAsync("Timeline", new {model = this.Model})
 
-<div>
-    <h2> @routeName's Timeline </h2>
-
-
-    @{
-        System.Diagnostics.Debug.Assert(Model.Cheeps != null, "Model.Cheeps != null");
-    }
-    @if (Model.Cheeps.Any())
-    {
-        <ul id="messagelist" class="cheeps">
-            @foreach (var cheep in Model.Cheeps)
-            {
-                <li>
-                        <strong>
-                        <a href="/@cheep.Author">@cheep.Author</a>
-                        </strong>
-
-                        <small>
-                            &mdash;
-                            @cheep.Timestamp
-                        </small>
-                        <br/>
-                        <div class="cheepmessage">@cheep.Message</div>
-                        <div class ="cheeplikeandfollow">
-                        
-                        @{
-                            if ( SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
-                            {
-                                if ( !cheep.Follows )
-                                {
-                                    <form asp-page-handler="Follow" method="post" class = "spaceright">
-                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
-                                        <button type="submit" asp-page-handler="Follow">Follow</button>
-                                    </form>
-                                    
-                                }
-                                else
-                                {
-                                    <form asp-page-handler="Unfollow" method="post" class = "spaceright">
-                                        <input hidden="hidden" type="text" name="FollowsName" value="@cheep.Author"/>
-                                        <button class="smallbutton">Unfollow</button>
-                                    </form>
-                                }
-                            }
-                        }
-
-                    @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
-                    {
-                    if (!cheep.Liked)
-                    {
-                    <form asp-page-handler="Like" method="post" class = "spaceright">
-                        <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
-                        <button class="likebutton" type="submit">Like</button>
-                    </form>
-                    }
-                    else
-                    {
-                    <form asp-page-handler="Unlike" method="post" class = "spaceright">
-                        <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
-                        <button class="unlikebutton" type="submit">Unlike</button>
-                    </form>
-                    }
-
-
-                    }
-                        <small>Likes: @cheep.Likes</small>
-                        </div>
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <em>There are no cheeps so far.</em>
-    }
-
-    <div class="pagination">
-        @{
-        if (Model.PageNumber > 1)
-        {
-        <a href="?page=@(Model.PageNumber > 1 ? Model.PageNumber - 1 : 1)">&lt;</a>
-        }
-        }
-        <h3>@Model.PageNumber</h3>
-        @{
-        if (Model.Cheeps.Count >= 32)
-        {
-        <a href="?page=@(Model.PageNumber + 1)">></a>
-        }
-        }
-    </div>
-</div>
