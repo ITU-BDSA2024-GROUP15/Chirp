@@ -60,28 +60,28 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGet()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var author = await _userManager.GetUserAsync(User);
+            if (author == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
+            RequirePassword = await _userManager.HasPasswordAsync(author);
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            var author = await _userManager.GetUserAsync(User);
+            if (author == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
+            RequirePassword = await _userManager.HasPasswordAsync(author);
             if (RequirePassword)
             {
-                if (!await _userManager.CheckPasswordAsync(user, Input.Password))
+                if (!await _userManager.CheckPasswordAsync(author, Input.Password))
                 {
                     ModelState.AddModelError(string.Empty, "Incorrect password.");
                     return Page();
@@ -89,11 +89,11 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
             
             
-            await _chirpService.DeleteFromFollows(user.Name);
-            await _chirpService.DeleteAllLikes(user.Name);
+            await _chirpService.DeleteFromFollows(author.Name);
+            await _chirpService.DeleteAllLikes(author.Name);
             
-            var result = await _userManager.DeleteAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
+            var result = await _userManager.DeleteAsync(author);
+            var userId = await _userManager.GetUserIdAsync(author);
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException($"Unexpected error occurred deleting user.");
