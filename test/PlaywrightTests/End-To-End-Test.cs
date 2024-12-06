@@ -780,13 +780,13 @@ public class EndToEnd : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
         
         // follows chirp account and goes to personal timeline
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01-08-2023 13:17:39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).First.ClickAsync();
         await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
         
         // likes a cheep and confirms like count goes up 
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 0");
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Like");
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01-08-2023 13:17:39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Button).Nth(1).ClickAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Likes: 1");
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("Unlike");
         
