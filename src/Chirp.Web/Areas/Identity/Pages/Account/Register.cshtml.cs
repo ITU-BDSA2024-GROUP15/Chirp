@@ -113,34 +113,34 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             {
                 
                 //We create a new author (which is our Applicationuser
-                var user = CreateUser();
+                var author = CreateUser();
                 
-                user.UserName = Input.Name;
-                user.Name = Input.Name;
-                user.Email = Input.Email;
+                author.UserName = Input.Name;
+                author.Name = Input.Name;
+                author.Email = Input.Email;
 
                 
                 
-                await _userStore.SetUserNameAsync(user, user.Name, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, user.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(author, author.Name, CancellationToken.None);
+                await _emailStore.SetEmailAsync(author, author.Email, CancellationToken.None);
                 
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                var result = await _userManager.CreateAsync(author, Input.Password);
 
                 if (result.Succeeded)
                 {
                     //New account created
                     
                     //Add claim
-                    var claim = new Claim("Username", user.Name);
-                    await _userManager.AddClaimAsync(user, claim);
+                    var claim = new Claim("Username", author.Name);
+                    await _userManager.AddClaimAsync(author, claim);
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var authorName = await _userManager.GetUserIdAsync(author);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(author);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId, code, returnUrl },
+                        values: new { area = "Identity", authorName, code, returnUrl },
                         protocol: Request.Scheme);
 
                     if (callbackUrl != null)
@@ -153,7 +153,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.SignInAsync(author, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
