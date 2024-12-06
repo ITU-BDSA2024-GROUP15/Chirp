@@ -921,5 +921,48 @@ public class EndToEnd : PageTest
         
     }
     
+       [Test]
+    public async Task CanGoFromPage1ToPage2AndBackPersonalTimeline()
+    {
+        await Page.GotoAsync("http://localhost:5221/");
+     
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Register", Exact = true }).ClickAsync();
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("testUser");
+        await Page.GetByPlaceholder("name@example.com").ClickAsync();
+        await Page.GetByPlaceholder("name@example.com").FillAsync("test@testmail.com");
+        await Page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
+        await Page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
+        await Page.GetByLabel("Confirm Password").ClickAsync();
+        await Page.GetByLabel("Confirm Password").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+        await Page.GetByPlaceholder("password").ClickAsync();
+        await Page.GetByPlaceholder("password").FillAsync("Test123!");
+        await Page.GetByPlaceholder("Username").ClickAsync();
+        await Page.GetByPlaceholder("Username").FillAsync("testUser");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        
+        
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Public Timeline" }).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Mellie Yost — 01-08-2023 13:" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Quintin Sitts — 01-08-2023 13:17:32 It''s bad enough to appal the stoutest man" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Malcolm Janski — 01-08-2023 13:17:29 At present I cannot spare energy and" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Roger Histand — 01-08-2023 13:17:20 You can understand his regarding it as" }).GetByRole(AriaRole.Button).First.ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "My Timeline" }).ClickAsync();
+        await Expect(Page.Locator("body")).ToContainTextAsync("1");
+        await Page.GetByRole(AriaRole.Link, new() { Name = ">" }).ClickAsync();
+        await Expect(Page.Locator("body")).ToContainTextAsync("2");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "<" }).ClickAsync();
+        await Expect(Page.Locator("body")).ToContainTextAsync("1");
+        
+        
+        await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Delete" }).ClickAsync();
+        await Page.GetByPlaceholder("Please enter your password.").ClickAsync();
+        await Page.GetByPlaceholder("Please enter your password.").FillAsync("Test123!");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Delete data and close my" }).ClickAsync();
+    }
     
 }
