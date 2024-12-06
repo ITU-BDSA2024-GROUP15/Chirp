@@ -47,7 +47,7 @@ public class EndToEnd : PageTest
     {
         await Page.GotoAsync("http://localhost:5221");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
-        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01/08/2023 13.17.39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Link).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine — 01-08-2023 13:17:39 Starbuck now is what we hear the" }).GetByRole(AriaRole.Link).ClickAsync();
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Jacqualine Gilcoine's Timeline" })).ToBeVisibleAsync();
     }
     
