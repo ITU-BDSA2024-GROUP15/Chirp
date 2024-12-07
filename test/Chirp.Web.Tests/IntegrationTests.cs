@@ -33,6 +33,11 @@ public class IntegrationTests : IAsyncLifetime
 
     public Task DisposeAsync()
     {
+        if (_utils == null)
+        {
+            return Task.CompletedTask;
+        }
+        _utils.CloseConnection();
         return Task.CompletedTask;
     }
     
