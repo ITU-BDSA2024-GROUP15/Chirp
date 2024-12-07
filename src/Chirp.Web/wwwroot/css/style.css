@@ -357,3 +357,11 @@ ul.followlist li, ul.followlist {
     margin-top: 5px;
 }
 
+.deletecheepbutton{
+    
+    background-color: indianred;
+    padding: 3px 6px;
+    display: inline-block;
+    outline: none;
+    
+}

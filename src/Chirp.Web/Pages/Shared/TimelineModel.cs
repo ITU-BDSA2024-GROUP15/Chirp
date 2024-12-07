@@ -116,4 +116,10 @@ public class TimelineModel : PageModel
         
         return RedirectToPage(PageName);
     }
+
+
+    public async Task<IActionResult> OnPostDeleteCheep()
+    {
+        return null;
+    }
 }
