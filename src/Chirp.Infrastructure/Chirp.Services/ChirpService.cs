@@ -128,7 +128,7 @@ public interface IChirpService
     /// Deletes a cheep from the database
     /// </summary>
     /// <param name="cheepId">The id of the cheep</param>
-    public void DeleteCheep(int cheepId);
+    public Task DeleteCheep(int cheepId);
 }
 
 
@@ -395,9 +395,9 @@ public class ChirpService : IChirpService
 
 
 
-    public void DeleteCheep(int cheepId)
+    public async Task DeleteCheep(int cheepId)
     {
-        _cheepRepository.DeleteCheep(cheepId);
+        await _cheepRepository.DeleteCheep(cheepId);
     }
 
 

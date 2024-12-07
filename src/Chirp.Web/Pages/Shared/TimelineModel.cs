@@ -120,6 +120,11 @@ public class TimelineModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteCheep()
     {
-        return null;
+        if (LikedCheepId != null)
+        {
+            await Service.DeleteCheep(LikedCheepId.Value);
+        }
+        
+        return RedirectToPage(PageName);
     }
 }
