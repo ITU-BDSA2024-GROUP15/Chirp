@@ -531,6 +531,50 @@ public class UnitTests : IAsyncLifetime
     }
     
     
+    [Fact]
+    public async Task CanDeleteSingleCheep()
+    {
+        if (_cheepRepository == null || _context == null)
+        {
+            return;
+        }
+        
+        //Arrange
+        Cheep cheep1 = _context.Cheeps.FirstOrDefault(cheep => cheep.CheepId == 1)!;
+        
+        //Act
+        await _cheepRepository.DeleteCheep(1);
+        
+        Cheep cheep2 = _context.Cheeps.FirstOrDefault(cheep => cheep.CheepId == 1)!;
+        
+        //Assert
+        Assert.NotNull(cheep1);
+        Assert.Null(cheep2);
+    }
+
+
+    [Fact]
+    public async Task CanNotDeleteNonExistingCheep()
+    {
+        if (_cheepRepository == null)
+        {
+            return;
+        }
+        try
+        {
+            //Arrange
+            int cheepId = 9999;
+
+            //Act
+            var exception = _cheepRepository.DeleteCheep(cheepId);
+        }
+        catch (ArgumentException e)
+        {
+            //Assert
+            Assert.Equal("Cheep not found", e.Message);
+            throw;
+        }
+    }
     
    
     
@@ -890,21 +934,5 @@ public class UnitTests : IAsyncLifetime
     }
 
 
-    [Fact]
-    public async Task CanDeleteSingleCheep()
-    {
-        if (_cheepRepository == null || _context == null)
-        {
-            return;
-        }
-        
-        Cheep cheep1 = _context.Cheeps.FirstOrDefault(cheep => cheep.CheepId == 1)!;
-        Assert.NotNull(cheep1);
-
-        await _cheepRepository.DeleteCheep(1);
-        
-        Cheep cheep2 = _context.Cheeps.FirstOrDefault(cheep => cheep.CheepId == 1)!;
-        
-        Assert.Null(cheep2);
-    }
+    
 }
