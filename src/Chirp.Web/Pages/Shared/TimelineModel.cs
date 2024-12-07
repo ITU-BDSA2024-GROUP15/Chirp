@@ -122,7 +122,15 @@ public class TimelineModel : PageModel
     {
         if (LikedCheepId != null)
         {
-            await Service.DeleteCheep(LikedCheepId.Value);
+            try
+            {
+                await Service.DeleteCheep(LikedCheepId.Value);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
+            
         }
         
         return RedirectToPage(PageName);
