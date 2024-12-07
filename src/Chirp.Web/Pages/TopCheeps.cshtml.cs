@@ -22,6 +22,10 @@ public class TopCheeps : TimelineModel
         {
             Cheeps = await Service.GetTopLikedCheeps(authorname, PageNumber);     
         }
+        else
+        {
+            Cheeps = await Service.GetTopLikedCheeps("", PageNumber); //Can we find a better way to do this ?
+        }
         
         return Page();
     }
