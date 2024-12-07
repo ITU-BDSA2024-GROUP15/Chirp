@@ -64,7 +64,7 @@ public class IntegrationTests : IAsyncLifetime
 
     
     [Fact]
-    public async Task AddCheepchirpServiceNonExistingAuthor()
+    public async Task TestAddCheepchirpServiceNonExistingAuthor()
     {
         if (_service == null || _utils == null || _authorrepo == null)
         {
@@ -161,7 +161,7 @@ public class IntegrationTests : IAsyncLifetime
 
 
     [Fact]
-    public async Task CanRemoveLike()
+    public async Task TestCanRemoveLike()
     {
         if (_service == null)
         {
@@ -178,7 +178,7 @@ public class IntegrationTests : IAsyncLifetime
 
 
     [Fact]
-    public async Task CanRemoveLikeData()
+    public async Task TestCanRemoveLikeData()
     {
         if (_service == null)
         {
@@ -194,5 +194,7 @@ public class IntegrationTests : IAsyncLifetime
         Assert.True(likes1Amount != likes2Amount);
         Assert.True(likes2Amount == 0);
     }
+    
+   
 
 }
