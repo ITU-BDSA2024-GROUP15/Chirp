@@ -3,11 +3,13 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Chirp.Web.Tests;
 
 public class UnitTests : IAsyncLifetime
 {
+    private readonly ITestOutputHelper _testOutputHelper;
 
     private TestUtilities? _utils;
     private CheepDbContext? _context;
@@ -16,8 +18,13 @@ public class UnitTests : IAsyncLifetime
     private IFollowRepository? _followRepository;
     private IChirpService? _chirpService;
 
-    
-    
+
+    public UnitTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
+
     public async Task InitializeAsync()
     {
         //Arrange
@@ -566,13 +573,14 @@ public class UnitTests : IAsyncLifetime
             int cheepId = 9999;
 
             //Act
-            var exception = _cheepRepository.DeleteCheep(cheepId);
+            await _cheepRepository.DeleteCheep(cheepId);
+            cheepId = 0;
+            Assert.Equal(0, cheepId);
         }
         catch (ArgumentException e)
         {
             //Assert
             Assert.Equal("Cheep not found", e.Message);
-            throw;
         }
     }
     
