@@ -162,6 +162,23 @@ public class CheepRepository : ICheepRepository
 
         return cheeps;
     }
-    
+
+
+    public async void DeleteCheep(int cheepId)
+    {
+        var cheep = await _context.Cheeps.FindAsync(cheepId);
+        if (cheep != null)
+        {
+            _context.Cheeps.Remove(cheep);
+            _context.SaveChanges();
+        }
+        else
+        {
+            Console.WriteLine("Cheep not found");
+            throw new ArgumentException("Cheep not found");
+        }
+        
+        
+    }
     
 }

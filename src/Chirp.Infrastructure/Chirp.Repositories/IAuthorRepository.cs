@@ -28,5 +28,12 @@ public interface IAuthorRepository
     /// <param name="email">Email of Author</param>
     /// <exception cref="ArgumentException">thrown if name contains illegal characters</exception>
     public Task CreateAuthor(string authorName, string email);
-    
+
+
+    /// <summary>
+    /// Deletes a cheep from the database
+    /// </summary>
+    /// <param name="cheepId">The id of the cheep</param>
+    public void DeleteCheep(int cheepId);
+
 }
