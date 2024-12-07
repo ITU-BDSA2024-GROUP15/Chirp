@@ -888,4 +888,23 @@ public class UnitTests : IAsyncLifetime
         Assert.Equal(author1.Name, follow.Follower);
 
     }
+
+
+    [Fact]
+    public async Task CanDeleteSingleCheep()
+    {
+        if (_cheepRepository == null || _context == null)
+        {
+            return;
+        }
+        
+        Cheep cheep1 = _context.Cheeps.FirstOrDefault(cheep => cheep.CheepId == 1)!;
+        Assert.NotNull(cheep1);
+
+        await _cheepRepository.DeleteCheep(1);
+        
+        Cheep cheep2 = _context.Cheeps.FirstOrDefault(cheep => cheep.CheepId == 1)!;
+        
+        Assert.Null(cheep2);
+    }
 }
