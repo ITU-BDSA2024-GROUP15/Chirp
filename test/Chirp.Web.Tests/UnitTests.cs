@@ -934,7 +934,7 @@ public class UnitTests : IAsyncLifetime
     
 
     [Fact]
-    public async Task CanAddFollowerToDbWithchirpService() 
+    public async Task TestCanAddFollowerToDbWithchirpService() 
     {
         if (_chirpService == null || _context == null)
         {
@@ -964,7 +964,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task GetCheepsFromAuthorOnlyContainsCheepsFromFollowing()
+    public async Task TestGetCheepsFromAuthorOnlyContainsCheepsFromFollowing()
     {
         if (_chirpService == null || _followRepository == null ||_context == null)
         {
@@ -988,7 +988,7 @@ public class UnitTests : IAsyncLifetime
         }
     }
     [Fact]
-    public async Task AddCheepTest()
+    public async Task TestAddCheep()
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1002,7 +1002,7 @@ public class UnitTests : IAsyncLifetime
         Assert.Single(cheeps);
     }
     [Fact]
-    public async Task CanRemoveFollower() 
+    public async Task TestCanRemoveFollower() 
     {
         if (_chirpService == null || _context == null || _followRepository == null)
         {
@@ -1036,7 +1036,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanGetFollowedDtos() 
+    public async Task TestCanGetFollowedDtos() 
     {
         if (_chirpService == null ||  _followRepository == null)
         {
@@ -1066,7 +1066,7 @@ public class UnitTests : IAsyncLifetime
 
 
     [Fact]
-    public async Task CanGetCheepsForTimeline()
+    public async Task TestCanGetCheepsForTimeline()
     {
         if (_chirpService == null)
         {
@@ -1080,7 +1080,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanDeleteAllFollows() 
+    public async Task TestCanDeleteAllFollows() 
     {
         if (_chirpService == null || _followRepository == null)
         {
@@ -1121,7 +1121,7 @@ public class UnitTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task CanAddLike() 
+    public async Task TestCanAddLike() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1139,7 +1139,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task AuthorCanLikeCheepOnlyOnce() 
+    public async Task TestAuthorCanLikeCheepOnlyOnce() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1158,7 +1158,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanRemoveLike() 
+    public async Task TestCanRemoveLike() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1179,7 +1179,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task AuthorCanOnlyRemoveOneLike() 
+    public async Task TestAuthorCanOnlyRemoveOneLike() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1202,7 +1202,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanCountLikes() 
+    public async Task TestCanCountLikes() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1221,7 +1221,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanGetLikedCheeps() 
+    public async Task TestCanGetLikedCheepsChirpService() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1238,7 +1238,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanDeleteAllLikes() 
+    public async Task TestCanDeleteAllLikes() 
     {
         if (_chirpService == null || _cheepRepository == null)
         {
@@ -1261,7 +1261,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task CanGetTopLikedCheeps() 
+    public async Task TestCanGetTopLikedCheeps() 
     {
         if (_chirpService == null || _cheepRepository == null || _context == null)
         {
