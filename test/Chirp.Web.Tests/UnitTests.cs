@@ -3,11 +3,13 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Chirp.Web.Tests;
 
 public class UnitTests : IAsyncLifetime
 {
+    private readonly ITestOutputHelper _testOutputHelper;
 
     private TestUtilities? _utils;
     private CheepDbContext? _context;
@@ -16,8 +18,13 @@ public class UnitTests : IAsyncLifetime
     private IFollowRepository? _followRepository;
     private IChirpService? _chirpService;
 
-    
-    
+
+    public UnitTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
+
     public async Task InitializeAsync()
     {
         //Arrange
@@ -859,17 +866,42 @@ public class UnitTests : IAsyncLifetime
 
     
     [Fact]
-    public async Task TestGetAuthorDtoByNameReturnsAuthorDTO()
+    public async Task TestGetAuthorDtoByNameReturnsAuthorDto()
     {
-        if (_chirpService == null)
+        if (_chirpService == null )
         {
             return;
         }
 
         var author = await _chirpService.GetAuthorDtoByName("Octavio Wagganer");
         // add assert
-
+        if (author != null) Assert.Equal("Octavio Wagganer", author.Username);
     }
+
+
+    [Fact]
+    public async Task TestGetCheepsIsFollowingAuthor()
+    {
+        if (_chirpService == null || _followRepository == null ||_context == null)
+        {
+            return;
+        }
+        
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        await _followRepository.AddFollowing(author1.Name,"Jacqualine Gilcoine");
+        
+        var cheeps = await _chirpService.GetCheeps(1, author1.Name);
+        
+        Assert.True(cheeps[0].Follows);
+        Assert.False(cheeps[3].Follows);
+    }
+    
     
     [Fact]
     public async Task TestPage0IsPage1()
@@ -886,7 +918,7 @@ public class UnitTests : IAsyncLifetime
     }
     
     [Fact]
-    public async Task TestPage1IsNotPage1()
+    public async Task TestPage1IsNotPage2()
     {
         if (_chirpService == null)
         {
@@ -899,7 +931,6 @@ public class UnitTests : IAsyncLifetime
         Assert.False(cheepsPage1.Equals(cheepsPage2));
     }
 
-    
     
 
     [Fact]
@@ -929,6 +960,325 @@ public class UnitTests : IAsyncLifetime
         
         Assert.NotNull(follow);
         Assert.Equal(author1.Name, follow.Follower);
+
+    }
+    
+    [Fact]
+    public async Task GetCheepsFromAuthorOnlyContainsCheepsFromFollowing()
+    {
+        if (_chirpService == null || _followRepository == null ||_context == null)
+        {
+            return;
+        }
+        
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        await _followRepository.AddFollowing(author1.Name,"Jacqualine Gilcoine");
+        
+        var cheeps = await _chirpService.GetCheepsFromAuthor(1, "Jacqualine Gilcoine", author1.Name );
+
+        foreach (var cheep in cheeps)
+        {
+            Assert.True(cheep.Follows);
+        }
+    }
+    [Fact]
+    public async Task AddCheepTest()
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        
+        await _chirpService.AddCheep("Hello Chirp!", "Test1", "test1@mail.com");
+        
+        var cheeps = await _cheepRepository.GetCheepsFromAuthor(1, "Test1");
+        
+        Assert.Single(cheeps);
+    }
+    [Fact]
+    public async Task CanRemoveFollower() 
+    {
+        if (_chirpService == null || _context == null || _followRepository == null)
+        {
+            return;
+        }
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await _followRepository.AddFollowing(author1.Name, author2.Name);
+        var follow1 = await _context.Follows.FirstOrDefaultAsync();
+
+        if (follow1 != null) Assert.Equal(author1.Name, follow1.Follower);
+
+        await _chirpService.RemoveFollowing(author1.Name, author2.Name);
+
+        var follow2 = await _context.Follows.FirstOrDefaultAsync();
+        
+        Assert.Null(follow2);
+        if (follow2 != null) Assert.NotEqual(author1.Name, follow2.Follower);
+    }
+    
+    [Fact]
+    public async Task CanGetFollowedDtos() 
+    {
+        if (_chirpService == null ||  _followRepository == null)
+        {
+            return;
+        }
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await _followRepository.AddFollowing(author1.Name, author2.Name);
+
+        var followers = await _chirpService.GetFollowedDtos("Test1");
+        
+        Assert.NotNull(followers);
+        Assert.Single(followers);
+    }
+
+
+    [Fact]
+    public async Task CanGetCheepsForTimeline()
+    {
+        if (_chirpService == null)
+        {
+            return;
+        }
+        
+        var cheeps = await _chirpService.GetCheepsForTimeline("Octavio Wagganer",1);
+   
+        Assert.Equal(15, cheeps.Count());
+        
+    }
+    
+    [Fact]
+    public async Task CanDeleteAllFollows() 
+    {
+        if (_chirpService == null || _followRepository == null)
+        {
+            return;
+        }
+        Author author1 = new Author()
+        {
+            Id = 1,
+            Name = "Test1",
+            Email = "test1@mail.com",
+        };
+        
+        Author author2 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+        
+        Author author3 = new Author()
+        {
+            Id = 2,
+            Name = "Test2",
+            Email = "test2@mail.com",
+        };
+
+        await _followRepository.AddFollowing(author1.Name, author2.Name);
+        await _followRepository.AddFollowing(author3.Name, author2.Name);
+        await _followRepository.AddFollowing(author2.Name, author1.Name);
+
+        await _chirpService.DeleteFromFollows(author2.Name);
+
+        var followersTest2 = await _chirpService.GetFollowedDtos(author2.Name); // not sure if using this is legal
+        var followersTest1 = await _chirpService.GetFollowedDtos(author1.Name); // not sure if using this is legal
+
+        Assert.Empty(followersTest2);
+        Assert.Empty(followersTest1);
+    }
+
+    [Fact]
+    public async Task CanAddLike() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        var likes1 = await _cheepRepository.CountLikes(10);
+
+        Assert.Equal(0,likes1);
+        
+        await _chirpService.AddLike( "Jacquine Gilcoine",10);
+        
+        var likes2 = await _cheepRepository.CountLikes(10);
+        Assert.Equal(1,likes2);
+        
+    }
+    
+    [Fact]
+    public async Task AuthorCanLikeCheepOnlyOnce() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        var likes1 = await _cheepRepository.CountLikes(10);
+
+        Assert.Equal(0,likes1);
+        
+        await _chirpService.AddLike( "Jacquine Gilcoine",10);
+        await _chirpService.AddLike( "Jacquine Gilcoine",10);
+
+        var likes2 = await _cheepRepository.CountLikes(10);
+        Assert.Equal(1,likes2);
+        
+    }
+    
+    [Fact]
+    public async Task CanRemoveLike() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        var likes1 = await _cheepRepository.CountLikes(10);
+
+        Assert.Equal(0,likes1);
+        
+        await _cheepRepository.AddLike( "Jacquine Gilcoine",10);
+
+        var likes2 = await _cheepRepository.CountLikes(10);
+        Assert.Equal(1,likes2);
+
+        await _chirpService.RemoveLike("Jacquine Gilcoine", 10);
+
+        Assert.Equal(0,likes1);
+    }
+    
+    [Fact]
+    public async Task AuthorCanOnlyRemoveOneLike() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        var likes1 = await _cheepRepository.CountLikes(10);
+
+        Assert.Equal(0,likes1);
+        
+        await _cheepRepository.AddLike( "Jacquine Gilcoine",10);
+
+        var likes2 = await _cheepRepository.CountLikes(10);
+        Assert.Equal(1,likes2);
+
+        await _chirpService.RemoveLike("Jacquine Gilcoine", 10);
+        await _chirpService.RemoveLike("Jacquine Gilcoine", 10);
+        await _chirpService.RemoveLike("Jacquine Gilcoine", 10);
+        
+        Assert.Equal(0,likes1);
+    }
+    
+    [Fact]
+    public async Task CanCountLikes() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        var likes1 = await _chirpService.CountLikes(10);
+
+        Assert.Equal(0,likes1);
+
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 10);
+        await _cheepRepository.AddLike("Quintin Sitts", 10);
+        await _cheepRepository.AddLike("Luanna Muro", 10);
+        
+        var likes2 = await _chirpService.CountLikes(10);
+        Assert.Equal(3,likes2);
+    }
+    
+    [Fact]
+    public async Task CanGetLikedCheeps() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 10);
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 11);
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 13);
+
+        var likes = await _chirpService.GetAllLiked("Jacquine Gilcoine");
+        
+        Assert.Equal(3,likes.Count);
+    }
+    
+    [Fact]
+    public async Task CanDeleteAllLikes() 
+    {
+        if (_chirpService == null || _cheepRepository == null)
+        {
+            return;
+        }
+        
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 10);
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 11);
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 13);
+
+        var likes = await _cheepRepository.GetAllLiked("Jacquine Gilcoine");
+        
+        Assert.Equal(3,likes.Count);
+
+        await _chirpService.DeleteAllLikes("Jacquine Gilcoine");
+        
+        var likesAfterDelete = await _cheepRepository.GetAllLiked("Jacquine Gilcoine");
+        Assert.Empty(likesAfterDelete);
+        
+    }
+    
+    [Fact]
+    public async Task CanGetTopLikedCheeps() 
+    {
+        if (_chirpService == null || _cheepRepository == null || _context == null)
+        {
+            return;
+        }
+        
+        await _cheepRepository.AddLike("Jacquine Gilcoine", 10);
+        await _cheepRepository.AddLike("Quintin Sitts", 10);
+        await _cheepRepository.AddLike("Luanna Muro", 10);
+
+        await _cheepRepository.AddLike("Quintin Sitts", 9);
+        await _cheepRepository.AddLike("Luanna Muro", 9);
+
+        var topCheeps = await _chirpService.GetTopLikedCheeps("test", 1);
+        
+        Assert.Equal(10, topCheeps[0].Id);
+        Assert.Equal(9, topCheeps[1].Id);
 
     }
 }
