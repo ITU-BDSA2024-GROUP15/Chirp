@@ -123,6 +123,12 @@ public interface IChirpService
     /// /// <param name="page">The page number</param>
     /// <returns>A list of 32 CheepDTOs</returns>
     public Task<List<CheepDto>> GetTopLikedCheeps(string authorName, int page);
+    
+    /// <summary>
+    /// Deletes a cheep from the database
+    /// </summary>
+    /// <param name="cheepId">The id of the cheep</param>
+    public Task DeleteCheep(int cheepId);
 }
 
 
@@ -385,6 +391,13 @@ public class ChirpService : IChirpService
         var cheeps = await _cheepRepository.GetTopLikedCheeps(page);
         var cheepDtos = await ConvertCheepsToCheepDtos(cheeps, authorName);
         return cheepDtos;
+    }
+
+
+
+    public async Task DeleteCheep(int cheepId)
+    {
+        await _cheepRepository.DeleteCheep(cheepId);
     }
 
 

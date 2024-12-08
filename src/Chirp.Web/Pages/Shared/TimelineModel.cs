@@ -116,4 +116,23 @@ public class TimelineModel : PageModel
         
         return RedirectToPage(PageName);
     }
+
+
+    public async Task<IActionResult> OnPostDeleteCheep()
+    {
+        if (LikedCheepId != null)
+        {
+            try
+            {
+                await Service.DeleteCheep(LikedCheepId.Value);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e);
+            }
+            
+        }
+        
+        return RedirectToPage(PageName);
+    }
 }

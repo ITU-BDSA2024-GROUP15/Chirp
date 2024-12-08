@@ -84,5 +84,11 @@ public interface ICheepRepository
     /// <param name="page">The page number</param>
     /// <returns>A list of 32 cheeps</returns>
     public Task<List<Cheep>> GetTopLikedCheeps(int page);
+    
+    /// <summary>
+    /// Deletes a cheep from the database
+    /// </summary>
+    /// <param name="cheepId">The id of the cheep</param>
+    public Task DeleteCheep(int cheepId);
 
 }

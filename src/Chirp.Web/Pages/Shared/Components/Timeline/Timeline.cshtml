@@ -76,7 +76,18 @@
                                     </form>
                                 }
                             }
-                        <small>Likes: @cheep.Likes</small>
+                        <div class="deleteBox">
+                            <small>Likes: @cheep.Likes</small>
+                            @if (cheep.Author == User.Identity?.Name)
+                            {
+                                <form asp-page-handler="DeleteCheep" method="post">
+                                    <input hidden="hidden" type="text" asp-for="LikedCheepId" value="@cheep.Id"/>
+                                    <button class="deletecheepbutton">Delete</button>
+                                </form>
+                                
+                            }
+                        </div>
+                        
                     </div>
                 </li>
             }
