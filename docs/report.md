@@ -31,10 +31,7 @@ Illustrate typical scenarios of a user journey through your Chirp! application. 
 Make sure that the illustrations are in line with the actual behavior of your application.
 
 ## Sequence of functionality/calls through Chirp!
-With a UML sequence diagram, illustrate the flow of messages and data through your Chirp! application. Start with an HTTP request that is send by an unauthorized user to the root endpoint of your application and end with the completely rendered web-page that is returned to the user.
-
-Make sure that your illustration is complete. That is, likely for many of you there will be different kinds of "calls" and responses. Some HTTP calls and responses, some calls and responses in C# and likely some more. (Note the previous sentence is vague on purpose. I want that you create a complete illustration.)
-
+The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure):
 ````mermaid
 sequenceDiagram
   participant Client as :Client
@@ -63,6 +60,7 @@ sequenceDiagram
   Chirp ->> Chirp: 1.14 Is User Authenticated
   Chirp -->>- Client: 1.15 RESPONSE: PageResult
 ````
+It should be noted that we check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked when the html is rendered in Public.cshtml.
 
 
 # Process
