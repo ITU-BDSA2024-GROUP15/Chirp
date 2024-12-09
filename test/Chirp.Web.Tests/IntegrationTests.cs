@@ -232,6 +232,40 @@ public class IntegrationTests : IAsyncLifetime
         
         Assert.Empty(authorCheepsAfter);
     }
+    
+    [Fact]
+    public async Task TestOtherUsersCantSeeDeletedCheeps()
+    {
+        if (_service == null || _authorrepo == null)
+        {
+            return;
+        }
+        
+        await _authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
+        var author = await _authorrepo.GetAuthorByName("erik");
+        
+        await _authorrepo.CreateAuthor("Lars", "larslarsen@gmail.com");
+        var author2 = await _authorrepo.GetAuthorByName("Lars");
+
+        if (author == null || author2 == null)
+        {
+            return;
+        }
+
+        await _service.AddCheep("tester", author.Name, author.Email);
+        
+        var author1CheepsBefore = await _service.GetCheepsFromAuthor(0, author.Name, author2.Name);
+        var cheepBefore = author1CheepsBefore.First();
+        
+        Assert.True(1 == author1CheepsBefore.Count());
+        Assert.Equal("tester", cheepBefore.Message);
+        
+        await _service.DeleteCheep(cheepBefore.Id);
+        
+        var author1CheepsAfter = await _service.GetCheepsFromAuthor(0, author.Name, author2.Name);
+        
+        Assert.Empty(author1CheepsAfter);
+    }
 
 
     [Fact]
@@ -280,9 +314,5 @@ public class IntegrationTests : IAsyncLifetime
         
         Assert.NotEqual(topCheepBefore, topCheepAfter);
     }
-    
-    
-        
-    
     
 }
