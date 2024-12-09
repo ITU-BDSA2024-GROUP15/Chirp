@@ -329,7 +329,7 @@ public class ChirpService : IChirpService
         {
             bool isFollowing = false;
             bool isLiking = false;
-            int likesamount = await _cheepRepository.CountLikes(cheep.CheepId);
+            int likesamount = cheep.Likes.Count;
             foreach ( var follow in follows ) // this could be more efficient
             {
                 if ( follow.Followed == cheep.Author.Name )
