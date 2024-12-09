@@ -199,6 +199,39 @@ public class IntegrationTests : IAsyncLifetime
         Assert.True(likes1Amount != likes2Amount);
         Assert.True(likes2Amount == 0);
     }
+    
+    [Fact]
+    public async Task TestCanPostAndDelete()
+    {
+        if (_service == null || _authorrepo == null)
+        {
+            return;
+        }
+        
+        await _authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
+        var author = await _authorrepo.GetAuthorByName("erik");
+
+        if (author == null)
+        {
+            return;
+        }
+        
+        await _service.AddCheep("test", author.Name, author.Email);
+
+        var authorCheepsBefore = await _service.GetAllCheepsFromAuthor(author.Name);
+        var cheep = authorCheepsBefore.First();
+        
+        Assert.True(1 == authorCheepsBefore.Count());
+
+        
+
+        await _service.DeleteCheep(cheep.Id);
+        
+        
+        var authorCheepsAfter = await _service.GetAllCheepsFromAuthor(author.Name);
+        
+        Assert.Empty(authorCheepsAfter);
+    }
 
 
     [Fact]
