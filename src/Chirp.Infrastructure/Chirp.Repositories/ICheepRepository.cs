@@ -70,7 +70,7 @@ public interface ICheepRepository
     /// </summary>
     /// <param name="authorName">The name of the author in question</param>
     /// <returns>A list of cheeps</returns>
-    public Task<List<Cheep>> GetAllLiked(string author);
+    public Task<List<Cheep>> GetAllLiked(string authorName);
 
     /// <summary>
     /// Finds and removes all instances of the authors name from the liked list of cheeps
