@@ -200,6 +200,119 @@ public class IntegrationTests : IAsyncLifetime
         Assert.True(likes2Amount == 0);
     }
     
-   
+    [Fact]
+    public async Task TestCanPostAndDelete()
+    {
+        if (_service == null || _authorrepo == null)
+        {
+            return;
+        }
+        
+        await _authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
+        var author = await _authorrepo.GetAuthorByName("erik");
 
+        if (author == null)
+        {
+            return;
+        }
+        
+        await _service.AddCheep("test", author.Name, author.Email);
+
+        var authorCheepsBefore = await _service.GetAllCheepsFromAuthor(author.Name);
+        var cheep = authorCheepsBefore.First();
+        
+        Assert.True(1 == authorCheepsBefore.Count());
+
+        
+
+        await _service.DeleteCheep(cheep.Id);
+        
+        
+        var authorCheepsAfter = await _service.GetAllCheepsFromAuthor(author.Name);
+        
+        Assert.Empty(authorCheepsAfter);
+    }
+    
+    [Fact]
+    public async Task TestOtherUsersCantSeeDeletedCheeps()
+    {
+        if (_service == null || _authorrepo == null)
+        {
+            return;
+        }
+        
+        await _authorrepo.CreateAuthor("erik", "hahaemail@gmail.com");
+        var author = await _authorrepo.GetAuthorByName("erik");
+        
+        await _authorrepo.CreateAuthor("Lars", "larslarsen@gmail.com");
+        var author2 = await _authorrepo.GetAuthorByName("Lars");
+
+        if (author == null || author2 == null)
+        {
+            return;
+        }
+
+        await _service.AddCheep("tester", author.Name, author.Email);
+        
+        var author1CheepsBefore = await _service.GetCheepsFromAuthor(0, author.Name, author2.Name);
+        var cheepBefore = author1CheepsBefore.First();
+        
+        Assert.True(1 == author1CheepsBefore.Count());
+        Assert.Equal("tester", cheepBefore.Message);
+        
+        await _service.DeleteCheep(cheepBefore.Id);
+        
+        var author1CheepsAfter = await _service.GetCheepsFromAuthor(0, author.Name, author2.Name);
+        
+        Assert.Empty(author1CheepsAfter);
+    }
+
+
+    [Fact]
+    public async Task TestUserCanAffectTopCheep()
+    {
+        if (_service == null)
+        {
+            return;
+        }
+        
+        string author = "Octavio Wagganer";
+        var topCheeps = await _service.GetTopLikedCheeps(author, 0);
+        var topCheepBefore = topCheeps.First();
+        
+        await _service.AddLike(author, 5);
+        
+        
+        var topCheeps2 = await _service.GetTopLikedCheeps(author, 0);
+        
+        var topCheepAfter = topCheeps2.First();
+        
+        Assert.NotEqual(topCheepBefore, topCheepAfter);
+        Assert.Equal(5, topCheepAfter.Id);
+        
+    }
+
+
+    [Fact]
+    public async Task TestTopCheepGetsDeleted()
+    {
+        if (_service == null)
+        {
+            return;
+        }
+        
+        string author = "Octavio Wagganer";
+        await _service.AddLike(author, 5);
+        var topCheeps = await _service.GetTopLikedCheeps(author, 0);
+        var topCheepBefore = topCheeps.First();
+        
+        Assert.Equal(5, topCheepBefore.Id);
+
+        await _service.DeleteCheep(5);
+        var topCheepsAfter = await _service.GetTopLikedCheeps(author, 0);
+        var topCheepAfter = topCheepsAfter.First();
+        
+        Assert.NotEqual(topCheepBefore, topCheepAfter);
+    }
+    
 }
