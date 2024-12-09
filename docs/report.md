@@ -60,8 +60,7 @@ sequenceDiagram
   Chirp ->> Chirp: 1.14 Is User Authenticated
   Chirp -->>- Client: 1.15 RESPONSE: PageResult
 ````
-It should be noted that we check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked when the html is rendered in Public.cshtml.
-
+It should be noted that we check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml.
 
 # Process
 ## Build, test, release, and deployment
