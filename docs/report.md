@@ -11,6 +11,8 @@ The domain model for our Chirp application consists of the classes … … … w
 
 
 Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.
+
+The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them, can be seen in the figure below. 
 ![](images/DomainModelChirp.drawio.png)
 
 
