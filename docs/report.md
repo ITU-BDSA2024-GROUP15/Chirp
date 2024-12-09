@@ -11,8 +11,7 @@ The domain model for our Chirp application consists of the classes … … … w
 
 
 Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.
-https://drive.google.com/file/d/16Ht9WDM1yeogA0wr0FGy4BiA73yuIN4C/view?usp=drive_link
-
+![](images/DomainModelChirp.drawio.png)
 
 
 
