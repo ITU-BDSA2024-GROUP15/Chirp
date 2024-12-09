@@ -1,4 +1,6 @@
-Introduction
+# Introduction
+Link to repository https://github.com/ITU-BDSA2024-GROUP15/Chirp
+
 
 # Design and architecture
 
