@@ -1,5 +1,6 @@
 using Chirp.Core;
 using Chirp.Infrastructure.Chirp.Repositories;
+using Chirp.Infrastructure.DataTransferObjects;
 
 namespace Chirp.Infrastructure.Chirp.Services;
 
