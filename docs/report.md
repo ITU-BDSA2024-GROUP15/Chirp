@@ -6,12 +6,6 @@ Link to repository https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
 
 ## Domain model
-The domain model for our Chirp application consists of the classes … … … which gives a conceptual representation of the different entities and the relations between them.
-
-
-
-Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.
-
 The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them, can be seen in the figure below. 
 ![](images/DomainModelChirp.drawio.png)
 
@@ -23,14 +17,11 @@ Our onion architecture is composed of 4 layers. The innermost layer consists of 
 
 ![](images/OnionArchitecture.png)
 ## Architecture of deployed application
-Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
 
 ## User activities
-Illustrate typical scenarios of a user journey through your Chirp! application. That is, start illustrating the first page that is presented to a non-authorized user, illustrate what a non-authorized user can do with your Chirp! application, and finally illustrate what a user can do after authentication.
-
-Make sure that the illustrations are in line with the actual behavior of your application.
 
 ## Sequence of functionality/calls through Chirp!
+
 The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure):
 ````mermaid
 sequenceDiagram
@@ -66,9 +57,6 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-Illustrate with a UML activity diagram how your Chirp! applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.
-
-Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.
 
 ## Teamwork
 Show a screenshot of your project board right before hand-in. 
@@ -102,24 +90,14 @@ flowchart TD
 
 ````
 ## How to make Chirp! work locally
-There has to be some documentation on how to come from cloning your project to a running system. That is, Adrian or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
 
 ## How to run test suite locally
-List all necessary steps that Adrian or Helge have to perform to execute your test suites. Here, you can assume that we already cloned your repository in the step above.
-
-Briefly describe what kinds of tests you have in your test suites and what they are testing.
 
 # Ethics
 ## License
-State which software license you chose for your application.
-
 We have chosen the MIT-license
 
 ## LLMs, ChatGPT, CoPilot, and others
-///
-State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
-///
-
 We used ChatGPT and BING-CoPilot as a “secondary TA”, by having it explain possible reasons for us getting a particular error or explaining concepts we didn’t understand fully. We mostly used it for explaining complicated stack traces, or finding errors in a code snippet, but no prompt was ever given to the LLMs for generating the code from scratch.
 
 The responses we got were mostly helpful and hastened our process of understanding our code and concept we were uncertain on. Sometimes, the answer we got was not entirely true, or had some faults, but those could be ironed out. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to the code part faster and faster handling of errors, than if we had decided not to use it. 
