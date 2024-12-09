@@ -86,4 +86,10 @@ State which software license you chose for your application.
 We have chosen the MIT-license
 
 ## LLMs, ChatGPT, CoPilot, and others
+///
 State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
+///
+
+We used ChatGPT and BING-CoPilot as a “secondary TA”, by having it explain possible reasons for us getting a particular error or explaining concepts we didn’t understand fully. Sometimes we used it for finding errors in a code snippet we gave it, but no prompt was ever given to the LLMs, for generating the code from scratch.
+
+The responses we got were mostly helpful and fastened our process of understanding our code and concept we were uncertain on. Sometimes, the answer we got was not entirely true, or had some faults, but those could be ironed out. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to the code part faster and faster handling of errors, than if we had decided not to use it. 
