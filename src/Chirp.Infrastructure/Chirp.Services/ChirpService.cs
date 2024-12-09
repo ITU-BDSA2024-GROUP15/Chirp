@@ -114,7 +114,11 @@ public interface IChirpService
     /// <returns>A list of CheepDTOs</returns>
     public Task<List<CheepDto>> GetAllLiked(string authorName);
     
-    
+    /// <summary>
+    /// Deletes alle likes by a specific author from the database, to be used when deleting an account
+    /// </summary>
+    /// <param name="authorName">The name of the author</param>
+    /// <returns>Task</returns>
     public Task DeleteAllLikes(string authorName);
     /// <summary>
     /// Gets a list of the 32 most liked cheeps
