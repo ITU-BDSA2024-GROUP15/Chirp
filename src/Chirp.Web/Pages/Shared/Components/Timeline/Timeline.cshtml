@@ -10,7 +10,7 @@
         <div class="cheepbox">
             <h3>Send cheep:</h3>
             <form asp-page-handler="SendCheep" method="post">
-                <input type="text" asp-for="CheepMessage" required>
+                <input type="text" asp-for="CheepMessage" required maxlength="160">
                 <div class="container">
                     <input type="submit" value="Share">
                     <p>Max 160 characters</p>
