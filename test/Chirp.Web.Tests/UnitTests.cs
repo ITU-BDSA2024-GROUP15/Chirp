@@ -3,13 +3,11 @@ using Chirp.Infrastructure.Chirp.Repositories;
 using Chirp.Infrastructure.Chirp.Services;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Chirp.Web.Tests;
 
 public class UnitTests : IAsyncLifetime
 {
-    private readonly ITestOutputHelper _testOutputHelper;
 
     private TestUtilities? _utils;
     private CheepDbContext? _context;
@@ -18,13 +16,7 @@ public class UnitTests : IAsyncLifetime
     private IFollowRepository? _followRepository;
     private IChirpService? _chirpService;
 
-
-    public UnitTests(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
-
+    
     public async Task InitializeAsync()
     {
         //Arrange
