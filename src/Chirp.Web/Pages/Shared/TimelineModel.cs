@@ -55,13 +55,13 @@ public class TimelineModel : PageModel
         {
             return Page();
         }
-        var author = await Service.GetAuthorDtoByName(authorName);
-        if ( author == null )
+        var authorDto = await Service.GetAuthorDtoByName(authorName);
+        if ( authorDto == null )
         {
             return Page();
         }
 
-        if (CheepMessage != null) await Service.AddCheep(CheepMessage, author.Username, author.Email);
+        if (CheepMessage != null) await Service.AddCheep(CheepMessage, authorDto.Username, authorDto.Email);
         if (IsTopList)
         {
             return RedirectToPage("Public");    
