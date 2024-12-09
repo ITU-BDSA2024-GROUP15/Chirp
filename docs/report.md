@@ -30,6 +30,35 @@ With a UML sequence diagram, illustrate the flow of messages and data through yo
 
 Make sure that your illustration is complete. That is, likely for many of you there will be different kinds of "calls" and responses. Some HTTP calls and responses, some calls and responses in C# and likely some more. (Note the previous sentence is vague on purpose. I want that you create a complete illustration.)
 
+````mermaid
+sequenceDiagram
+  participant Client as :Client
+  participant Chirp as Chirp:Public.cshtml.cs
+  participant ChirpService as Chirp:ChirpService
+  participant cheepRepo as Chirp:CheepRepository
+  participant followRepo as Chirp:FollowRepository
+  participant db as Chirp:MySQL Database
+
+
+
+  Client ->>+ Chirp: 1. GET ("/")
+  Chirp ->> Chirp: 1.1 Check for author name
+  Chirp ->> Chirp: 1.2 HandlePageNumber()
+  Chirp ->>+ ChirpService: 1.3 GetCheeps(pageNumber, authorName?)
+  ChirpService->>+cheepRepo: 1.4 GetCheeps(pageNumber)
+  cheepRepo->>+db: QUERY: 1.5 Cheeps
+  db-->>-cheepRepo: RESULT: 1.6 Cheep OBJECTS
+  cheepRepo-->>-ChirpService: 1.7 List<Cheep>
+  ChirpService ->> ChirpService: 1.8 ConvertToCheepDTO
+  ChirpService->>+followRepo: 1.9 GetFollowed(authorname)
+  followRepo->>+db: QUERY: 1.10 Follows
+  db -->>- followRepo: 1.6 RESULT: 1.11 Follow OBJECTS
+  followRepo -->>-ChirpService: 1.12 List<Follow>
+  ChirpService -->>- Chirp: 1.13 List<CheepDTO>
+  Chirp ->> Chirp: 1.14 Is User Authenticated
+  Chirp -->>- Client: 1.15 RESPONSE: PageResult
+````
+
 
 # Process
 ## Build, test, release, and deployment
