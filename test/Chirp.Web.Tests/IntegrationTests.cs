@@ -199,7 +199,57 @@ public class IntegrationTests : IAsyncLifetime
         Assert.True(likes1Amount != likes2Amount);
         Assert.True(likes2Amount == 0);
     }
-    
-   
 
+
+    [Fact]
+    public async Task TestUserCanAffectTopCheep()
+    {
+        if (_service == null)
+        {
+            return;
+        }
+        
+        string author = "Octavio Wagganer";
+        var topCheeps = await _service.GetTopLikedCheeps(author, 0);
+        var topCheepBefore = topCheeps.First();
+        
+        await _service.AddLike(author, 5);
+        
+        
+        var topCheeps2 = await _service.GetTopLikedCheeps(author, 0);
+        
+        var topCheepAfter = topCheeps2.First();
+        
+        Assert.NotEqual(topCheepBefore, topCheepAfter);
+        Assert.Equal(5, topCheepAfter.Id);
+        
+    }
+
+
+    [Fact]
+    public async Task TestTopCheepGetsDeleted()
+    {
+        if (_service == null)
+        {
+            return;
+        }
+        
+        string author = "Octavio Wagganer";
+        await _service.AddLike(author, 5);
+        var topCheeps = await _service.GetTopLikedCheeps(author, 0);
+        var topCheepBefore = topCheeps.First();
+        
+        Assert.Equal(5, topCheepBefore.Id);
+
+        await _service.DeleteCheep(5);
+        var topCheepsAfter = await _service.GetTopLikedCheeps(author, 0);
+        var topCheepAfter = topCheepsAfter.First();
+        
+        Assert.NotEqual(topCheepBefore, topCheepAfter);
+    }
+    
+    
+        
+    
+    
 }
