@@ -1,4 +1,4 @@
-﻿namespace Chirp.Core;
+﻿namespace Chirp.Infrastructure.DataTransferObjects;
 
 
 /// <summary>
