@@ -1,0 +1,19 @@
+#https://nielsvaneck.com/post/2021-01-31-render-md-mermaid-a-github-action/
+#Used to automaticly convert our report.md to a pdf including our mermaid diagrams 
+
+name: Render report.pdf
+
+on: push
+
+jobs:
+  render-md-mermaid:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render diagrams from mermaid
+      - uses: nielsvaneck/render-md-mermaid@v2
+      - name: Convert to PDF
+        run: | 
+          npm install -g md-to-pdf md-to-pdf docs/report.md
