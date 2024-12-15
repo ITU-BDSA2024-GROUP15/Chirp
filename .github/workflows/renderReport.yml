@@ -21,8 +21,8 @@ jobs:
 
       - name: Install bash #https://ioflood.com/blog/install-bash-shell-linux/
         run: |
-          apt-get update
-          apt-get install -y bash
+          sudo apt-get update
+          sudo apt-get install -y bash
           
       - name: Render diagrams from mermaid
         uses: nielsvaneck/render-md-mermaid@v2
