@@ -18,6 +18,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+
+      - name: Install bash #https://ioflood.com/blog/install-bash-shell-linux/
+        run: |
+          apt-get update
+          apt-get install -y bash
           
       - name: Render diagrams from mermaid
         uses: nielsvaneck/render-md-mermaid@v2
