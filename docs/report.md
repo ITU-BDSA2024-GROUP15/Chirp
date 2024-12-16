@@ -169,6 +169,29 @@ Copy the localhost link from the terminal into a browser (preferably firefox for
 ![](images/chirp.png)
 
 ## How to run test suite locally
+In the application there are three different kind of tests:
+Unit tests
+Integration test
+End to end test / UI test
+Unit tests focus on individual methods and their functionality in our repositories and Chirp service. In our unit test we often had to call another method to setup the test, meaning to keep it being a unit test and not an integration test, we ensured that the call to setup was on a sublayer. If we are testing AddCheep in CheepRepository, we would check if the cheep is added using a direct query on our CheepDbContext.
+The integration tests test different parts / methods as a group and their interaction between each other.
+
+The end to end tests are used to test entire user journeys. This ensures that our different components, repositories and services work together in union. Using playwright also tests how the user interacts with our application though the browser.
+
+All tests are made to easier catch bugs and errors that may occur when changes are made.
+
+## To run the Unit and Integration tests:
+**Step 1:** Open the terminal, find the project folder and navigate to “test\Chirp.Web.Tests” \
+**Step 2:** Run the command “dotnet test”
+
+## To run the end to end test / playwright test:
+**If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) \
+**Step 1:** Open the terminal, find the project folder and navigate to “\Chirp\src\Chirp.Web” \
+**Step 2:** Run the command “dotnet run” \
+**Step 3:** Ensure you are not logged in on the application \
+**Step 4:** Open a new terminal window, find the project folder and navigate to “test\PlaywrightTests” \
+**Step 5:** Run the command “dotnet test” 
+
 
 # Ethics
 ## License
