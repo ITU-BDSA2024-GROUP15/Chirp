@@ -30,7 +30,7 @@ sequenceDiagram
   participant ChirpService as Chirp:ChirpService
   participant cheepRepo as Chirp:CheepRepository
   participant followRepo as Chirp:FollowRepository
-  participant db as :MySQL Database
+  participant db as :Sqlite Database
 
 
 
