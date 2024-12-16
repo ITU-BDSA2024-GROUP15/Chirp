@@ -30,7 +30,7 @@ sequenceDiagram
   participant ChirpService as Chirp:ChirpService
   participant cheepRepo as Chirp:CheepRepository
   participant followRepo as Chirp:FollowRepository
-  participant db as Chirp:MySQL Database
+  participant db as :MySQL Database
 
 
 
@@ -44,12 +44,13 @@ sequenceDiagram
   cheepRepo-->>-ChirpService: 1.7 List<Cheep>
   ChirpService ->> ChirpService: 1.8 ConvertToCheepDTO
   ChirpService->>+followRepo: 1.9 GetFollowed(authorname)
-  followRepo->>+db: QUERY: 1.10 Follows
-  db -->>- followRepo: 1.6 RESULT: 1.11 Follow OBJECTS
+  followRepo->>+db: 1.10 QUERY: Follows
+  db -->>- followRepo: 1.11 RESULT: Follow OBJECTS
   followRepo -->>-ChirpService: 1.12 List<Follow>
   ChirpService -->>- Chirp: 1.13 List<CheepDTO>
   Chirp ->> Chirp: 1.14 Is User Authenticated
   Chirp -->>- Client: 1.15 RESPONSE: PageResult
+
 ````
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml.
