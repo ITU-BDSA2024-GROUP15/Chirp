@@ -180,11 +180,11 @@ The end to end tests are used to test entire user journeys. This ensures that ou
 
 All tests are made to easier catch bugs and errors that may occur when changes are made.
 
-## To run the Unit and Integration tests:
+### To run the Unit and Integration tests:
 **Step 1:** Open the terminal, find the project folder and navigate to “test\Chirp.Web.Tests” \
 **Step 2:** Run the command “dotnet test”
 
-## To run the end to end test / playwright test:
+### To run the end to end test / playwright test:
 **If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) \
 **Step 1:** Open the terminal, find the project folder and navigate to “*\Chirp\src\Chirp.Web*” \
 **Step 2:** Run the command “*dotnet run*” \
