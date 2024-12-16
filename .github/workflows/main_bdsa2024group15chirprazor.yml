@@ -24,6 +24,12 @@ jobs:
       - name: Build with dotnet
         run: dotnet build src/Chirp.Web/ --configuration Release
 
+      - name: Test
+        run: |
+              export GitHub__ClientId="${{ secrets.GITHUBCLIENTID_SECRET }}"
+              export GitHub__ClientSecret="${{ secrets.GITHUBCLIENTSECRET_SECRET }}"
+              dotnet test --filter FullyQualifiedName!~PlaywrightTests --configuration Release
+
       - name: dotnet publish
         run: dotnet publish src/Chirp.Web/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
