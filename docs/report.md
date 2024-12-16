@@ -186,11 +186,11 @@ All tests are made to easier catch bugs and errors that may occur when changes a
 
 ## To run the end to end test / playwright test:
 **If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) \
-**Step 1:** Open the terminal, find the project folder and navigate to “\Chirp\src\Chirp.Web” \
-**Step 2:** Run the command “dotnet run” \
+**Step 1:** Open the terminal, find the project folder and navigate to “*\Chirp\src\Chirp.Web*” \
+**Step 2:** Run the command “*dotnet run*” \
 **Step 3:** Ensure you are not logged in on the application \
-**Step 4:** Open a new terminal window, find the project folder and navigate to “test\PlaywrightTests” \
-**Step 5:** Run the command “dotnet test” 
+**Step 4:** Open a new terminal window, find the project folder and navigate to “*test\PlaywrightTests*” \
+**Step 5:** Run the command “*dotnet test*” 
 
 
 # Ethics
