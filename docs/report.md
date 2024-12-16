@@ -6,7 +6,7 @@ Link to repository https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
 
 ## Domain model
-The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them, can be seen in the figure below. 
+The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them, can be seen in the figure below. Author inherits from Microsoft.AspNetCore.Identity's IdentityUser.
 ![](images/DomainModelChirp.drawio.png)
 
 
