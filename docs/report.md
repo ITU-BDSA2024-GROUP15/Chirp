@@ -58,7 +58,52 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
+The chirp application is built & tested, released and deployed using three different Github Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
 
+The release workflow builts, tests and then makes a release if previous built and test passes and a commit contains a tag on the form “v*.*.*”. The release contains a windows, linux and macOS version of the application.
+
+The deployment workflow builds, tests and deploys the Chirp application to azure.
+
+````mermaid
+flowchart TD
+    subgraph Build & Test Workflow
+        A(( )):::blackNode --> B[Setup .NET]
+        B --> Q[Build]
+
+        Q --> C[Test]
+        
+        C --> H(( )):::redCircle
+    end
+
+    subgraph Release Workflow
+        D(( )):::blackNode --> E[Setup .NET]
+        E --> F[Build]
+
+        F --> G[Test]
+
+        G --> J[Build Linux]
+        J --> K[Build MacOS]
+        K --> L[Build Windows]
+        L --> M[Release]
+        
+        M --> I(( )):::redCircle
+    end
+
+    subgraph Deployment Workflow
+        1(( )):::blackNode --> 2[Setup .NET]
+        2 --> 3[Build Application]
+
+        3 --> 4[Test]
+        4 --> 5[Publish Application]
+        5 --> 6[Deploy to Azure]
+        
+        
+        6 --> 11(( )):::redCircle
+    end
+        classDef blackNode fill:#000,stroke:#000,color:#fff;
+        classDef redCircle stroke:#f00,stroke-width:2px, fill:#000;
+
+````
 ## Teamwork
 ### Unresolved Tasks
 ![](images/teamwork.png)
