@@ -30,3 +30,9 @@ jobs:
       - name: Convert to PDF
         run: | 
           npm install -g md-to-pdf md-to-pdf docs/report.md
+
+      - name: upload pdf
+        uses: actions/upload-artifact@v3
+        with:
+          name: report-pdf
+          path: docs/report.md
