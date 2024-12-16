@@ -144,7 +144,8 @@ flowchart TD
 
 # Ethics
 ## License
-We have chosen the MIT-license. This is in line with the packages we have used in the project.
+We have chosen the MIT-license. This is in line with the packages we have used in the project. 
+To see the full licence agreement go to: https://github.com/ITU-BDSA2024-GROUP15/Chirp/blob/main/LICENSE
 
 ## LLMs, ChatGPT, CoPilot, and others
 We used ChatGPT and BING-CoPilot as a “secondary TA”, by having it explain possible reasons for us getting a particular error or explaining concepts we didn’t understand fully. We mostly used it for explaining complicated stack traces, or finding errors in a code snippet, but no prompt was ever given to the LLMs for generating the code from scratch.
