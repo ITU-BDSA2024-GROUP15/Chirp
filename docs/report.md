@@ -37,7 +37,7 @@ A
 
 The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
-*Illustration of flow of communication in Chirp, when call to the endpoint `/` is made*
+*Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml. \
