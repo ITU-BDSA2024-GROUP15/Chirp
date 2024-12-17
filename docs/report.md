@@ -1,3 +1,11 @@
+---
+geometry:
+    - top=1.5cm 
+    - bottom=1.5cm 
+    - left=1.5cm 
+    - right=1.5cm
+---
+
 # Introduction
 Link to repository https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
@@ -40,6 +48,7 @@ The deployment workflow builds, tests and deploys the Chirp application to azure
 ![](images/Build%20&%20Test-2024-12-16-105756.png)
 ## Teamwork
 ### Unresolved Tasks
+Project board: \
 ![](images/teamwork.png)
 
 
@@ -79,7 +88,7 @@ Dotnet 8 and Git is needed to run this project locally.
 **Step 1:** Clone the repository by opening a terminal and executing the following command in a folder of your choice:
 `git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git`
 
-**Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned the repository.
+**Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned the repository. \
 ![](images/sln.png)
 
 **Step 3:** Open the terminal in Rider. In the terminal, write the command cd `.\src\Chirp.Web\`
