@@ -48,7 +48,7 @@ The release workflow builts, tests and then makes a release if previous built an
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
-<img height="2880" src="images/Build%20&amp;%20Test-2024-12-16-105756.png" width="2154"/>
+![](images/Build%20&%20Test-2024-12-16-105756.png)
 
 ## Teamwork
 A
@@ -63,7 +63,7 @@ Project board: \
 **170:** We wanted to change our razor pages to redirect directly to the login page after registering, rather than redirecting to the public timeline. This is a very easy thing to fix, but it would break most of our playwright tests, and we therefore chose to put it off for now.
 
 ### Flow of tasks
-The following flowchart shows the activities that happen from the creation of a task until its deletion.
+The following flowchart shows the activities that happen from the creation of a task until its deletion. \
 ![mermaid-diagram-2024-12-17-121242.png](images%2Fmermaid-diagram-2024-12-17-121242.png)
 
 ## How to make Chirp! work locally
