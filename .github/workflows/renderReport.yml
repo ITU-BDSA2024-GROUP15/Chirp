@@ -18,7 +18,7 @@ jobs:
         run:  sudo apt-get install -y pandoc
       
       - name: Convert to PDF
-        run:  pandoc report.md -o report.pdf
+        run:  pandoc docs/report.md -o report.pdf
 
       - name: upload pdf
         uses: actions/upload-artifact@v3
