@@ -24,35 +24,7 @@ The Chirp! application is hosted on Azure. Clients may interact with the app by 
 ## Sequence of functionality/calls through Chirp!
 
 The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure):
-````mermaid
-sequenceDiagram
-  participant Client as :Client
-  participant Chirp as Chirp:Public.cshtml.cs
-  participant ChirpService as Chirp:ChirpService
-  participant cheepRepo as Chirp:CheepRepository
-  participant followRepo as Chirp:FollowRepository
-  participant db as :Sqlite Database
-
-
-
-  Client ->>+ Chirp: 1. GET ("/")
-  Chirp ->> Chirp: 1.1 Check for author name
-  Chirp ->> Chirp: 1.2 HandlePageNumber()
-  Chirp ->>+ ChirpService: 1.3 GetCheeps(pageNumber, authorName?)
-  ChirpService->>+cheepRepo: 1.4 GetCheeps(pageNumber)
-  cheepRepo->>+db: QUERY: 1.5 Cheeps
-  db-->>-cheepRepo: RESULT: 1.6 Cheep OBJECTS
-  cheepRepo-->>-ChirpService: 1.7 List<Cheep>
-  ChirpService ->> ChirpService: 1.8 ConvertToCheepDTO
-  ChirpService->>+followRepo: 1.9 GetFollowed(authorname)
-  followRepo->>+db: 1.10 QUERY: Follows
-  db -->>- followRepo: 1.11 RESULT: Follow OBJECTS
-  followRepo -->>-ChirpService: 1.12 List<Follow>
-  ChirpService -->>- Chirp: 1.13 List<CheepDTO>
-  Chirp ->> Chirp: 1.14 Is User Authenticated
-  Chirp -->>- Client: 1.15 RESPONSE: PageResult
-
-````
+![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png)
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml.
 2. The method ConvertToCheepDTO calls GetFollowed.
@@ -65,46 +37,7 @@ The release workflow builts, tests and then makes a release if previous built an
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
-````mermaid
-flowchart TD
-    subgraph Build & Test Workflow
-        A(( )):::blackNode --> B[Setup .NET]
-        B --> Q[Build]
-
-        Q --> C[Test]
-        
-        C --> H(( )):::redCircle
-    end
-
-    subgraph Release Workflow
-        D(( )):::blackNode --> E[Setup .NET]
-        E --> F[Build]
-
-        F --> G[Test]
-
-        G --> J[Build Linux]
-        J --> K[Build MacOS]
-        K --> L[Build Windows]
-        L --> M[Release]
-        
-        M --> I(( )):::redCircle
-    end
-
-    subgraph Deployment Workflow
-        1(( )):::blackNode --> 2[Setup .NET]
-        2 --> 3[Build Application]
-
-        3 --> 4[Test]
-        4 --> 5[Publish Application]
-        5 --> 6[Deploy to Azure]
-        
-        
-        6 --> 11(( )):::redCircle
-    end
-        classDef blackNode fill:#000,stroke:#000,color:#fff;
-        classDef redCircle stroke:#f00,stroke-width:2px, fill:#000;
-
-````
+![](images/Build%20&%20Test-2024-12-16-105756.png)
 ## Teamwork
 ### Unresolved Tasks
 ![](images/teamwork.png)
