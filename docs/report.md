@@ -87,6 +87,8 @@ Dotnet 8 and Git is needed to run this project locally.
 
 *`"dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`*
 
+*(Note: These are secret only used for the reader to be able to run the application locally)*
+
 After each command, the terminal should write something like: successfully saved [...] to the secret store.
 
 **Step 5:** You should now be set to run the program. Run the program by executing the command *`"dotnet run"`* in the terminal.
