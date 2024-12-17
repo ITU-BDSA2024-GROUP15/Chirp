@@ -22,7 +22,7 @@ Our onion architecture is composed of 4 layers. The innermost layer consists of 
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure):
+The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure): \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png)
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml.
