@@ -48,7 +48,7 @@ The release workflow builts, tests and then makes a release if previous built an
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
-![](images/Build%20&%20Test-2024-12-16-105756.png)
+<img height="2880" src="images/Build%20&amp;%20Test-2024-12-16-105756.png" width="2154"/>
 
 ## Teamwork
 A
