@@ -23,8 +23,8 @@ jobs:
         run:  pandoc docs/report.md -o report.pdf
 
       - name: upload pdf
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: report-pdf
-          path: docs/
+          name: report
+          path: docs/report.pdf
                
