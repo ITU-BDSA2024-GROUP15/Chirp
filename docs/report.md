@@ -59,29 +59,8 @@ Project board: \
 
 ### Flow of tasks
 The following flowchart shows the activities that happen from the creation of a task until its deletion.
-````mermaid
----
-config:
-  theme: mc
-  look: classic
----
-flowchart TD
-    Issue(Issue created) --> Assign(Developers are assigned)
-    Assign --> Branch(New branch created)
-    Branch --> Work(Developers work on issue)
-    Work --> Acceptance{Acceptance criteria met}
-    Acceptance --> |No| Work
-    Acceptance --> |Yes| Pull(Pull request is created)
-    Pull --> Tests(Tests are run automatically)
-    Pull --> Review(Other Developers review request)
-    Tests --> PullAccept{Checks pass}
-    Review --> PullAccept
-    PullAccept --> |No| Work
-    PullAccept --> |Yes| Merge(Branch is merged)
-    Merge --> Complete(Issue is marked as complete)
-    Complete --> Delete(Branch is deleted)
+![mermaid-diagram-2024-12-17-121242.png](images%2Fmermaid-diagram-2024-12-17-121242.png)
 
-````
 ## How to make Chirp! work locally
 Dotnet 8 and Git is needed to run this project locally.
 
