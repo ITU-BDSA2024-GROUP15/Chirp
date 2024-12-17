@@ -1,12 +1,10 @@
-#https://nielsvaneck.com/post/2021-01-31-render-md-mermaid-a-github-action/
-#Used to automaticly convert our report.md to a pdf including our mermaid diagrams 
-
+#Used to automaticly convert our report.md to a pdf 
 name: Render report.pdf
 
 on: push
 
 jobs:
-  render-md-mermaid:
+  convert_and_upload_pdf:
     runs-on: ubuntu-latest
 
 
@@ -20,11 +18,20 @@ jobs:
       - name: install Tex Live
         run: sudo apt-get install -y texlive
       - name: Convert to PDF
-        run:  pandoc docs/report.md -o report.pdf
+        run:  pandoc docs/report.md -o docs/report.pdf
 
       - name: upload pdf
-        uses: actions/upload-artifact@v4
-        with:
-          name: report
-          path: docs/report.pdf
+        run: |
+            git config --global user.name "pdf-uploader"
+            git config --gloval user.email "pdfuploader@pdf.noreply.notreal.com
+            git add report.pdf
+            git commit -m "report: Uploaded pdf from report.md"
+            git push
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+        
+ 
+          
                
