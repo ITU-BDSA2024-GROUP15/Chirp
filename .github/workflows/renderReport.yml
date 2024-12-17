@@ -15,17 +15,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install pandoc
-      - run: |
-          sudo apt-get install -y pandoc
+      - run:  sudo apt-get install -y pandoc
       
       - name: Convert to PDF
-        run: | 
-            pandoc report.md -o report.pdf
+        run:  pandoc report.md -o report.pdf
 
       - name: upload pdf
         uses: actions/upload-artifact@v3
         with:
           name: report-pdf
-          path: |
-                docs/
+          path: docs/
                
