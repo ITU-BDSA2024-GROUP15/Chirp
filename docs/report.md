@@ -34,7 +34,7 @@ A
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure): \
+The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png)
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml.
@@ -42,9 +42,9 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-The chirp application is built & tested, released and deployed using three different Github Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
+The chirp application is built, tested, released and deployed using three different Github Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
 
-The release workflow builts, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
+The release workflow builds, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
