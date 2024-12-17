@@ -7,7 +7,7 @@ geometry:
 ---
 
 # Chirp! Project Report 2024
-**Group 15** \
+Group 15 \
 Kassandra Annika Wadum | kwad@itu.dk \
 Ida Amalie Stougaard   | iast@itu.dk \
 Mads Wolff Christensen | mawc@itu.dk \
