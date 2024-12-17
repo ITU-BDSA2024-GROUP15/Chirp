@@ -34,7 +34,7 @@ A
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram (figure): \
+The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png)
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml.
@@ -42,9 +42,9 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-The chirp application is built & tested, released and deployed using three different Github Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
+The chirp application is built, tested, released and deployed using three different Github Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
 
-The release workflow builts, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
+The release workflow builds, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
@@ -67,22 +67,22 @@ Dotnet 8 and Git is needed to run this project locally.
 
 
 **Step 1:** Clone the repository by opening a terminal and executing the following command in a folder of your choice:
-`git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git`
+*`"git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git"`*
 
 **Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned the repository. \
 ![](images/sln.png)
 
-**Step 3:** Open the terminal in Rider. In the terminal, write the command cd `.\src\Chirp.Web\`
+**Step 3:** Open the terminal in Rider. In the terminal, write the command cd *`".\src\Chirp.Web\"`*
 
 **Step 4:** Set the correct user secrets by executing the 2 following commands one by one in the terminal:
 
-`dotnet user-secrets set "authentication:github:clientId" "Ov23likvwJ8LuwxPP70k"`
+*`"dotnet user-secrets set "authentication:github:clientId" "Ov23likvwJ8LuwxPP70k"`*
 
-`dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`
+*`"dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`*
 
 After each command, the terminal should write something like: successfully saved [...] to the secret store.
 
-**Step 5:** You should now be set to run the program. Run the program by executing the command `dotnet run` in the terminal.
+**Step 5:** You should now be set to run the program. Run the program by executing the command *`"dotnet run"`* in the terminal.
 
 **Step 6:** The command should take a little time to finish. When it’s done, the terminal should display something like this:
 
@@ -105,16 +105,16 @@ The end to end tests are used to test entire user journeys. This ensures that ou
 All tests are made to easier catch bugs and errors that may occur when changes are made.
 
 ### To run the Unit and Integration tests: 
-**Step 1:** Open the terminal, find the project folder and navigate to *`test\Chirp.Web.Tests`* \
+**Step 1:** Open the terminal, find the project folder and navigate to *`"test\Chirp.Web.Tests"`* \
 **Step 2:** Run the command “*dotnet test*”
 
 ### To run the end to end test / playwright test:
 **If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) to install it \
 **Step 1:** Open the terminal, find the project folder and navigate to *`“Chirp\src\Chirp.Web`* \
-**Step 2:** Run the command “*dotnet run*” \
+**Step 2:** Run the command `“*dotnet run*”` \
 **Step 3:** Ensure you are not logged in on the application \
-**Step 4:** Open a new terminal window, find the project folder and navigate to *`test\\PlaywrightTests`*  \
-**Step 5:** Run the command “*dotnet test*” 
+**Step 4:** Open a new terminal window, find the project folder and navigate to *`"test\PlaywrightTests"`*  \
+**Step 5:** Run the command `“*dotnet test*”`
 
 
 # Ethics
