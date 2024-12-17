@@ -23,10 +23,12 @@ The domain model for our Chirp application consists of the classes Cheep, Author
 Our onion architecture is composed of 4 layers. The innermost layer consists of our domain model. In the second layer we have our repositories, which are responsible for interacting directly with the data model, along with our Data Transfer Objects. The third layer is the service layer, which translates the data output by the repositories into DTOs, so that it may be used on the fourth and outermost web layer. The fourth layer also contains our tests.
 
 
-![](images/OnionArchitecture.png)
-## Architecture of deployed application
+![](images/OnionArchitecture.png) \
+
+## Architecture of deployed application 
 The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth. \
-![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png)
+![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png) \
+
 ## User activities
 A
 
@@ -47,7 +49,10 @@ The release workflow builts, tests and then makes a release if previous built an
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
 ![](images/Build%20&%20Test-2024-12-16-105756.png)
+
 ## Teamwork
+A
+
 ### Unresolved Tasks
 Project board: \
 ![](images/teamwork.png)
