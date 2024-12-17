@@ -14,20 +14,20 @@ Link to repository https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
 
 ## Domain model
-The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them. Author inherits from Microsoft.AspNetCore.Identity's IdentityUser.
-![](images/DomainModelChirp.drawio.png)
+The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them. Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. \
+![](images/DomainModelChirp.drawio.png) \
 *Illustration of our domain model*
 
 
 ## Architecture — In the small
 The Chirp architecture is using the onion architecture which is composed of 4 layers. The innermost layer consists of our domain model. In the second layer we have our repositories, which are responsible for interacting directly with the data model, along with our Data Transfer Objects. The third layer is the service layer, which translates the data output by the repositories into DTOs, so that it may be used on the fourth and outermost web layer. The fourth layer also contains our tests.
 
-![](images/OnionArchitecture.png)
+![](images/OnionArchitecture.png) \
 *Illustration of our architecture*
 
 ## Architecture of deployed application 
 The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth. \
-![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png) 
+![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png) \
 *Illustration of our deployed Chirp application*
 
 ## User activities
@@ -36,7 +36,7 @@ A
 ## Sequence of functionality/calls through Chirp!
 
 The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
-![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png)
+![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
 *Illustration of flow of communication in Chirp, when call to the endpoint `/` is made*
 
 It should be noted that:
@@ -53,11 +53,12 @@ We also have a workflow for converting our report.md-file to PDF-file, which we 
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
-![](images/Build%20&%20Test-2024-12-16-105756.png)
+![](images/Build%20&%20Test-2024-12-16-105756.png) \
 *Illustration of how we build, test, release and deploy Chirp!*
 
 ## Teamwork
-![](images/teamwork.png)
+![](images/teamwork.png) \
+*Image of our project board*
 
 ### Unresolved Tasks
 **110:** This task has been mostly resolved. We have created unit tests which test each part of the deletion process, as well as a UI-tests for this functionality, but we wanted to find a way to test all parts of the process at once, including the part which comes with the identity package, directly on the database.
@@ -66,12 +67,11 @@ The deployment workflow builds, tests and deploys the Chirp application to azure
 
 ### Flow of tasks
 The following flowchart shows the activities that happen from the creation of a task until its deletion. \
-![mermaid-diagram-2024-12-17-121242.png](images%2Fmermaid-diagram-2024-12-17-121242.png)
+![mermaid-diagram-2024-12-17-121242.png](images%2Fmermaid-diagram-2024-12-17-121242.png) \
 *Illustration of the flow of tasks*
 
 ## How to make Chirp! work locally
 Dotnet 8 and Git is needed to run this project locally.
-*Image of our project board*
 
 **Step 1:** Clone the repository by opening a terminal and executing the following command in a folder of your choice:
 *`"git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git"`*
