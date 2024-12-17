@@ -20,10 +20,11 @@ jobs:
       - name: Convert to PDF
         run:  pandoc docs/report.md --resource-path=docs -o docs/report.pdf
 
-      - name: upload pdf
+      - name: upload pdf 
         run: |
             git config --global user.name "pdf-uploader"
             git config --global user.email "pdfuploader@pdf.noreply.notreal.com"
+            git pull
             git add docs/report.pdf
             git commit -m "report: Uploaded pdf from report.md"
             git push
