@@ -17,7 +17,7 @@ Our onion architecture is composed of 4 layers. The innermost layer consists of 
 
 ![](images/OnionArchitecture.png)
 ## Architecture of deployed application
-
+![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png)
 ## User activities
 
 ## Sequence of functionality/calls through Chirp!
