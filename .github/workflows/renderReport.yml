@@ -11,7 +11,7 @@ jobs:
 
 
     steps:
-      - name: checkout docs
+      - name: checkout
         uses: actions/checkout@v4
 
       - name: Install pandoc
@@ -20,11 +20,11 @@ jobs:
       - name: install Tex Live
         run: sudo apt-get install -y texlive
       - name: Convert to PDF
-        run:  pandoc report.md -o report.pdf
+        run:  pandoc docs/report.md -o report.pdf
 
       - name: upload pdf
         uses: actions/upload-artifact@v4
         with:
           name: report
-          path: report.pdf
+          path: docs/report.pdf
                
