@@ -51,13 +51,9 @@ The deployment workflow builds, tests and deploys the Chirp application to azure
 ![](images/Build%20&%20Test-2024-12-16-105756.png)
 
 ## Teamwork
-A
-
-### Unresolved Tasks
-Project board: \
 ![](images/teamwork.png)
 
-
+### Unresolved Tasks
 **110:** This task has been mostly resolved. We have created unit tests which test each part of the deletion process, as well as a UI-tests for this functionality, but we wanted to find a way to test all parts of the process at once, including the part which comes with the identity package, directly on the database.
 
 **170:** We wanted to change our razor pages to redirect directly to the login page after registering, rather than redirecting to the public timeline. This is a very easy thing to fix, but it would break most of our playwright tests, and we therefore chose to put it off for now.
