@@ -23,7 +23,7 @@ jobs:
       - name: upload pdf
         run: |
             git config --global user.name "pdf-uploader"
-            git config --gloval user.email "pdfuploader@pdf.noreply.notreal.com
+            git config --gloval user.email "pdfuploader@pdf.noreply.notreal.com"
             git add report.pdf
             git commit -m "report: Uploaded pdf from report.md"
             git push
