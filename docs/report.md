@@ -67,22 +67,22 @@ Dotnet 8 and Git is needed to run this project locally.
 
 
 **Step 1:** Clone the repository by opening a terminal and executing the following command in a folder of your choice:
-`git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git`
+*`"git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git"`*
 
 **Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned the repository. \
 ![](images/sln.png)
 
-**Step 3:** Open the terminal in Rider. In the terminal, write the command cd `.\src\Chirp.Web\`
+**Step 3:** Open the terminal in Rider. In the terminal, write the command cd *`".\src\Chirp.Web\"`*
 
 **Step 4:** Set the correct user secrets by executing the 2 following commands one by one in the terminal:
 
-`dotnet user-secrets set "authentication:github:clientId" "Ov23likvwJ8LuwxPP70k"`
+*`"dotnet user-secrets set "authentication:github:clientId" "Ov23likvwJ8LuwxPP70k"`*
 
-`dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`
+*`"dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`*
 
 After each command, the terminal should write something like: successfully saved [...] to the secret store.
 
-**Step 5:** You should now be set to run the program. Run the program by executing the command `dotnet run` in the terminal.
+**Step 5:** You should now be set to run the program. Run the program by executing the command *`"dotnet run"`* in the terminal.
 
 **Step 6:** The command should take a little time to finish. When it’s done, the terminal should display something like this:
 
@@ -105,16 +105,16 @@ The end to end tests are used to test entire user journeys. This ensures that ou
 All tests are made to easier catch bugs and errors that may occur when changes are made.
 
 ### To run the Unit and Integration tests: 
-**Step 1:** Open the terminal, find the project folder and navigate to *`test\Chirp.Web.Tests`* \
+**Step 1:** Open the terminal, find the project folder and navigate to *`"test\Chirp.Web.Tests"`* \
 **Step 2:** Run the command “*dotnet test*”
 
 ### To run the end to end test / playwright test:
 **If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) to install it \
 **Step 1:** Open the terminal, find the project folder and navigate to *`“Chirp\src\Chirp.Web`* \
-**Step 2:** Run the command “*dotnet run*” \
+**Step 2:** Run the command `“*dotnet run*”` \
 **Step 3:** Ensure you are not logged in on the application \
-**Step 4:** Open a new terminal window, find the project folder and navigate to *`test\\PlaywrightTests`*  \
-**Step 5:** Run the command “*dotnet test*” 
+**Step 4:** Open a new terminal window, find the project folder and navigate to *`"test\PlaywrightTests"`*  \
+**Step 5:** Run the command `“*dotnet test*”`
 
 
 # Ethics
