@@ -42,10 +42,15 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 
 ### UML Activity Diagram - Unauthorized user
-![](images/UML activity diagram(unauthorized).png)
+
+![](images/UML activity diagram(unauthorized).png) \
+*Illustration of a user journey through our Chirp! application when unauthorized*
+
 
 ### UML Activity Diagram - Authorized user
-![](images/UML-activity-diagram(authorized).png)
+
+![](images/UML-activity-diagram(authorized).png) \
+*Illustration of a user journey through our Chirp! application when Authorized*
 
 ## Sequence of functionality/calls through Chirp!
 
@@ -54,6 +59,7 @@ The sequence of calls that happens through Chirp when an unauthorized user/autho
 *Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
 It should be noted that:
+
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml. \
 2. The method ConvertToCheepDTO calls GetFollowed.
 
