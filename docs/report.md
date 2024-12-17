@@ -42,9 +42,11 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-The chirp application is built, tested, released and deployed using three different Github Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
+The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
 
 The release workflow builds, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
+
+We also have a workflow for converting our report.md-file to PDF-file, which we have chosen to exclude from the figure below. 
 
 The deployment workflow builds, tests and deploys the Chirp application to azure.
 
