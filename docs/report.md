@@ -133,6 +133,6 @@ We have chosen the MIT-license. This is in line with the packages we have used i
 To see the full licence agreement go to: https://github.com/ITU-BDSA2024-GROUP15/Chirp/blob/main/LICENSE
 
 ## LLMs, ChatGPT, CoPilot, and others
-We used ChatGPT and BING-CoPilot as a “secondary TA”, by having it explain possible reasons for us getting a particular error or explaining concepts we didn’t understand fully. We mostly used it for explaining complicated stack traces, or finding errors in a code snippet, but no prompt was ever given to the LLMs for generating the code from scratch.
+We used ChatGPT and BING-CoPilot as a “secondary TA”.  We mostly used them for explaining complicated stack traces, or finding errors in a code snippet, for understanding concepts we didn't understand and for guidance when setting up our different workflows for GitHub actions.
 
-The responses we got were mostly helpful and hastened our process of understanding our code and concept we were uncertain on. Sometimes, the answer we got was not entirely true, or had some faults, but those could be ironed out. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to the code part faster and faster handling of errors, than if we had decided not to use it. 
+The responses we got were mostly helpful and hastened our process of understanding our code and concept we were uncertain on. Sometimes, the answer we got was not entirely true, or had some flaws, but we could iron those out. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to the code part faster and faster handling of errors, than if we had decided not to use it. 
