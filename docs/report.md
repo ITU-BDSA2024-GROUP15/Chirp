@@ -81,7 +81,7 @@ Dotnet 8 and Git is needed to run this project locally.
 
 **Step 3:** Open the terminal in Rider. In the terminal, write the command cd *`".\src\Chirp.Web\"`*
 
-**Step 4:** Set the correct user secrets by executing the 2 following commands one by one in the terminal:
+**Step 4:** Set the correct **local** user secrets by executing the 2 following commands one by one in the terminal:
 
 *`"dotnet user-secrets set "authentication:github:clientId" "Ov23likvwJ8LuwxPP70k"`*
 
