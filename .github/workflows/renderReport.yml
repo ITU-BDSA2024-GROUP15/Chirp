@@ -14,27 +14,18 @@ jobs:
       - name: checkout 
         uses: actions/checkout@v4
 
-      - name: Install Node #https://github.com/actions/setup-node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - name: Install bash #https://ioflood.com/blog/install-bash-shell-linux/
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y bash
-          
-      - name: Render diagrams from mermaid
-        uses: nielsvaneck/render-md-mermaid@v2
+      - name: Install pandoc
+      - run: |
+          sudo apt-get install -y pandoc
       
       - name: Convert to PDF
         run: | 
-          npm install -g md-to-pdf md-to-pdf docs/report.md
+            pandoc report.md -o report.pdf
 
       - name: upload pdf
         uses: actions/upload-artifact@v3
         with:
           name: report-pdf
           path: |
-                docs/report.md
-                diagrams/
+                docs/
+               
