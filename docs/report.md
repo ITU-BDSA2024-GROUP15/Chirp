@@ -43,7 +43,7 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
-*Illustration of flow of communication in Chirp, when call to the endpoint `/` is made*
+*Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
 It should be noted that:
 1. We check if the user author name exists in 1.1. This determines which GetCheeps methods should be called. This is our first “check” to see if a user/author is logged in, but this is also checked using identity when the html is rendered in Public.cshtml. \
@@ -87,11 +87,13 @@ Dotnet 8 and Git is needed to run this project locally.
 
 **Step 3:** Open the terminal in Rider. In the terminal, write the command cd *`".\src\Chirp.Web\"`*
 
-**Step 4:** Set the correct user secrets by executing the 2 following commands one by one in the terminal:
+**Step 4:** Set the correct **local** user secrets by executing the 2 following commands one by one in the terminal:
 
 *`"dotnet user-secrets set "authentication:github:clientId" "Ov23likvwJ8LuwxPP70k"`*
 
 *`"dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`*
+
+*(Note: These are secret only used for the reader to be able to run the application locally)*
 
 After each command, the terminal should write something like: successfully saved [...] to the secret store.
 
