@@ -17,6 +17,7 @@ Our onion architecture is composed of 4 layers. The innermost layer consists of 
 
 ![](images/OnionArchitecture.png)
 ## Architecture of deployed application
+The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth.
 ![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png)
 ## User activities
 
