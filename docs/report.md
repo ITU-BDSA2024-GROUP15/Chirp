@@ -36,6 +36,7 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 ### UML Activity Diagram - Unauthorized user
 ![](images/UML activity diagram(unauthorized).png)
+
 ### UML Activity Diagram - Authorized user
 ![](images/UML-activity-diagram(authorized).png)
 
