@@ -28,6 +28,7 @@ The onion architecture is composed of 4 layers. The innermost layer consists of 
 
 ## Architecture of deployed application 
 The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth. \
+
 ![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png) \
 *Illustration of our deployed Chirp application*
 
@@ -48,7 +49,7 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
+The sequence of calls and flow of data and messages that happens through the Chirp application, when an unauthorized user/author tries to access the root endpoint “/”, can be seen in the sequence diagram: \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
 *Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
@@ -59,15 +60,15 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
+The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all tests.
 
-The release workflow builds, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
+The release workflow builds, tests and then makes a release if previous build and tests passes and the push contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
 
-We also have a workflow for converting our report.md-file to PDF-file, which we have chosen to exclude from the figure below. 
+The deployment workflow builds, tests and deploys the Chirp application to azure if the build and tests passes.
 
-The deployment workflow builds, tests and deploys the Chirp application to azure.
+We also have a workflow for converting our report.md-file to PDF-file automatically on push to GitHub.
 
-![](images/Build%20&%20Test-2024-12-16-105756.png) \
+![](images/Build%20&%20Test-2024-12-17-221326.png) \
 *Illustration of how we build, test, release and deploy Chirp!*
 
 ## Teamwork
