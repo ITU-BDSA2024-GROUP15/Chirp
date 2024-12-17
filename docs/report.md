@@ -31,7 +31,13 @@ The Chirp! application is hosted on Azure. Clients may interact with the app by 
 *Illustration of our deployed Chirp application*
 
 ## User activities
-A
+The typical scenarios of a user journey, before and after they log in, are illustrated with two UML user activity diagrams. The user will in both scenarios start on the public timeline, and can from that point take the actions shown with the arrows. Users can always use the buttons from the navigation bar that are illustrated at the top left corner of both diagrams.
+
+
+### UML Activity Diagram - Unauthorized user
+![](images/UML activity diagram(unauthorized).png)
+### UML Activity Diagram - Authorized user
+![](images/UML-activity-diagram(authorized).png)
 
 ## Sequence of functionality/calls through Chirp!
 
