@@ -20,7 +20,7 @@ jobs:
       - name: install Tex Live
         run: sudo apt-get install -y texlive
       - name: Convert to PDF
-        run:  pandoc docs/report.md -o report.pdf
+        run:  pandoc docs/report.md -o docs/report.pdf
 
       - name: upload pdf
         uses: actions/upload-artifact@v4
