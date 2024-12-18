@@ -25,7 +25,7 @@ jobs:
             git config --global user.name "pdf-uploader"
             git config --global user.email "pdfuploader@pdf.noreply.notreal.com"
             git pull
-            git add docs/report.pdf
+            git add docs/2024_itubdsa_group_15_report.pdf
             git commit -m "report: Uploaded pdf from report.md"
             git push
 
