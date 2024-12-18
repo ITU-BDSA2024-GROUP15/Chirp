@@ -98,7 +98,7 @@ We also have a workflow for automatically converting our report.md-file to a PDF
 **170:** We wanted to change our razor pages to redirect directly to the login page after registering, rather than redirecting to the public timeline. This is a very easy thing to fix, but it would break most of our playwright tests, and we therefore chose to put it off for now.
 
 ### Flow of tasks
-The following flowchart shows the activities that happen from the creation of a task until its deletion. \
+The following flowchart shows the activities that happen from the creation of a task until its deletion. 
 ![IssueFlow.png](images%2FIssueFlow.png)
 *Illustration of the flow of tasks*
 
