@@ -41,10 +41,10 @@ The onion architecture is composed of 4 layers. The innermost layer consists of 
 *Illustration of our architecture*
 
 ## Architecture of deployed application 
-The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth. 
+The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS requests through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth. 
 
 ![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png) \
-*Illustration of our deployed Chirp application*
+*Illustration of our deployed Chirp applications architecture*
 
 ## User activities
 The typical scenarios of a user journey, before and after they log in, are illustrated with two UML user activity diagrams. The user will in both scenarios start on the public timeline, and can from that point take the actions shown with the arrows. Users can always use the buttons from the navigation bar that are illustrated at the top left corner of both diagrams.
@@ -63,7 +63,7 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls and flow of data and messages that happens through the Chirp application, when an unauthorized user/author tries to access the root endpoint “/”, can be seen in the sequence diagram: \
+The sequence of calls and flow of data and messages that happens through the Chirp application, when an unauthorized user/author tries to access the root endpoint “/”, can be seen in the sequence diagram below. \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
 *Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
@@ -89,7 +89,7 @@ We also have a workflow for converting our report.md-file to PDF-file automatica
 ![](images/teamwork.png) \
 *Image of our project board*
 
-### Unresolved Tasks
+### Unresolved Tasks    
 **110:** This task has been mostly resolved. We have created unit tests which test each part of the deletion process, as well as a UI-tests for this functionality, but we wanted to find a way to test all parts of the process at once, including the part which comes with the identity package, directly on the database.
 
 **170:** We wanted to change our razor pages to redirect directly to the login page after registering, rather than redirecting to the public timeline. This is a very easy thing to fix, but it would break most of our playwright tests, and we therefore chose to put it off for now.
@@ -105,7 +105,7 @@ Dotnet 8 and Git is needed to run this project locally.
 **Step 1:** Clone the repository by opening a terminal and executing the following command in a folder of your choice:
 *`"git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git"`*
 
-**Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned the repository. \
+**Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned repository. \
 ![](images/sln.png)
 
 **Step 3:** Open the terminal in Rider. In the terminal, write the command cd *`".\src\Chirp.Web\"`*
@@ -116,7 +116,7 @@ Dotnet 8 and Git is needed to run this project locally.
 
 *`"dotnet user-secrets set "authentication:github:clientSecret" "39d79a4303bb6a707700bab54de74d3f37f64196"`*
 
-*(Note: These are secret only used for the reader to be able to run the application locally)*
+*(Note: These secret are only used for the reader to be able to run the application locally)*
 
 After each command, the terminal should write something like: successfully saved [...] to the secret store.
 
