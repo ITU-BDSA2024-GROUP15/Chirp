@@ -25,10 +25,12 @@ Repository link : <https://github.com/ITU-BDSA2024-GROUP15/Chirp>
 
 
 ## Domain model
-The domain model for our Chirp application consists of two entities represented by the classes Cheep, Author.
-Our domain model also consists of the class Follow which represents a relation between two Author's. 
-Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. Instead of using objects as our references between Follow and Author we use strings, 
-as well as in the likes relation.\
+The domain model for our Chirp application consists of two entities represented by the classes Cheep and Author.
+Our domain model also consists of the class Follow which represents a relation between two Authors. Instead of using objects as our references 
+between Follow and Author we use strings,
+as well as in the likes relation.
+Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. 
+
 ![](images/DomainModelChirp.drawio.png) \
 *Illustration of our domain model*
 
@@ -36,7 +38,12 @@ as well as in the likes relation.\
 ## Architecture — In the small
 The architecture of our Chirp application follows the onion architecture to secure loosely coupled layers and to ensure compliance with the IoC principle. 
 
-The onion architecture is composed of 4 layers. The innermost layer consists of our domain model. In the second layer we have our repositories, which are responsible for interacting directly with the data model, along with our Data Transfer Objects. The third layer is the service layer, which translates the data output by the repositories into DTOs, so that it may be used on the fourth and outermost web layer. The fourth layer also contains our tests.
+The onion architecture is composed of 4 layers. The innermost layer consists of our domain model. 
+In the second layer we have our repositories, which are responsible for interacting directly with 
+the data model, along with our Data Transfer Objects. The third layer is the service layer, 
+which translates the data output by the repositories into DTOs, so that it may be used on the 
+fourth and outermost web layer. The fourth layer also contains our tests.
+
 ![](images/OnionArchitecture.png) \
 *Illustration of our architecture*
 
@@ -63,7 +70,10 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls and flow of data and messages that happens through the Chirp application, when an unauthorized user/author tries to access the root endpoint “/”, can be seen in the sequence diagram: \
+The sequence of calls and flow of data and messages that happens through the Chirp application, 
+when an unauthorized user/author tries to access the root endpoint “/”, can be seen in the 
+sequence diagram: 
+
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
 *Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
@@ -74,7 +84,7 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all tests.
+The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be built and passes all tests.
 
 The release workflow builds, tests and then makes a release if previous build and tests passes and the push contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
 
@@ -90,7 +100,7 @@ We also have a workflow for converting our report.md-file to PDF-file automatica
 *Image of our project board*
 
 ### Unresolved Tasks
-**110:** This task has been mostly resolved. We have created unit tests which test each part of the deletion process, as well as a UI-tests for this functionality, but we wanted to find a way to test all parts of the process at once, including the part which comes with the identity package, directly on the database.
+**110:** This task has mostly been resolved. We have created unit tests that test each part of the deletion process, as well as a UI-tests for this functionality, but we wanted to find a way to test all parts of the process at once, including the part which comes with the identity package, directly on the database.
 
 **170:** We wanted to change our razor pages to redirect directly to the login page after registering, rather than redirecting to the public timeline. This is a very easy thing to fix, but it would break most of our playwright tests, and we therefore chose to put it off for now.
 
@@ -105,10 +115,10 @@ Dotnet 8 and Git is needed to run this project locally.
 **Step 1:** Clone the repository by opening a terminal and executing the following command in a folder of your choice:
 *`"git clone https://github.com/ITU-BDSA2024-GROUP15/Chirp.git"`*
 
-**Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned the repository. \
+**Step 2:** Start the Jetbrains Rider application. Make sure you open the project by choosing chirp.sln from the cloned repository. \
 ![](images/sln.png)
 
-**Step 3:** Open the terminal in Rider. In the terminal, write the command cd *`".\src\Chirp.Web\"`*
+**Step 3:** Open the terminal in Rider. In the terminal, run the command cd *`".\src\Chirp.Web\"`*
 
 **Step 4:** Set the correct **local** user secrets by executing the 2 following commands one by one in the terminal:
 
@@ -133,12 +143,17 @@ Copy the localhost link from the terminal into a browser (preferably firefox for
 ## How to run test suite locally
 In the application there are three different kind of tests:
 Unit tests
-Integration test
-End to end test / UI test
-Unit tests focus on individual methods and their functionality in our repositories and Chirp service. In our unit test we often had to call another method to setup the test, meaning to keep it being a unit test and not an integration test, we ensured that the call to setup was on a sublayer. If we are testing AddCheep in CheepRepository, we would check if the cheep is added using a direct query on our CheepDbContext.
-The integration tests test different parts / methods as a group and their interaction between each other.
+Integration tests
+End-to-end/UI tests. 
 
-The end to end tests are used to test entire user journeys. This ensures that our different components, repositories and services work together in union. Using playwright also tests how the user interacts with our application though the browser.
+Unit tests focus on individual methods and their functionality in our repositories and Chirp service. In our unit tests we 
+often had to set up the tests by calling methods from a sublayer, to keep it 
+being a unit test rather than an integration test. E.g. if we are testing AddCheep 
+in CheepRepository, we would check if the cheep is added using a direct query on our CheepDbContext.
+The integration tests test different parts/methods as a group and their interaction between each other.
+
+The end-to-end tests are used to test entire user journeys. This ensures that our different components, repositories and services work together in union. 
+Using playwright also tests how the user interacts with our application though the browser.
 
 All tests are made to easier catch bugs and errors that may occur when changes are made.
 
@@ -146,7 +161,7 @@ All tests are made to easier catch bugs and errors that may occur when changes a
 **Step 1:** Open the terminal, find the project folder and navigate to *`"test\Chirp.Web.Tests"`* \
 **Step 2:** Run the command *`“dotnet run”`*
 
-### To run the end to end test / playwright test:
+### To run the end-to-end test/playwright test:
 **If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) to install it \
 **Step 1:** Open the terminal, find the project folder and navigate to *`“Chirp\src\Chirp.Web`* \
 **Step 2:** Run the command *`“dotnet run”`* \
@@ -161,6 +176,9 @@ We have chosen the MIT-license. This is in line with the packages we have used i
 To see the full licence agreement go to: <https://github.com/ITU-BDSA2024-GROUP15/Chirp/blob/main/LICENSE>
 
 ## LLMs, ChatGPT, CoPilot, and others
-We used ChatGPT and BING-CoPilot as a “secondary TA”.  We mostly used them for explaining complicated stack traces, or finding errors in a code snippet, for understanding concepts we didn't understand and for guidance when setting up our different workflows for GitHub actions.
+We used ChatGPT and BING-CoPilot as a “secondary TA”. We mostly used them to explain complicated stack traces, to find errors in a code snippet, 
+to understand complicated concepts and for guidance when setting up our different workflows for GitHub actions.
 
-The responses we got were mostly helpful and hastened our process of understanding our code and concept we were uncertain on. Sometimes, the answer we got was not entirely true, or had some flaws, but we could iron those out. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to the code part faster and faster handling of errors, than if we had decided not to use it. 
+The responses we got were mostly helpful and hastened our process of understanding our code and concepts we were unsure of. Sometimes, 
+the answer we got was not entirely true, or had some flaws, but we ironed those out. Since the LLMs decreased the amount of time we needed for 
+understanding key concepts, it helped us get to the code part faster and sped up handling of errors.
