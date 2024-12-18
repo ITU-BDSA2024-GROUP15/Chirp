@@ -21,19 +21,21 @@ Repository link : https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
 
 ## Domain model
-The domain model for our Chirp application consists of the classes Cheep, Author, Follow and the relations between them. Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. \
+The domain model for our Chirp application consists of two entities represented by the classes Cheep, Author. Our domain model also consists of the class Follow which represents a relation between two Author's. Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. \
 ![](images/DomainModelChirp.drawio.png) \
 *Illustration of our domain model*
 
 
 ## Architecture — In the small
-The Chirp architecture is using the onion architecture which is composed of 4 layers. The innermost layer consists of our domain model. In the second layer we have our repositories, which are responsible for interacting directly with the data model, along with our Data Transfer Objects. The third layer is the service layer, which translates the data output by the repositories into DTOs, so that it may be used on the fourth and outermost web layer. The fourth layer also contains our tests.
+The architecture of our Chirp application follows the onion architecture to secure loosely coupled layers and to ensure compliance with the IoC principle. 
 
+The onion architecture is composed of 4 layers. The innermost layer consists of our domain model. In the second layer we have our repositories, which are responsible for interacting directly with the data model, along with our Data Transfer Objects. The third layer is the service layer, which translates the data output by the repositories into DTOs, so that it may be used on the fourth and outermost web layer. The fourth layer also contains our tests.
 ![](images/OnionArchitecture.png) \
 *Illustration of our architecture*
 
 ## Architecture of deployed application 
 The Chirp! application is hosted on Azure. Clients may interact with the app by HTTPS through the razor pages in the Chirp.Web package. The server itself communicates with github servers in order to facilitate github authentication using OAuth. \
+
 ![ClientServerArchitecture.drawio.png](images%2FClientServerArchitecture.drawio.png) \
 *Illustration of our deployed Chirp application*
 
@@ -54,7 +56,7 @@ The typical scenarios of a user journey, before and after they log in, are illus
 
 ## Sequence of functionality/calls through Chirp!
 
-The sequence of calls that happens through Chirp when an unauthorized user/author tries to access the root endpoint “/” can be seen in the sequence diagram: \
+The sequence of calls and flow of data and messages that happens through the Chirp application, when an unauthorized user/author tries to access the root endpoint “/”, can be seen in the sequence diagram: \
 ![](images/Sequence%20diagram%20functionality-2024-12-16-124006.png) \
 *Illustration of flow of communication in Chirp, when an unauthorized user makes a call to the endpoint "`/`"*
 
@@ -65,15 +67,15 @@ It should be noted that:
 
 # Process
 ## Build, test, release, and deployment
-The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all test.
+The chirp application is built, tested, released and deployed using three different GitHub Workflows. The build & test workflow is triggered by any pushes or pull requests to main. This ensures that any code pulled to main can be build and passes all tests.
 
-The release workflow builds, tests and then makes a release if previous built and test passes and a commit contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
+The release workflow builds, tests and then makes a release if previous build and tests passes and the push contains a tag on the form `v*.*.*`. The release contains a windows, linux and macOS version of the application.
 
-We also have a workflow for converting our report.md-file to PDF-file, which we have chosen to exclude from the figure below. 
+The deployment workflow builds, tests and deploys the Chirp application to azure if the build and tests passes.
 
-The deployment workflow builds, tests and deploys the Chirp application to azure.
+We also have a workflow for converting our report.md-file to PDF-file automatically on push to GitHub.
 
-![](images/Build%20&%20Test-2024-12-16-105756.png) \
+![](images/Build%20&%20Test-2024-12-17-221326.png) \
 *Illustration of how we build, test, release and deploy Chirp!*
 
 ## Teamwork
@@ -135,7 +137,7 @@ All tests are made to easier catch bugs and errors that may occur when changes a
 
 ### To run the Unit and Integration tests: 
 **Step 1:** Open the terminal, find the project folder and navigate to *`"test\Chirp.Web.Tests"`* \
-**Step 2:** Run the command “*dotnet test*”
+**Step 2:** Run the command *`“dotnet run”`*
 
 ### To run the end to end test / playwright test:
 **If playwright is not installed:** Follow the steps on the [offical website](https://playwright.dev/docs/intro) to install it \
