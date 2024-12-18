@@ -101,7 +101,9 @@ We also have a workflow for automatically converting our report.md-file to a PDF
 
 ### Flow of tasks
 The following flowchart shows the activities that happen from the creation of a task until its deletion. \
-![verysmallIssueFlow.png](images/verysmallIssueFlow.png){width=80%} \
+![verysmallIssueFlow.png](images/verysmallIssueFlow.png) \
+<img src="images/verysmallIssueFlow.png" width = 30%>
+
 *Illustration of the flow of tasks*
 
 ## How to make Chirp! work locally
