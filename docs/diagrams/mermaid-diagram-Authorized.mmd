@@ -1,0 +1,104 @@
+flowchart TD
+%%{init: {'theme':'neutral'}}%%
+    PublicT([Display Public Timeline])
+    UserT([Display UserTimeLine])
+    Cheep([Write a cheep])
+    about([About me!])
+    Delete_cheep([Delete Cheep])
+    Follow([Follow user])
+    TopC([Display Top cheeps])
+    like([Like cheep])
+    Personal_timeline([Personal timeline])
+    logout([Logout])
+    navLogout>Logout]
+    navLogout2((B))
+    navTopCheeps>Display top cheeps]
+    navTopCheeps2((C))
+    navPersonal>Display Personal timeline]
+    navPersonal2((D))
+    navAbout>Display About me]
+    navAbout2((E))
+    start@{ shape: sm-circ, label: "start" }
+    Stop@{ shape: framed-circle, label: "Stop" }
+
+
+%% stuff from the nav
+    navPublic>Display Public Timeline]
+    navPublic2((A))
+
+%% set up nav stuff
+navPublic --> navPublic2
+navLogout --> navLogout2
+navLogout3((B)) --> logout
+navTopCheeps --> navTopCheeps2
+navPersonal --> navPersonal2
+navAbout --> navAbout2
+navAbout3((E)) --> about
+
+
+%% top of flowchart
+start --> PublicT
+%% paths to go 
+PublicT --> whereToGo{{Switch timeline?}}
+whereToGo --> UserT
+
+%%whereToGo --> PublicT
+navPublic3((A)) --> PublicT
+whereToGo --> TopC
+navTopcheeps3((C)) --> TopC
+whereToGo --> Personal_timeline
+navPersonal3((D)) --> Personal_timeline
+
+%% what to do
+PublicT --> whatToDo{{What to do?}}
+
+
+whatToDo --> Cheep
+whatToDo --> Follow
+whatToDo --> Delete_cheep
+whatToDo --> like
+whatToDo --> about
+whatToDo --> logout
+
+
+%% logout 
+logout --> logoutD([Display logout screen])
+logoutD --> Stop
+
+%% write cheep
+Cheep --> Cheep2([Press Share])
+Cheep2 --> Cheep3{{Cheep valid?}}
+Cheep3 --> CheepAccept([Cheep shared])
+%% not sure if popup message is the correct term for it
+Cheep3 --> CheepDenied([Display popup message]) 
+CheepDenied --> |Cheep cannot be empty|Cheep2
+
+%% like cheep
+like --> hasLiked{{Alredy Liked?}}
+hasLiked --> |Yes|likeYes([Unlike cheep])
+hasLiked --> |No|likeno([Like cheep])
+
+%% follow user
+Follow --> hasFollowed{{Alredy following?}}
+hasFollowed --> |Yes|followYes([Unfollow user])
+hasFollowed --> |No|followNo([Follow user])
+
+%% about page
+about --> profile([Display user information])
+profile --> profileSettings{{What to do?}}
+profileSettings --> deleteProfile([Click delete profile button])
+deleteProfile --> confirmDelete{{Confirm deleting account}}
+confirmDelete --> |Yes|confirmYes([Account gets deleted])
+confirmYes --> Stop
+%% not sure what best action for below is
+%%confirmDelete --> |No|
+
+profileSettings --> externalProfile([Display external logins])
+externalProfile --> gitConnect{{Registered with git?}}
+gitConnect --> |Yes|gitYes([Display add GitHub button])
+gitConnect --> |No|gitNo([Display remove Github button])
+
+
+profileSettings --> passwordProfile([Password settings])
+passwordProfile --> changePassword([Change password])
+%% should changepassword be more detailed?
