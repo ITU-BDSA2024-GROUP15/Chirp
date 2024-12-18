@@ -1,0 +1,51 @@
+---
+config:
+  theme: mc
+---
+%%{init: {'theme':'neutral'}}%%
+flowchart TD
+    PublicT([Display Public Timeline])
+    UserT([Display UserTimeLine])
+    TopC([Display Top cheeps])
+    login([Login])
+    Register([Register])
+    navLogin>Login]
+    navLogin2((B))
+    navRegister>Register]
+    navRegister2((D))
+    navTopCheeps>Display top cheeps]
+    navTopCheeps2((C))
+    start@{ shape: sm-circ, label: "start" }
+    Stop@{ shape: framed-circle, label: "Stop" }
+    navPublic>Display Public Timeline]
+    navPublic2((A))
+navPublic --> navPublic2
+navLogin --> navLogin2
+navLogin3((B)) --> login
+navRegister --> navRegister2
+navRegister3((D)) --> Register
+navTopCheeps --> navTopCheeps2
+start --> PublicT
+PublicT --> whereToGo{{Switch timeline?}}
+whereToGo --> |click username from cheep|UserT
+navPublic3((A)) --> PublicT
+whereToGo --> TopC
+navTopcheeps3((C)) --> TopC
+PublicT --> whatToDo{{What to do?}}
+whatToDo --> Register
+Register --> RegisterHow{{Choose registration method}}
+RegisterHow --> RegisterGit([Register with git])
+RegisterHow --> RegisterNotGit([Fill out information])
+RegisterNotGit --> registerSucsess{{Successfull?}}
+RegisterGit --> registerSucsess
+registerSucsess --> |Yes|RegisterConfirm([Confirm registration])
+registerSucsess --> |No|Register
+RegisterConfirm --> PublicT
+whatToDo --> login
+login --> loginHow{{Choose login method}}
+loginHow --> loginGit([Login with git])
+loginHow --> loginNotGit([Fill in login info])
+loginNotGit --> loginsucsess{{Successfull?}}
+loginGit --> loginsucsess
+loginsucsess --> |Yes|Stop
+loginsucsess --> |No|login
