@@ -158,7 +158,7 @@ All tests are made to easier catch bugs and errors that may occur when changes a
 # Ethics
 ## License
 We have chosen the MIT-license. This is in line with the packages we have used in the project. 
-To see the full licence agreement go to: https://github.com/ITU-BDSA2024-GROUP15/Chirp/blob/main/LICENSE
+To see the full licence agreement go to: <https://github.com/ITU-BDSA2024-GROUP15/Chirp/blob/main/LICENSE>
 
 ## LLMs, ChatGPT, CoPilot, and others
 We used ChatGPT and BING-CoPilot as a “secondary TA”.  We mostly used them for explaining complicated stack traces, or finding errors in a code snippet, for understanding concepts we didn't understand and for guidance when setting up our different workflows for GitHub actions.
