@@ -17,7 +17,7 @@ geometry:
 urlcolor: blue
 ---
 
-Repository link : https://github.com/ITU-BDSA2024-GROUP15/Chirp
+Repository link : <https://github.com/ITU-BDSA2024-GROUP15/Chirp>
 
 
 # Design and architecture
