@@ -102,7 +102,7 @@ We also have a workflow for converting our report.md-file to PDF-file automatica
 
 ### Flow of tasks
 The following flowchart shows the activities that happen from the creation of a task until its deletion. \
-![mermaid-diagram-2024-12-17-121242.png](images%2Fmermaid-diagram-2024-12-17-121242.png) \
+![IssueFlow.png](images%2FIssueFlow.png)
 *Illustration of the flow of tasks*
 
 ## How to make Chirp! work locally
