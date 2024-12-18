@@ -16,14 +16,6 @@ geometry:
     - right=1.5cm
 ---
 
-# Chirp! Project Report 2024
-Group 15 \
-Kassandra Annika Wadum | kwad@itu.dk \
-Ida Amalie Stougaard   | iast@itu.dk \
-Mads Wolff Christensen | mawc@itu.dk \
-Marius Emil Holm       | marho@itu.dk \
-Morten Friis Bønneland | mofb@itu.dk
-
 Repository link : https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
 
