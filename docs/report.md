@@ -171,4 +171,4 @@ To see the full licence agreement go to: <https://github.com/ITU-BDSA2024-GROUP1
 ## LLMs, ChatGPT, CoPilot, and others
 We used ChatGPT and BING-CoPilot as a “secondary TA”. We mostly used them to explain complicated stack traces, to find errors in a code snippet, to explain concepts we didn't fully understand, and for guidance when setting up our different workflows for GitHub actions.
 
-The responses we got were mostly helpful in speeding up progress in areas of uncertainty. Sometimes, the answer we got was not entirely correct, but it still coveyed a general idea. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to coding faster and avoid spending hours reading through stackoverflow to understand our errors. 
+The responses we got were mostly helpful in speeding up progress in areas of uncertainty. Sometimes, the answer we got was not entirely correct, but it still conveyed a general idea. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to coding faster and avoid spending hours reading through stackoverflow to understand our errors. 
