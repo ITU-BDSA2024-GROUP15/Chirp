@@ -1,4 +1,14 @@
 ---
+title: _Chirp!_ Project Report
+subtitle: ITU BDSA 2024 Group `<15>`
+author:
+- "Kassandra Annika Wadum <kwad@itu.dk>"
+- "Ida Amalie Stougaard <iast@itu.dk>"
+- "Mads Wolff Christensen <mawc@itu.dk>"
+- "Marius Emil Holm <marho@itu.dk>"
+- "Morten Friis Bønneland <mofb@itu.dk>"
+numbersections: true
+
 geometry:
     - top=1.5cm 
     - bottom=1.5cm 
