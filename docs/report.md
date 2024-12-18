@@ -15,6 +15,7 @@ geometry:
     - left=1.5cm 
     - right=1.5cm
 urlcolor: blue
+linkcolor: blue
 ---
 
 Repository link : https://github.com/ITU-BDSA2024-GROUP15/Chirp
