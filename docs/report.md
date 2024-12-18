@@ -1,6 +1,6 @@
 ---
 title: _Chirp!_ Project Report
-subtitle: ITU BDSA 2024 Group `<15>`
+subtitle: ITU BDSA 2024 Group 15
 author:
 - "Kassandra Annika Wadum <kwad@itu.dk>"
 - "Ida Amalie Stougaard <iast@itu.dk>"

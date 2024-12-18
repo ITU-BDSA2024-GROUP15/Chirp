@@ -18,7 +18,7 @@ jobs:
       - name: install Tex Live
         run: sudo apt-get install -y texlive
       - name: Convert to PDF
-        run:  pandoc docs/report.md --resource-path=docs -o docs/report.pdf
+        run:  pandoc docs/report.md --resource-path=docs -o docs/2024_itubdsa_group_15_report.pdf
 
       - name: upload pdf 
         run: |
