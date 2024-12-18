@@ -30,7 +30,7 @@
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="5z0JVP-TS3FrHi-s0FjN-8" value="«device»&lt;div&gt;&lt;b&gt;Client Computer A&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="5z0JVP-TS3FrHi-s0FjN-8" value="«device»&lt;div&gt;&lt;b&gt;Client Computer B&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="160" y="447.5" width="220" height="30" as="geometry" />
         </mxCell>
         <mxCell id="5z0JVP-TS3FrHi-s0FjN-13" value="" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
@@ -44,7 +44,7 @@
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="5z0JVP-TS3FrHi-s0FjN-16" value="«device»&lt;div&gt;&lt;b&gt;Client Computer A&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="5z0JVP-TS3FrHi-s0FjN-16" value="«device»&lt;div&gt;&lt;b&gt;Client Computer C&lt;/b&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="160" y="647.5" width="220" height="30" as="geometry" />
         </mxCell>
         <mxCell id="5z0JVP-TS3FrHi-s0FjN-17" value="" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
