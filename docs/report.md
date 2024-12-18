@@ -21,7 +21,10 @@ Repository link : https://github.com/ITU-BDSA2024-GROUP15/Chirp
 
 
 ## Domain model
-The domain model for our Chirp application consists of two entities represented by the classes Cheep, Author. Our domain model also consists of the class Follow which represents a relation between two Author's. Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. \
+The domain model for our Chirp application consists of two entities represented by the classes Cheep, Author. 
+Our domain model also consists of the class Follow which represents a relation between two Author's. 
+Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. Instead of using objects as our references between Follow and Author we use strings, 
+as well as in the likes relation.\
 ![](images/DomainModelChirp.drawio.png) \
 *Illustration of our domain model*
 
