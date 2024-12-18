@@ -1,0 +1,50 @@
+%%{init: {'theme':'neutral'}}%%
+flowchart TD
+    subgraph Build & Test Workflow
+        A(( )):::blackNode --> B[Setup .NET]
+        B --> Q[Build Application]
+
+        Q --> C[Test Application]
+        
+        C --> H(( )):::redCircle
+    end
+
+
+    subgraph Deployment Workflow
+        1(( )):::blackNode --> 2[Setup .NET]
+        2 --> 3[Build Application]
+        3 --> 4[Test Application]
+        4 --> 5[Publish Application]
+        5 --> 6[Deploy to Azure]
+        
+        
+        6 --> 11(( )):::redCircle
+    end
+
+    subgraph Release Workflow
+        D(( )):::blackNode --> E[Setup .NET]
+        E --> F[Build Application]
+
+        F --> G[Test Application]
+
+        G --> J[Build Linux]
+        J --> K[Build MacOS]
+        K --> L[Build Windows]
+        L --> M[Release]
+        
+        M --> I(( )):::redCircle
+    end
+
+    
+
+
+    subgraph Convert md to pdf Workflow
+        12(( )):::blackNode --> 13[Install pandoc]
+        13 --> 14[Install Tex Live]
+        14 --> 15[Convert to PDF]
+        15 --> 16[Upload PDF]
+        16 --> 18(( )):::redCircle
+    end
+
+        classDef blackNode fill:#000,stroke:#000,color:#fff;
+        classDef redCircle stroke:#f00,stroke-width:2px, fill:#000;
