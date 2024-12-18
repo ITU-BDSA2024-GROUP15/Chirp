@@ -25,12 +25,8 @@ Repository link : <https://github.com/ITU-BDSA2024-GROUP15/Chirp>
 
 
 ## Domain model
-The domain model for our Chirp application consists of two entities represented by the classes Cheep and Author.
-Our domain model also consists of the class Follow which represents a relation between two Authors. Instead of using objects as our references 
-between Follow and Author we use strings,
-as well as in the likes relation.
-Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. 
-
+The domain model for our Chirp application consists of two entities represented by the classes Cheep, Author, along with the class Follow, which is a relation between two Authors. 
+Author inherits from Microsoft.AspNetCore.Identity's IdentityUser. While we use object references between Cheep and Author, our "Likes" list and our Follow object instead use the name of an author to reference it.\
 ![](images/DomainModelChirp.drawio.png) \
 *Illustration of our domain model*
 
@@ -87,10 +83,10 @@ The release workflow builds, tests and then makes a release if previous build an
 
 The deployment workflow builds, tests and deploys the Chirp application to azure if the build and tests passes.
 
-We also have a workflow for converting our report.md-file to PDF-file automatically on push to GitHub.
+We also have a workflow for automatically converting our report.md-file to a PDF-file upon pushing to GitHub.
 
 ![](images/Build%20&%20Test-2024-12-17-221326.png) \
-*Illustration of how we build, test, release and deploy Chirp!*
+*Illustration of how we build, test, release and deploy Chirp! via workflows*
 
 ## Teamwork
 ![](images/teamwork.png) \
@@ -147,7 +143,7 @@ Unit tests focus on individual methods and their functionality in our repositori
 often had to set up the tests by calling methods from a sublayer, to keep it 
 being a unit test rather than an integration test. E.g. if we are testing AddCheep 
 in CheepRepository, we would check if the cheep is added using a direct query on our CheepDbContext.
-The integration tests test different parts/methods as a group and their interaction between each other.
+The integration tests test different methods or classes in groups to verify that their interactions are correct.
 
 The end-to-end tests are used to test entire user journeys. This ensures that our different components, repositories and services work together in union. 
 Using playwright also tests how the user interacts with our application though the browser.
@@ -173,9 +169,6 @@ We have chosen the MIT-license. This is in line with the packages we have used i
 To see the full licence agreement go to: <https://github.com/ITU-BDSA2024-GROUP15/Chirp/blob/main/LICENSE>
 
 ## LLMs, ChatGPT, CoPilot, and others
-We used ChatGPT and BING-CoPilot as a “secondary TA”. We mostly used them to explain complicated stack traces, to find errors in a code snippet, 
-to understand complicated concepts and for guidance when setting up our different workflows for GitHub actions.
+We used ChatGPT and BING-CoPilot as a “secondary TA”. We mostly used them to explain complicated stack traces, to find errors in a code snippet, to explain concepts we didn't fully understand, and for guidance when setting up our different workflows for GitHub actions.
 
-The responses we got were mostly helpful and hastened our process of understanding our code and concepts we were unsure of. Sometimes, 
-the answer we got was not entirely true, or had some flaws, but we ironed those out. Since the LLMs decreased the amount of time we needed for 
-understanding key concepts, it helped us get to the code part faster and sped up handling of errors.
+The responses we got were mostly helpful in speeding up progress in areas of uncertainty. Sometimes, the answer we got was not entirely correct, but it still coveyed a general idea. Since the LLMs decreased the amount of time we needed for understanding key concepts, it helped us get to coding faster and avoid spending hours reading through stackoverflow to understand our errors. 
