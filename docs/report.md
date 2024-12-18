@@ -100,7 +100,7 @@ We also have a workflow for automatically converting our report.md-file to a PDF
   
 
 ### Flow of tasks
-The following flowchart shows the activities that happen from the creation of a task until its deletion. \
+The following flowchart shows the activities that happen from the creation of a task until its deletion.
 ![](images/verysmallIssueFlow.png) \
 *Illustration of the flow of tasks*
 
