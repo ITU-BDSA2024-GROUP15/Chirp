@@ -86,7 +86,7 @@ The deployment workflow builds, tests and deploys the Chirp application to azure
 We also have a workflow for automatically converting our report.md-file to a PDF-file upon pushing to GitHub.
 
 ![](images/Build%20&%20Test-2024-12-17-221326.png) \
-*Illustration of how we build, test, release and deploy Chirp! via workflows*
+*Illustration of how we build, test, release and deploy Chirp! via GitHub workflows*
 
 ## Teamwork
 ![](images/teamwork.png) \
