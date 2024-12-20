@@ -86,6 +86,7 @@ public class CheepRepository : ICheepRepository
         int maxId = _context.Cheeps.Max(cheep => cheep.CheepId); 
         
         // https://learn.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-9.0 - All cheeps will always have a date according to danish timezone
+        //Time converting should be done in another class to not violate SRP but to not change our diagrams in our report, we keep it here.
         DateTime date = TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time"));
         
         Cheep cheep = new Cheep()
